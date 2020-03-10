@@ -1,5 +1,6 @@
 package com.eugenarium.account.persistence.service.Impl;
 
+import com.eugenarium.account.client.AuthServiceClient;
 import com.eugenarium.account.persistence.domain.User;
 import com.eugenarium.account.persistence.repository.UserRepository;
 import com.eugenarium.account.persistence.service.UserService;
@@ -18,8 +19,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthServiceClient authClient;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, AuthServiceClient authClient) {
         this.userRepository = userRepository;
+        this.authClient = authClient;
     }
 
     @Override
