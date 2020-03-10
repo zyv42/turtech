@@ -43,9 +43,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User update) {
-        Optional<User> found = userRepository.findByUsername(update.getUsername());
-        Assert.notNull(found, "can't find user account with username: " + update.getUsername());
+    public void updateUser(String username, User update) {
+        Optional<User> found = userRepository.findByUsername(username);
+        Assert.notNull(found, "can't find user account with username: " + username);
         User user = found.get();
 
         user.setUsername(update.getUsername());

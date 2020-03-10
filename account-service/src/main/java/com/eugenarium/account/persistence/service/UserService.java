@@ -9,5 +9,5 @@ public interface UserService {
     Optional<User> findByUsername(String username);
 
     User createUser(User newUser);
-    void updateUser(User update);
+    void updateUser(String username, User update);
 }
