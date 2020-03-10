@@ -1,5 +1,6 @@
 package com.eugenarium.account.config;
 
+import com.eugenarium.account.persistence.service.security.CustomUserInfoTokenServices;
 import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -32,7 +33,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Bean
     public RequestInterceptor oauth2FeignRequestInterceptor() {
-        return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(, clientCredentialsResourceDetails()));
+        return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(), clientCredentialsResourceDetails());
     }
 
     @Bean
