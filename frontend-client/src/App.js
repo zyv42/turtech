@@ -9,6 +9,13 @@ class App extends Component {
             <Provider>
                 <Router>
                     <div className="App">
+                        {
+                            // Public Routes
+                        }
+
+                        {
+                            // Private Routes
+                        }
 
                     </div>
                 </Router>
