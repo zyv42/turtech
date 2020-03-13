@@ -42,5 +42,6 @@
         <module>monitoring</module>
         <module>auth-service</module>
         <module>account-service</module>
+        <module>turbine-stream-service</module>
     </modules>
 </project>
