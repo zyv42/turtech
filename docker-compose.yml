@@ -1,0 +1,124 @@
+# Consider adding a network and docker-compose.dev
+version: '3.7'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - 15672:15672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  config:
+  build: config/
+  image: config
+  restart: always
+  ports:
+    - 8101:8101
+  logging:
+    options:
+      max-size: "10m"
+      max-file: "10"
+
+  registry:
+    build: registry/
+    image: registry
+    restart: always
+    depends_on:
+      - config
+    ports:
+      - 8102:8102
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  gateway:
+    build: gateway/
+    image: gateway
+    restart: always
+    depends_on:
+      - config
+    ports:
+      - 9000:9000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  monitoring:
+    build: monitoring/
+    image: monitoring
+    restart: always
+    depends_on:
+      - config
+    ports:
+      - 8104:8104
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  turbine-service-service:
+    build: turbine-stream-service/
+    image: turbine-stream-service
+    restart: always
+    depends_on:
+      - config
+    ports:
+      - 8105:8105
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  auth-service:
+    environment:
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    build: auth-service/
+    image: auth-service
+    restart: always
+    depends_on:
+      - config
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  auth-mongodb:
+    environment:
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    build: mongodb/
+    image: mongodb
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  account-service:
+    environment:
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    build: account-service/
+    image: account-service
+    restart: always
+    depends_on:
+      - config
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  account-mongodb:
+    environment:
+      INIT_DUMP: account-service-dump.js
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    build: mongodb/
+    image: mongodb
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
