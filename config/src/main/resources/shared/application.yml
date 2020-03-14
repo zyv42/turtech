@@ -13,3 +13,15 @@ security:
   oauth2:
     resource:
       user-info-uri: http://auth-service:8103/uaa/users/current
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+spring:
+  rabbitmq:
+    host: rabbitmq

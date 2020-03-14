@@ -5,8 +5,10 @@ spring:
     config:
       uri: http://config:8101
       fail-fast: true
-      retry:
-        max-attempts: 20
-        initial-interval: 3000
-        multiplier: 1.3
-        max-interval: 5000
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: user
+      #retry:
+        #max-attempts: 20
+        #initial-interval: 3000
+        #multiplier: 1.3
+        #max-interval: 5000

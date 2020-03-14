@@ -12,17 +12,21 @@ services:
         max-file: "10"
 
   config:
-  build: config/
-  image: config
-  restart: always
-  ports:
-    - 8101:8101
-  logging:
-    options:
-      max-size: "10m"
-      max-file: "10"
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    build: config/
+    image: config
+    restart: always
+    ports:
+      - 8101:8101
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
 
   registry:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: registry/
     image: registry
     restart: always
@@ -36,6 +40,8 @@ services:
         max-file: "10"
 
   gateway:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: gateway/
     image: gateway
     restart: always
@@ -49,6 +55,8 @@ services:
         max-file: "10"
 
   monitoring:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: monitoring/
     image: monitoring
     restart: always
@@ -62,6 +70,8 @@ services:
         max-file: "10"
 
   turbine-service-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: turbine-stream-service/
     image: turbine-stream-service
     restart: always
@@ -76,6 +86,7 @@ services:
 
   auth-service:
     environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     build: auth-service/
     image: auth-service
