@@ -3,6 +3,7 @@ import './App.css';
 import {Provider} from "react-redux";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Header from "./components/Layout/Header";
+import Landing from "./components/Landing";
 
 class App extends Component {
     render() {
@@ -14,6 +15,9 @@ class App extends Component {
                         {
                             // Public Routes
                         }
+                        <Route exact
+                               path = "/"
+                               component = {Landing} />
 
                         {
                             // Private Routes

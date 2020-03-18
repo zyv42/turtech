@@ -43,8 +43,63 @@ class Header extends Component {
         this.setState({ activeLink: id })
     };
 
+    onSubmit(e) {
+        e.preventDefault();
+        // TODO Search function
+    }
+
     render() {
         const { links, activeLink } = this.state;
+        const { validToken, user } = this.props.security;
+        const userIsAuthenticated = (
+            <div className="btn-group open ml-2">
+                <Link className="btn btn-primary btn-sm"
+                      to="/myAccount">
+                    <i className="fa fa-user-circle fa-fw" /> Welcome, {user.username}!</Link>
+                <Link className="btn btn-primary btn-sm dropdown-toggle"
+                      data-toggle="dropdown" to="#">
+                </Link>
+                <ul className="dropdown-menu">
+                    <li className="dropdown-item">
+                        <Link to="/myAccount"><i className="fa fa-address-card-o fa-fw"/> My Account</Link>
+                    </li>
+                    <li className="dropdown-divider" />
+                    <li className="dropdown-item">
+                        <Link to="/logout"
+                              data-toggle="modal"
+                              data-target="#logout">
+                            <i className="fa fa-sign-out"/> Sign out</Link>
+                    </li>
+                </ul>
+            </div>
+        );
+
+        const userIsNotAuthenticated = (
+            <div className="btn-group open ml-2">
+                <Link className="btn btn-primary btn-sm"
+                      to="/myAccount">
+                    <i className="fa fa-user-circle fa-fw" /> Welcome, guest!</Link>
+                <Link className="btn btn-primary btn-sm dropdown-toggle"
+                      data-toggle="dropdown" to="#">
+                </Link>
+                <ul className="dropdown-menu">
+                    <li className="dropdown-item">
+                        <Link to="/signIn"><i className="fa fa-sign-in fa-fw" /> Sign in</Link>
+                    </li>
+                    <li className="dropdown-divider" />
+                    <li className="dropdown-item">
+                        <Link to="/signUp"><i className="fa fa-user-plus fa-fw"/> Create new user</Link>
+                    </li>
+                </ul>
+            </div>
+        );
+
+        let userLinks;
+        if (validToken && user) {
+            userLinks = userIsAuthenticated;
+        } else {
+            userLinks = userIsNotAuthenticated;
+        }
 
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -77,9 +132,9 @@ class Header extends Component {
 
                         {
                             // Navbar Search
-                            // TODO form action
                         }
-                        <form className="form-inline ml-2 my-2">
+                        <form className="form-inline ml-2 my-2"
+                              onSubmit={this.onSubmit}>
                             <div className="input-group input-group-sm">
                                 <input type="text"
                                        name="keyword"
@@ -104,45 +159,8 @@ class Header extends Component {
                         </Link>
                         {
                             // User Account
-                            // TODO user login logout feedback
                         }
-                        <div className="btn-group open ml-2">
-                            <Link className="btn btn-primary btn-sm"
-                                  to="/myAccount">
-                                <i className="fa fa-user-circle fa-fw" /> Welcome,
-                                <span th:if="${#httpServletRequest.getUserPrincipal()!=null}"
-                                      th:text="${#httpServletRequest.getRemoteUser()}"></span>
-                                <span th:if="${#httpServletRequest.getUserPrincipal()==null}"
-                                      th:text="guest"></span></Link>
-                            <Link className="btn btn-primary btn-sm dropdown-toggle"
-                                  data-toggle="dropdown" to="#">
-                            </Link>
-                            <ul className="dropdown-menu">
-                                <li th:if="${#httpServletRequest.getUserPrincipal()==null}"
-                                    className="dropdown-item">
-                                    <Link to="/signIn"><i className="fa fa-sign-in fa-fw" /> Sign in</Link>
-                                </li>
-                                <li th:if="${#httpServletRequest.getUserPrincipal()==null}"
-                                    className="dropdown-divider"></li>
-                                <li th:if="${#httpServletRequest.getUserPrincipal()==null}"
-                                    className="dropdown-item">
-                                    <Link to="/signUp"><i className="fa fa-user-plus fa-fw"/> Create new user</Link>
-                                </li>
-                                <li th:if="${#httpServletRequest.getUserPrincipal()!=null}"
-                                    className="dropdown-item">
-                                    <Link to="/myAccount"><i className="fa fa-address-card-o fa-fw"/> My Account</Link>
-                                </li>
-                                <li th:if="${#httpServletRequest.getUserPrincipal()!=null}"
-                                    className="dropdown-divider"></li>
-                                <li th:if="${#httpServletRequest.getUserPrincipal()!=null}"
-                                    className="dropdown-item">
-                                    <Link to="/logout"
-                                          data-toggle="modal"
-                                          data-target="#logout">
-                                        <i className="fa fa-sign-out"/> Sign out</Link>
-                                </li>
-                            </ul>
-                        </div>
+                        {userLinks}
                     </div>
                 </div>
             </nav>
