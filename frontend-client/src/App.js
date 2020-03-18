@@ -4,6 +4,7 @@ import {Provider} from "react-redux";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Landing from "./components/Landing";
+import Footer from "./components/Layout/Footer";
 
 class App extends Component {
     render() {
@@ -22,7 +23,7 @@ class App extends Component {
                         {
                             // Private Routes
                         }
-
+                        <Footer />
                     </div>
                 </Router>
             </Provider>
