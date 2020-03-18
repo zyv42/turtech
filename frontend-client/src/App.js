@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import {Provider} from "react-redux";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import Header from "./components/Layout/Header";
 
 class App extends Component {
     render() {
@@ -9,6 +10,7 @@ class App extends Component {
             <Provider>
                 <Router>
                     <div className="App">
+                        <Header />
                         {
                             // Public Routes
                         }
