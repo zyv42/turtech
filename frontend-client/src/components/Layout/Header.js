@@ -104,13 +104,18 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">
+                    <Link className="navbar-brand"
+                          to="/">
                         <img className="img-responsive"
                              src="/public/images/logo_bigger.png"
                              height="50" width="150"
                              alt="logo" /></Link>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbar" aria-controls="navbar" aria-expanded="false"
+                    <button className="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navbar"
+                            aria-controls="navbar"
+                            aria-expanded="false"
                             aria-label="Toggle navigation">
                         <i className="navbar-toggler-icon"/>
                     </button>
@@ -142,12 +147,12 @@ class Header extends Component {
                                        aria-label="Search"
                                        aria-describedby="inputGroup-sizing-sm"
                                        placeholder="Search for..." />
-                                    <div className="input-group-append">
-                                        <button type="submit"
-                                                className="btn btn-secondary btn-number">
-                                            <i className="fa fa-search"/>
-                                        </button>
-                                    </div>
+                                <div className="input-group-append">
+                                    <button type="submit"
+                                            className="btn btn-secondary btn-number">
+                                        <i className="fa fa-search"/>
+                                    </button>
+                                </div>
                             </div>
                         </form>
                         {
@@ -164,7 +169,7 @@ class Header extends Component {
                     </div>
                 </div>
             </nav>
-    );
+        );
     }
 }
 
