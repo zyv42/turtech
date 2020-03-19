@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 class Header extends Component {
 
@@ -173,4 +175,14 @@ class Header extends Component {
     }
 }
 
-export default Header;
+Header.propTypes = {
+    security: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    security: state.security
+});
+
+export default connect(
+    mapStateToProps
+)(Header);
