@@ -136,3 +136,8 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
+
+  frontend-client:
+    build: frontend-client/
+    image: frontend-client
+    restart: always
