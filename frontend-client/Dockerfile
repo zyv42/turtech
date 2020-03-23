@@ -1,14 +1,9 @@
-FROM node:alpine
-
-#Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
+FROM node:alpine as builder
+WORKDIR '/app'
 COPY package*.json ./
 RUN npm install
+COPY ./ ./
+RUN npm run build
 
-# Bundle app source
-COPY . .
-
-EXPOSE 3000
-CMD ["npm", "start"]
+FROM nginx
+COPY --from=builder /app/build /usr/share/nginx/html
