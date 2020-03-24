@@ -21,7 +21,8 @@ class Register extends Component {
                             already exists. Choose a different one.</p>
                         <p th:if="${#fields.hasErrors('username')}"
                            className="text-danger"
-                           th:errors="*{username}"></p>
+                           th:errors="*{username}"
+                        ></p>
                         <div className="input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"><i className="fa fa-user fa-fw" /></span>

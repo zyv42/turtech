@@ -86,11 +86,11 @@ class Header extends Component {
                 </Link>
                 <ul className="dropdown-menu">
                     <li className="dropdown-item">
-                        <Link to="/signIn"><i className="fa fa-sign-in fa-fw" /> Sign in</Link>
+                        <Link to="/login"><i className="fa fa-sign-in fa-fw" /> Sign in</Link>
                     </li>
                     <li className="dropdown-divider" />
                     <li className="dropdown-item">
-                        <Link to="/signUp"><i className="fa fa-user-plus fa-fw"/> Create new user</Link>
+                        <Link to="/register"><i className="fa fa-user-plus fa-fw"/> Create new user</Link>
                     </li>
                 </ul>
             </div>

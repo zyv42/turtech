@@ -6,6 +6,9 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Landing from "./components/Landing";
 import Footer from "./components/Layout/Footer";
+import Login from "./components/Security/Login";
+import Register from "./components/Security/Register";
+import LoginManagement from "./components/Security/LoginManagement";
 
 class App extends Component {
     render() {
@@ -20,6 +23,12 @@ class App extends Component {
                         <Route exact
                                path = "/"
                                component = {Landing} />
+                        <Route exact
+                               path = "/login"
+                               component = {LoginManagement} />
+                        <Route exact
+                               path = "/register"
+                               component = {LoginManagement} />
 
                         {
                             // Private Routes

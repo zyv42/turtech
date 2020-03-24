@@ -8,7 +8,7 @@ class LoginManagement extends Component {
     render() {
         return (
             <Modal
-                {...props}
+//                {...props}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
