@@ -5,14 +5,15 @@ class ForgotPassword extends Component {
         return (
             <div>
                 <h4 className="card-title mb-4 mt-1">Forgot password?</h4>
+                {/*
                 <div th:if="${emailNotExist}"
                      className="alert alert-danger">Email doesn't exist.
                 </div>
                 <div th:if="${forgotPasswordEmailSent}"
                      className="alert alert-success">Email with a recovery password is sent.
-                </div>
-                <form th:action="@{/forgotPassword}"
-                      method="post">
+                </div>*/
+                    }
+                <form>
                     <div className="form-group">
                         <label htmlFor="recoverEmail">Your Email: </label>
                         <div className="input-group">
