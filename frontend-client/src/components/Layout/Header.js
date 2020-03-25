@@ -110,7 +110,8 @@ class Header extends Component {
                           to="/">
                         <img className="img-responsive"
                              src="/public/images/logo_bigger.png"
-                             height="50" width="150"
+                             height="50"
+                             width="150"
                              alt="logo" /></Link>
                     <button className="navbar-toggler"
                             type="button"

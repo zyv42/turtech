@@ -1,89 +1,133 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
+import { createNewUser } from "../../actions/securityActions";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import classnames from "classnames";
 
 class Register extends Component {
+
+    constructor() {
+        super();
+
+        this.state = {
+            username: "",
+            password: "",
+            confirmPassword: "",
+            errors: {}
+        };
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.security.validToken) {
+            this.props.history.push("/products");
+        }
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.errors) {
+            this.setState({ errors: nextProps.errors })
+        }
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        const newUser = {
+            username: this.state.username,
+            password: this.state.password,
+            confirmPassword: this.state.confirmPassword
+        };
+
+        this.props.createNewUser(newUser, this.props.history);
+    }
+
+    onChange(e) {
+        this.setState({[e.target.name]:e.target.value});
+    }
+
     render() {
+        const { errors } = this.state;
+
         return (
             <div className="container">
-                <h4 className="card-title mb-4 mt-1">Sign up</h4>
-                <div className="alert alert-info"
-                     th:if="${emailSent}">
-                    An email has been sent to the email address you just registered.
-                    Please validate your email address and update your password
-                    information.
-                </div>
-                <form th:action="@{/newUserAction}"
-                      th:object="${user}"
-                      method="post">
+                <h4 className="card-title mb-4 mt-1">Register</h4>
+                {/*
+                    <div className="alert alert-info"
+                         th:if="${emailSent}">
+                        An email has been sent to the email address you just registered.
+                        Please validate your email address and update your password
+                        information.
+                    </div>*/
+                }
+                <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label htmlFor="registerUsername">* Username:</label>
-                        <p className="text-danger"
-                           th:if="${usernameExists}">Username
-                            already exists. Choose a different one.</p>
-                        <p th:if="${#fields.hasErrors('username')}"
-                           className="text-danger"
-                           th:errors="*{username}"
-                        ></p>
                         <div className="input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"><i className="fa fa-user fa-fw" /></span>
                             </div>
-                            <input th:field="*{username}"
+                            <input value={this.state.username}
+                                   onChange={this.onChange}
                                    id="registerUsername"
-                                   className="form-control"
+                                   className={classnames("form-control", {
+                                       "is-invalid": errors.username
+                                   })}
                                    placeholder="Username"
                                    type="text"
                                    required="required"
-                                   autoFocus="autofocus"
-                                   th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" />
+                                   autoFocus="autofocus" />
                         </div>
+                        {errors.username && (
+                            <div className="invalid-feedback">errors.username</div>
+                        )}
                     </div>
+                    {/*
                     <div className="form-group">
                         <label htmlFor="email">* Email address:</label>
-                        <p className="text-danger"
-                           th:if="${emailExists}">Email already exists. Choose a different one.</p>
-                        <p th:if="${#fields.hasErrors('email')}"
-                           className="text-danger"
-                           th:errors="*{email}"></p>
                         <div className="input-group">
                             <div className="input-group-prepend">
-                                                <span className="input-group-text"><i
-                                                    className="fa fa-envelope fa-fw"></i></span>
+                                <span className="input-group-text">
+                                    <i className="fa fa-envelope fa-fw" /></span>
                             </div>
-                            <input th:field="*{email}"
+                            <input value={this.state.email}
+                                   onChange={this.onChange}
                                    id="email"
-                                   className="form-control"
+                                   className={classnames("form-control", {
+                                       "is-invalid": errors.email
+                                   })}
                                    placeholder="Email"
                                    type="email"
-                                   required="required"
-                                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" />
+                                   required="required" />
                         </div>
+                        {errors.email && (
+                            <div className="invalid-feedback">errors.username</div>
+                        )}
                         <small className="form-text text-muted">We'll never share
                             your email with anyone else. At least for free.</small>
-                    </div>
+                    </div>*/
+                    }
                     <div className="form-group">
-                        <div id="checkPasswordReg"
-                             style="display: none;"
-                             className="alert alert-danger">Passwords do not match!
-                        </div>
                         <label htmlFor="passwordReg">* Password:</label>
-                        <p className="text-danger"
-                           th:if="${emptyPassword}">Password cannot be left empty or consisting of
-                            whitespaces.</p>
-                        <p className="text-danger"
-                           th:if="${incorrectPassword}">Password should start with a letter, followed by
-                            letters or numbers, 8 through 32 characters long.</p>
                         <div className="input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"><i className="fa fa-lock fa-fw"></i></span>
+                                <span className="input-group-text">
+                                    <i className="fa fa-lock fa-fw" /></span>
                             </div>
                             <input name="password"
+                                   value={this.state.password}
+                                   onChange={this.onChange}
                                    id="passwordReg"
-                                   className="form-control"
+                                   className={classnames("form-control", {
+                                       "is-invalid": errors.password
+                                   })}
                                    placeholder="******"
                                    type="password"
-                                   required="required"
-                                   th:classappend="${incorrectPassword} or ${emptyPassword} ? 'is-invalid'" />
+                                   required="required" />
                         </div>
+                        {errors.password && (
+                            <div className="invalid-feedback">errors.password</div>
+                        )}
                         <small className="text-muted">Password of the user.
                             It should start with a letter followed by alphanumeric or alphabet
                             characters</small>
@@ -92,15 +136,25 @@ class Register extends Component {
                         <label htmlFor="confirmPasswordReg">* Confirm password:</label>
                         <div className="input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"><i className="fa fa-lock fa-fw" /></span>
+                                <span className="input-group-text">
+                                    <i className="fa fa-lock fa-fw" /></span>
                             </div>
-                            <input id="confirmPasswordReg"
-                                   className="form-control"
+                            <input id="confirmPassword"
+                                   name="confirmPassword"
+                                   value={this.state.confirmPassword}
+                                   onChange={this.onChange}
+                                   className={classnames("form-control", {
+                                       "is-invalid": errors.confirmPassword
+                                   })}
                                    placeholder="******"
                                    type="password"
                                    required="required" />
                         </div>
+                        {errors.confirmPassword && (
+                            <div className="invalid-feedback">errors.confirmPassword</div>
+                        )}
                     </div>
+                    {/*
                     <div className="form-row">
                         <div className="col form-group">
                             <label htmlFor="firstName">First name:</label>
@@ -127,21 +181,25 @@ class Register extends Component {
                                    th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" />
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="phone">Phone Number:</label>
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"><i className="fa fa-phone fa-fw"></i></span>
+                    }
+                    {/*
+                        <div className="form-group">
+                            <label htmlFor="phone">Phone Number:</label>
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    <i className="fa fa-phone fa-fw"/></span>
+                                </div>
+                                <input value={this.state.phone}
+                                       id="phone"
+                                       className="form-control"
+                                       placeholder="+XX(XXX)XXX-XXXX"
+                                       type="tel"
+                                       pattern="/^+\d{1,2}(\d{3})\d{3}-\d{4}$/"/>
                             </div>
-                            <input th:field="*{phone}"
-                                   id="phone"
-                                   className="form-control"
-                                   placeholder="+XX(XXX)XXX-XXXX"
-                                   type="tel"
-                                   pattern="/^+\d{1,2}(\d{3})\d{3}-\d{4}$/" />
-                        </div>
-                        <small className="form-text text-muted">Pattern: +XX(XXX)XXX-XXXX</small>
-                    </div>
+                            <small className="form-text text-muted">Pattern: +XX(XXX)XXX-XXXX</small>
+                        </div>*/
+                    }
                     <div className="form-group">
                         <input type="submit"
                                className="btn btn-primary btn-block"
@@ -158,4 +216,18 @@ class Register extends Component {
     }
 }
 
-export default Register;
+Register.propTypes = {
+    createNewUser: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired,
+    security: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    errors: state.errors,
+    security: state.security
+});
+
+export default connect(
+    mapStateToProps,
+    { createNewUser }
+)(Register);
