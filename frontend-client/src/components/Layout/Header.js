@@ -108,7 +108,8 @@ class Header extends Component {
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container">
                     <Link className="navbar-brand"
-                          to="/">
+                          to="/"
+                          onClick={() => this.changeActiveLink(1)}>
                         <img className="img-responsive"
                              src={logo_bigger}
                              height="50"
