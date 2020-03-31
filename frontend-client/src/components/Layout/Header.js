@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import logo_bigger from "../../assets/images/logo_bigger.png";
 
 class Header extends Component {
 
@@ -109,7 +110,7 @@ class Header extends Component {
                     <Link className="navbar-brand"
                           to="/">
                         <img className="img-responsive"
-                             src="/public/images/logo_bigger.png"
+                             src={logo_bigger}
                              height="50"
                              width="150"
                              alt="logo" /></Link>
