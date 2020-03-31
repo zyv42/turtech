@@ -17,6 +17,7 @@ class App extends Component {
                 <Router>
                     <div className="App">
                         <Header />
+                        <Switch>
                         {
                             // Public Routes
                         }
@@ -33,8 +34,6 @@ class App extends Component {
                         {
                             // Private Routes
                         }
-                        <Switch>
-
                         </Switch>
                         <Footer />
                     </div>
