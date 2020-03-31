@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Carousel } from "react-bootstrap";
+import logo_bigger from "../assets/images/logo_bigger.png";
 
 class Landing extends Component {
     render() {
@@ -12,7 +13,7 @@ class Landing extends Component {
                 <header>
                     <Carousel>
                         <Carousel.Item>
-                            <img className="d-block"
+                            <img className="img-fluid"
                                  src="http://placehold.it/1900x1080"
                                  alt="First slide" />
                             <Carousel.Caption>
@@ -21,7 +22,7 @@ class Landing extends Component {
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
-                            <img className="d-block"
+                            <img className="img-fluid"
                                  src="http://placehold.it/1900x1080"
                                  alt="Second slide" />
                             <Carousel.Caption>
@@ -30,7 +31,7 @@ class Landing extends Component {
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
-                            <img className="d-block"
+                            <img className="img-fluid"
                                  src="http://placehold.it/1900x1080"
                                  alt="Third slide" />
                             <Carousel.Caption>
@@ -67,7 +68,7 @@ class Landing extends Component {
                                 dolorum ducimus unde.</p>
                         </div>
                         <div className="col-lg-6">
-                            <img className="img-fluid rounded" src="/public/images/logo_bigger.png" alt="Logo" />
+                            <img className="img-fluid rounded" src={logo_bigger} alt="Logo" />
                         </div>
                     </div>
 
