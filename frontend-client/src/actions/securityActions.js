@@ -5,7 +5,10 @@ import jwt_decode from "jwt-decode";
 
 export const createNewUser = (newUser, history) => async dispatch => {
     try {
-        await axios.post("/accounts/", newUser);
+        await axios.post("/accounts/", JSON.stringify({
+            username: newUser.username,
+            password: newUser.password
+        }));
         history.push("/login");
         dispatch({
             type: GET_ERRORS,
@@ -27,6 +30,9 @@ export const login = LoginRequest => async dispatch => {
             username: LoginRequest.username,
             password: LoginRequest.password,
             grant_type: "password"
+        }, {
+            headers: {'Authorization': 'Basic YnJvd3Nlcjo=',
+                        'Content-Type': 'application/json'}
         });
         // extract token from response data
         const { token } = res.data;
