@@ -3,6 +3,7 @@ import './App.css';
 import {Provider} from "react-redux";
 import store from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "font-awesome/css/font-awesome.min.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Landing from "./components/Landing";
