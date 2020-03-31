@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import logo_bigger from "../../assets/images/logo_bigger.png";
+import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 
 class Header extends Component {
 
@@ -55,46 +56,56 @@ class Header extends Component {
         const { links, activeLink } = this.state;
         const { validToken, user } = this.props.security;
         const userIsAuthenticated = (
-            <div className="btn-group open ml-2">
-                <Link className="btn btn-primary btn-sm"
-                      to="/myAccount">
-                    <i className="fa fa-user-circle fa-fw" /> Welcome, {user.username}!</Link>
-                <Link className="btn btn-primary btn-sm dropdown-toggle"
-                      data-toggle="dropdown" to="#">
+            <Dropdown as={ButtonGroup}
+                      className="ml-2">
+                <Link to="/MyAccount">
+                    <Button variant="primary"
+                            size="sm">
+                        <i className="fa fa-user-circle fa-fw" /> Welcome, {user.username}!
+                    </Button>
                 </Link>
-                <ul className="dropdown-menu">
-                    <li className="dropdown-item">
+
+                <Dropdown.Toggle split variant="primary"
+                                 id="dropdown-split-basic"
+                                 size="sm" />
+                <Dropdown.Menu>
+                    <Dropdown.Item>
                         <Link to="/myAccount"><i className="fa fa-address-card-o fa-fw"/> My Account</Link>
-                    </li>
-                    <li className="dropdown-divider" />
-                    <li className="dropdown-item">
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item>
                         <Link to="/logout"
                               data-toggle="modal"
                               data-target="#logout">
                             <i className="fa fa-sign-out"/> Sign out</Link>
-                    </li>
-                </ul>
-            </div>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         );
 
         const userIsNotAuthenticated = (
-            <div className="btn-group open ml-2">
-                <Link className="btn btn-primary btn-sm"
-                      to="/myAccount">
-                    <i className="fa fa-user-circle fa-fw" /> Welcome, guest!</Link>
-                <Link className="btn btn-primary btn-sm dropdown-toggle"
-                      data-toggle="dropdown" to="#">
+            <Dropdown as={ButtonGroup}
+                      className="ml-2">
+                <Link to="/MyAccount">
+                    <Button variant="primary"
+                            size="sm">
+                        <i className="fa fa-user-circle fa-fw" /> Welcome, guest!
+                    </Button>
                 </Link>
-                <ul className="dropdown-menu">
-                    <li className="dropdown-item">
+
+                <Dropdown.Toggle split variant="primary"
+                                 id="dropdown-split-basic"
+                                 size="sm" />
+                <Dropdown.Menu>
+                    <Dropdown.Item>
                         <Link to="/login"><i className="fa fa-sign-in fa-fw" /> Sign in</Link>
-                    </li>
-                    <li className="dropdown-divider" />
-                    <li className="dropdown-item">
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item>
                         <Link to="/register"><i className="fa fa-user-plus fa-fw"/> Create new user</Link>
-                    </li>
-                </ul>
-            </div>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         );
 
         let userLinks;
