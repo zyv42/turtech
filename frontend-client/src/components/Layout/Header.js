@@ -53,10 +53,12 @@ class Header extends Component {
         // TODO Search function
     }
 
+    logout() {
+        this.props.logout();
+        window.location.href = "/";
+    }
+
     render() {
-        const[show, setShow] = useState(false);
-        const handleClose = () => setShow(false);
-        const handleShow = () => setShow(true);
         const { links, activeLink } = this.state;
         const { validToken, user } = this.props.security;
         const userIsAuthenticated = (
@@ -79,7 +81,7 @@ class Header extends Component {
                     <Dropdown.Divider />
                     <Dropdown.Item>
                         <Link to="/logout"
-                              onClick={handleShow}>
+                              onClick={() => this.show = true}>
                             <i className="fa fa-sign-out"/> Sign out</Link>
                     </Dropdown.Item>
                 </Dropdown.Menu>
@@ -191,8 +193,8 @@ class Header extends Component {
                 {
                     // Logout Modal
                 }
-                <Logout show={show}
-                        onHide={handleClose} />
+                <Logout show={false}
+                        onHide={() => this.show = false} />
             </nav>
         );
     }

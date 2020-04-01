@@ -17,7 +17,7 @@ function Logout() {
             <Modal.Footer>
                 <Button variant="secondary">Cancel</Button>
                 <Link to="/logout"
-                      onClick={this.logout.bind(this)}>
+                      onClick={() => this.logout.bind(this)}>
                     <Button variant="primary">Logout</Button>
                 </Link>
             </Modal.Footer>
