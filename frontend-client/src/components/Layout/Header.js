@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -13,7 +13,7 @@ class Header extends Component {
             {
                 id: 1,
                 name: "HOME",
-                to: "/",
+                to: "/welcome",
                 className: "nav-link"
             },
             {
@@ -55,7 +55,7 @@ class Header extends Component {
 
     logout() {
         this.props.logout();
-        window.location.href = "/";
+        window.location.href = "/welcome";
     }
 
     render() {
@@ -124,7 +124,7 @@ class Header extends Component {
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container">
                     <Link className="navbar-brand"
-                          to="/"
+                          to="/welcome"
                           onClick={() => this.changeActiveLink(1)}>
                         <img className="img-responsive"
                              src={logo_bigger}
