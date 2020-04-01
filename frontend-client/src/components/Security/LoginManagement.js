@@ -5,39 +5,48 @@ import Register from "./Register";
 import ForgotPassword from "./ForgotPassword";
 
 class LoginManagement extends Component {
-    render() {
+
+    render()
+    {
+
         return (
             <Modal
-//                {...props}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
-                centered>
+                centered
+                show={true}
+                onHide={this.props.history.goBack}>
                 {
                     // User management
                 }
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        TurTech Login
+                    </Modal.Title>
+                </Modal.Header>
                 <Modal.Body closeButton>
                     <Tabs defaultActiveKey="login"
                           id="user-management">
                         {
                             // Login tabpanel
                         }
-                        <Tab evenKey="login"
+                        <Tab eventKey="login"
                              title="Login">
-                            <Login />
+                            <Login/>
                         </Tab>
                         {
                             // Register tabpanel
                         }
                         <Tab eventKey="Register"
                              title="Register">
-                            <Register />
+                            <Register/>
                         </Tab>
                         {
                             // Forgot password tabpanel
                         }
                         <Tab eventKey="forgotPassword"
                              title="Forgot password?">
-                            <ForgotPassword />
+                            <ForgotPassword/>
                         </Tab>
                     </Tabs>
                 </Modal.Body>
