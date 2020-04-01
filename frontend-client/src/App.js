@@ -4,7 +4,7 @@ import {Provider} from "react-redux";
 import store from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
-import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Landing from "./components/Landing";
 import Footer from "./components/Layout/Footer";
@@ -17,7 +17,6 @@ class App extends Component {
                 <Router>
                     <div className="App">
                         <Header />
-                        <Switch>
                         {
                             // Public Routes
                         }
@@ -27,9 +26,11 @@ class App extends Component {
                         <Redirect from = "/"
                                   to = "/welcome" />
                         <Route exact
-                               path = "/security/:tab"
+                               path = "/login"
                                component = {LoginManagement} />
-                        </Switch>
+                        <Route exact
+                               path = "/register"
+                               component={LoginManagement}/>
                         {
                             // Private Routes
                         }

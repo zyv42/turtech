@@ -7,6 +7,12 @@ import ForgotPassword from "./ForgotPassword";
 class LoginManagement extends Component {
 
     render() {
+        let tab;
+        if (window.location.pathname.endsWith("/register")) {
+            tab = "register";
+        } else {
+            tab = "login";
+        }
         return (
             <Modal
                 size="lg"
@@ -24,28 +30,29 @@ class LoginManagement extends Component {
                 </Modal.Header>
 
                 <Modal.Body closeButton>
-                    <Tabs defaultActiveKey="login"
-                          id="user-management">
+                    <Tabs defaultActiveKey={tab}
+                          id="user-management"
+                            onSelect={(k) => window.history.replaceState("","","/" + (k))}>
                         {
                             // Login tabpanel
                         }
                         <Tab eventKey="login"
                              title="Login">
-                            <Login/>
+                            <Login />
                         </Tab>
                         {
                             // Register tabpanel
                         }
-                        <Tab eventKey="Register"
+                        <Tab eventKey="register"
                              title="Register">
-                            <Register/>
+                            <Register />
                         </Tab>
                         {
                             // Forgot password tabpanel
                         }
                         <Tab eventKey="forgotPassword"
                              title="Forgot password?">
-                            <ForgotPassword/>
+                            <ForgotPassword />
                         </Tab>
                     </Tabs>
                 </Modal.Body>
