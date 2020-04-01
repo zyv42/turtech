@@ -30,11 +30,10 @@ class App extends Component {
                         <Route exact
                                path = "/register"
                                component = {LoginManagement} />
-
+                        </Switch>
                         {
                             // Private Routes
                         }
-                        </Switch>
                         <Footer />
                     </div>
                 </Router>

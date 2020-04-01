@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import logo_bigger from "../../assets/images/logo_bigger.png";
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
+import Logout from "../Security/Logout";
 
 class Header extends Component {
 
@@ -53,6 +54,9 @@ class Header extends Component {
     }
 
     render() {
+        const[show, setShow] = useState(false);
+        const handleClose = () => setShow(false);
+        const handleShow = () => setShow(true);
         const { links, activeLink } = this.state;
         const { validToken, user } = this.props.security;
         const userIsAuthenticated = (
@@ -75,8 +79,7 @@ class Header extends Component {
                     <Dropdown.Divider />
                     <Dropdown.Item>
                         <Link to="/logout"
-                              data-toggle="modal"
-                              data-target="#logout">
+                              onClick={handleShow}>
                             <i className="fa fa-sign-out"/> Sign out</Link>
                     </Dropdown.Item>
                 </Dropdown.Menu>
@@ -184,6 +187,12 @@ class Header extends Component {
                         {userLinks}
                     </div>
                 </div>
+
+                {
+                    // Logout Modal
+                }
+                <Logout show={show}
+                        onHide={handleClose} />
             </nav>
         );
     }

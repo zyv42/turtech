@@ -6,9 +6,7 @@ import ForgotPassword from "./ForgotPassword";
 
 class LoginManagement extends Component {
 
-    render()
-    {
-
+    render() {
         return (
             <Modal
                 size="lg"
@@ -24,6 +22,7 @@ class LoginManagement extends Component {
                         TurTech Login
                     </Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body closeButton>
                     <Tabs defaultActiveKey="login"
                           id="user-management">
@@ -52,7 +51,6 @@ class LoginManagement extends Component {
                 </Modal.Body>
 
             </Modal>
-
         );
     }
 }
