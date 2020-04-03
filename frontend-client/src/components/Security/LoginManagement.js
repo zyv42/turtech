@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Tabs, Tab} from "react-bootstrap";
+import {Card, Tabs, Tab} from "react-bootstrap";
 import Login from './Login';
 import Register from "./Register";
 import ForgotPassword from "./ForgotPassword";
@@ -14,22 +14,12 @@ class LoginManagement extends Component {
             tab = "login";
         }
         return (
-            <Modal
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                show={true}
-                onHide={this.props.history.goBack}>
+            <div className="container-fluid m-4 d-flex justify-content-center">
+            <Card className="col-md-6">
                 {
                     // User management
                 }
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        TurTech Login
-                    </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body closeButton>
+                <Card.Body>
                     <Tabs defaultActiveKey={tab}
                           id="user-management"
                             onSelect={(k) => window.history.replaceState("","","/" + (k))}>
@@ -55,9 +45,10 @@ class LoginManagement extends Component {
                             <ForgotPassword />
                         </Tab>
                     </Tabs>
-                </Modal.Body>
+                </Card.Body>
 
-            </Modal>
+            </Card>
+            </div>
         );
     }
 }

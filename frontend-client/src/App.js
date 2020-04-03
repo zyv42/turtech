@@ -26,11 +26,11 @@ class App extends Component {
                         <Redirect from = "/"
                                   to = "/welcome" />
                         <Route exact
-                               path = "/login"
+                               path = {"/login"}
                                component = {LoginManagement} />
                         <Route exact
-                               path = "/register"
-                               component={LoginManagement}/>
+                               path = {"/register"}
+                               component = {LoginManagement} />
                         {
                             // Private Routes
                         }

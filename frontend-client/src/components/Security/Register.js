@@ -50,8 +50,8 @@ class Register extends Component {
         const { errors } = this.state;
 
         return (
-            <div className="container">
-                <h4 className="card-title mb-4 mt-1">Register</h4>
+            <div className="container-fluid">
+                <h4 className="card-title mb-4 mt-4">Register</h4>
                 {/*
                     <div className="alert alert-info"
                          th:if="${emailSent}">
