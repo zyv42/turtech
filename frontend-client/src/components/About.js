@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import { Link } from "react-router-dom";
 
 class About extends Component {
@@ -18,7 +18,7 @@ class About extends Component {
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <Link to="/">Home</Link>
+                                        <Link to="/welcome">Home</Link>
                                     </li>
                                     <li className="breadcrumb-item active" aria-current="page">
                                         About us

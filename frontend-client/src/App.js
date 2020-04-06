@@ -10,6 +10,7 @@ import Landing from "./components/Landing";
 import Footer from "./components/Layout/Footer";
 import LoginManagement from "./components/Security/LoginManagement";
 import About from "./components/About";
+import Faq from "./components/Faq";
 
 class App extends Component {
     render() {
@@ -32,6 +33,9 @@ class App extends Component {
                         <Route exact
                                path = {"/register"}
                                component = {LoginManagement} />
+                        <Route exact
+                               path = {"/faq"}
+                               component={Faq} />
                         <Route exact
                                path = {"/about"}
                                component={About} />
