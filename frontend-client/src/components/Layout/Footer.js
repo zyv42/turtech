@@ -50,7 +50,7 @@ class Footer extends Component {
                     {
                         // Copyright
                     }
-                    <div className="footer-copyright text-center py-3">© 2019
+                    <div className="footer-copyright text-center py-3">© 2020
                         Copyright: TurTech
                     </div>
                 </div>
