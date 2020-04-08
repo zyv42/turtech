@@ -1,4 +1,4 @@
-# Consider adding a network and docker-compose.dev
+# Consider adding a network
 version: '3.7'
 services:
   rabbitmq:
@@ -14,8 +14,7 @@ services:
   config:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    build: config/
-    image: config
+    image: zyv42/turtech-config
     restart: always
     ports:
       - 8101:8101
@@ -27,8 +26,7 @@ services:
   registry:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    build: registry/
-    image: registry
+    image: zyv42/turtech-registry
     restart: always
     depends_on:
       - config
@@ -42,8 +40,7 @@ services:
   gateway:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    build: gateway/
-    image: gateway
+    image: zyv42/turtech-gateway
     restart: always
     depends_on:
       - config
@@ -57,8 +54,7 @@ services:
   monitoring:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    build: monitoring/
-    image: monitoring
+    image: zyv42/turtech-monitoring
     restart: always
     depends_on:
       - config
@@ -72,8 +68,7 @@ services:
   turbine-service-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    build: turbine-stream-service/
-    image: turbine-stream-service
+    image: zyv42/turtech-turbine-stream-service
     restart: always
     depends_on:
       - config
@@ -89,8 +84,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-    build: auth-service/
-    image: auth-service
+    image: zyv42/turtech-auth-service
     restart: always
     depends_on:
       - config
@@ -102,8 +96,7 @@ services:
   auth-mongodb:
     environment:
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-    build: mongodb/
-    image: mongodb
+    image: zyv42/turtech-mongodb
     restart: always
     logging:
       options:
@@ -115,8 +108,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-    build: account-service/
-    image: account-service
+    image: zyv42/turtech-account-service
     restart: always
     depends_on:
       - config
@@ -129,8 +121,7 @@ services:
     environment:
       INIT_DUMP: account-service-dump.js
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-    build: mongodb/
-    image: mongodb
+    image: zyv42/turtech-mongodb
     restart: always
     logging:
       options:
@@ -138,6 +129,5 @@ services:
         max-file: "10"
 
   frontend-client:
-    build: frontend-client/
-    image: frontend-client
+    image: zyv42/turtech-frontend-client
     restart: always
