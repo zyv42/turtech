@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  rabbitmq:
+    ports:
+      - 15672:15672
+
+  config:
+    build: config
+    ports:
+      - 8101:8101
+
+  registry:
+    build: registry
+
+  gateway:
+    build: gateway
+
+  monitoring:
+    build: monitoring
+
+  turbine-service-service:
+    build: turbine-stream-service
+
+  auth-service:
+    build: auth-service
+    ports:
+      - 8103:8103
+
+  auth-mongodb:
+    build: mongodb
+    ports:
+      - 9103:27017
+
+  account-service:
+    build: account-service
+    ports:
+      - 8111:8111
+
+  account-mongodb:
+    build: mongodb
+    ports:
+      - 9111:27017
+
+  frontend-client:
+    build: frontend-client
