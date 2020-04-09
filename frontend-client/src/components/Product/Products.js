@@ -1,9 +1,19 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import Pagination from "./Pagination";
+import { getProducts } from "../../actions/productActions";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Product from "./Product";
 
 class Products extends Component {
+
+    componentDidMount() {
+        this.props.getProducts();
+    }
+
     render() {
+        const { products } = this.props.product.products;
         return (
             <div className="container">
                 <section className="jumbotron text-center">
@@ -63,20 +73,22 @@ class Products extends Component {
                             </div>
                         </div>
                         <div className="col">
-                            <div th:if="${productPage.isEmpty()}"
-                                 className="alert alert-warning">
-                                Oops, no products have been found according to the given
-                                criteria...
-                            </div>
+                            {/*//TODO PRODUCTS NOT FOUND ERROR
+                                <div th:if="${productPage.isEmpty()}"
+                                     className="alert alert-warning">
+                                    Oops, no products have been found according to the given
+                                    criteria...
+                                </div>*/
+                            }
 
                             {
                                 // Product display
                             }
-                            <div className="row"
-                                 th:if="${productPage != null}">
-                                <div className="col-lg-4 col-md-6 mb-4"
-                                     th:each="product, iStat : ${productPage.content}"
-                                     th:if="${!product.discontinued and product != null}">
+                            <div className="row">
+                                <div className="col-lg-4 col-md-6 mb-4">
+                                    {products.map(product => (
+                                        <Product key = {product.id} product = {product} />
+                                    ))}
                                 </div>
 
                                 {
@@ -94,4 +106,16 @@ class Products extends Component {
     }
 }
 
-export default Products;
+Products.propTypes = {
+    product: PropTypes.object.isRequired,
+    getProducts: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    product: state.product
+});
+
+export default connect(
+    mapStateToProps,
+    { getProducts }
+)(Products);
