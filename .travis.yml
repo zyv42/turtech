@@ -1,4 +1,59 @@
 sudo: required
-
 services:
   - docker
+
+# Building development images for tests
+#before_install:
+#  - docker build -t zyv42/config-test ./config
+#  - docker build -t zyv42/registry-test ./registry
+#  - docker build -t zyv42/gateway-test ./gateway
+#  - docker build -t zyv42/monitoring-test ./monitoring
+#  - docker build -t zyv42/turbine-stream-service-test ./turbine-stream-service
+#  - docker build -t zyv42/auth-service-test ./auth-service
+#  - docker build -t zyv42/account-service-test ./account-service
+#  - docker build -t zyv42/frontend-client-test -f ./frontend-client/Dockerfile.dev ./frontend-client
+
+# TODO add test running with script section
+#script:
+# -
+
+# Building production images and pushing them to Docker Hub
+after_success:
+# Log in to the docker CLI
+  - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+# CONFIG SERVICE
+  - docker build -t zyv42/turtech-config ./config
+  - docker push zyv42/turtech-config
+
+# REGISTRY
+  - docker build -t zyv42/turtech-registry ./registry
+  - docker push zyv42/turtech-registry
+
+# GATEWAY
+  - docker build -t zyv42/turtech-gateway ./gateway
+  - docker push zyv42/turtech-gateway
+
+# MONITORING
+  - docker build -t zyv42/turtech-monitoring ./monitoring
+  - docker push zyv42/turtech-monitoring
+
+# TURBINE-STREAM-SERVICE
+  - docker build -t zyv42/turtech-turbine-stream-service ./turbine-stream-service
+  - docker push zyv42/turtech-turbine-stream-service
+
+# AUTH SERVICE
+  - docker build -t zyv42/turtech-auth-service ./auth-service
+  - docker push zyv42/turtech-auth-service
+
+# ACCOUNT SERVICE
+  - docker build -t zyv42/turtech-account-service ./account-service
+  - docker push zyv42/turtech-account-service
+
+# MONGO DB
+  - docker build -t zyv42/turtech-mongodb ./mongodb
+  - docker push zyv42/turtech-mongodb
+
+# FRONTEND CLIENT
+  - docker bulid -t zyv42/turtech-frontend-client ./frontend-client
+  - docker push zyv42/turtech-frontend-client
