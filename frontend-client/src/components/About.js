@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class About extends Component {
     render() {
         return (
-            <div>
+            <div className="container">
                 <section className="jumbotron text-center">
                     <div className="container">
                         <h1 className="jumbotron-heading">ABOUT US</h1>

@@ -5,7 +5,7 @@ import { Accordion, Card, Button } from "react-bootstrap";
 class Faq extends Component {
     render() {
         return (
-            <div>
+            <div className="container">
                 <section className="jumbotron text-center">
                     <div className="container">
                         <h1 className="jumbotron-heading">FAQ</h1>
