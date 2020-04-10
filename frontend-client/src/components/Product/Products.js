@@ -32,6 +32,45 @@ class Products extends Component {
 
     render() {
         const { products } = this.props.product.products;
+
+        let ProductsContent;
+
+        const contentAlgorithm = products => {
+          if (products === null || products.length < 1) {
+              return(
+                  <div className="alert alert-warning text-center">
+                    Oops, no products complying with the given criteria have been found...
+                  </div>
+              );
+          } else {
+              return(
+                  <div className="row">
+                      {
+                          // Product display
+                      }
+                      <div className="col-lg-4 col-md-6 mb-4">
+                          {products.map(product => (
+                              <Product key = {product.id} product = {product} />
+                          ))}
+                      </div>
+
+                      {
+                          // Pagination
+                      }
+                      <Pagination activePage = {this.state.activePage}
+                                  itemsCountPerPage={this.state.itemsCountPerPage}
+                                  totalItemsCount={this.state.totalItemsCount}
+                                  pageRangeDisplayed={5}
+                                  itemClass="page-item"
+                                  linkClass="page-link"
+                                  onChange={this.handlePageChange.bind(this)} />
+                  </div>
+              );
+          }
+        };
+
+        ProductsContent = contentAlgorithm(products);
+
         return (
             <div className="container">
                 <section className="jumbotron text-center">
@@ -91,35 +130,7 @@ class Products extends Component {
                             </div>
                         </div>
                         <div className="col">
-                            {/*//TODO PRODUCTS NOT FOUND ERROR
-                                <div th:if="${productPage.isEmpty()}"
-                                     className="alert alert-warning">
-                                    Oops, no products have been found according to the given
-                                    criteria...
-                                </div>*/
-                            }
-
-                            {
-                                // Product display
-                            }
-                            <div className="row">
-                                <div className="col-lg-4 col-md-6 mb-4">
-                                    {products.map(product => (
-                                        <Product key = {product.id} product = {product} />
-                                    ))}
-                                </div>
-
-                                {
-                                    // Pagination
-                                }
-                                <Pagination activePage = {this.state.activePage}
-                                            itemsCountPerPage={this.state.itemsCountPerPage}
-                                            totalItemsCount={this.state.totalItemsCount}
-                                            pageRangeDisplayed={5}
-                                            itemClass="page-item"
-                                            linkClass="page-link"
-                                            onChange={this.handlePageChange.bind(this)} />
-                            </div>
+                            { ProductsContent }
                         </div>
 
                     </div>
