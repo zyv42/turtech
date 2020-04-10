@@ -8,3 +8,8 @@ export const getProducts = () => async dispatch => {
         payload: res.data
     });
 };
+
+// TODO properly implement addToCart action
+export const addToCart = id => async dispatch => {
+    console.log("Added to Cart!");
+};

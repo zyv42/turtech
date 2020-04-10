@@ -1,33 +1,51 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
+import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {addToCart} from "../../actions/productActions";
 
 class Product extends Component {
+
+    onAddToCartClick = id => {
+        this.props.addToCart(id);
+    };
+
     render() {
+        const { product } = this.props;
         return (
             <div className="card h-100">
-                <!-- 600x400 image th:src="#{adminPath}+@{~/images/product/}+${product.id}+'.png'"-->
+                {
+                    // TODO Path for proper images, undergoing changes
+                   // 600x400 image th:src="#{adminPath}+@{~/images/product/}+${product.id}+'.png'"-->
+                }
                 <img className="card-img-top"
-                     src="https://dummyimage.com/600x400/55595c/fff" alt="" />
+                     src="https://dummyimage.com/600x400/55595c/fff"
+                     alt="product image" />
                 <div className="card-body">
-                    <a th:href="@{/productDetails?id=}+${product.id}"
-                       title="View Product">
-                        <h4 className="card-title"
-                            th:text="${product.name}" />
-                    </a>
-                    <p className="card-text"
-                       th:utext="${#strings.abbreviate(product.specifications, 1000)}" />
+                    <Link to={`/productDetails/${product.productId}`}
+                          title="View Product">
+                        <h4 className="card-title">{product.name}</h4>
+                    </Link>
+                    {
+                        //TODO consider specifications-text truncation
+                    }
+                    <p className="card-text">
+                        {product.specifications}
+                    </p>
                 </div>
                 <div className="card-footer">
                     <div className="col align-bottom">
                         <h5>
-                            <span style="font-size: x-large; color: #db3208;"
-                                  th:text="${'$' + #numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}" />
-                            <span style="text-decoration: line-through;"
-                                  th:text="'$' + ${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}" />
+                            {
+                                //TODO consider price styling
+                            }
+                            <span style="font-size: x-large; color: #db3208;">{product.outPrice}</span>
+                            <span style="text-decoration: line-through;">{product.listPrice}</span>
                         </h5>
                     </div>
                     <div className="col align-bottom">
-                        <button className="btn btn-success btn-block add-to-cart"
-                                th:id=${product.id}>
+                        <button className="btn btn-success btn-block"
+                                onClick={this.onAddToCartClick.bind(this, product.productId)}>
                             <span className="fa fa-shopping-cart" /> Add to cart
                         </button>
                     </div>
@@ -37,4 +55,11 @@ class Product extends Component {
     }
 }
 
-export default Product;
+Product.propTypes = {
+    addToCart: PropTypes.func.isRequired
+};
+
+export default connect(
+    null,
+    {addToCart}
+)(Product);
