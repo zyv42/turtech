@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import Pagination from "./Pagination";
+import Pagination from "react-js-pagination";
 import { getProducts } from "../../actions/productActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,8 +8,26 @@ import Product from "./Product";
 
 class Products extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            activePage: 1,
+            totalPages: null,
+            itemsCountPerPAge: null,
+            totalItemCount: null
+        };
+        this.handlePageChange = this.handlePageChange.bind(this);
+        this.getProducts = this.getProducts.bind(this);
+    }
+
     componentDidMount() {
-        this.props.getProducts();
+        this.props.getProducts(this.state.activePage);
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({activePage: pageNumber});
+        this.getProducts(pageNumber);
     }
 
     render() {
@@ -94,7 +112,13 @@ class Products extends Component {
                                 {
                                     // Pagination
                                 }
-                                <Pagination />
+                                <Pagination activePage = {this.state.activePage}
+                                            itemsCountPerPage={this.state.itemsCountPerPage}
+                                            totalItemsCount={this.state.totalItemsCount}
+                                            pageRangeDisplayed={5}
+                                            itemClass="page-item"
+                                            linkClass="page-link"
+                                            onChange={this.handlePageChange.bind(this)} />
                             </div>
                         </div>
 
