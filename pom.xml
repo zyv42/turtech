@@ -43,5 +43,6 @@
         <module>auth-service</module>
         <module>account-service</module>
         <module>turbine-stream-service</module>
+        <module>catalog-service</module>
     </modules>
 </project>
