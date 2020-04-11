@@ -12,7 +12,7 @@
     <artifactId>gateway</artifactId>
     <packaging>jar</packaging>
     <name>gateway</name>
-    <description>Gateway</description>
+    <description>Gateway for the TurTech web-store.</description>
 
     <dependencies>
         <dependency>

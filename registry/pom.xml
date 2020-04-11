@@ -12,7 +12,7 @@
     <artifactId>registry</artifactId>
     <packaging>jar</packaging>
     <name>registry</name>
-    <description>Service Registration Server</description>
+    <description>Service Registration Server for the TurTech web-store.</description>
 
     <dependencies>
         <dependency>

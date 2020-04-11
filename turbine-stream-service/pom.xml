@@ -12,7 +12,7 @@
     <artifactId>turbine-stream-service</artifactId>
     <packaging>jar</packaging>
     <name>turbine-stream-service</name>
-    <description>Turbine Stream Service</description>
+    <description>Turbine Stream Service for the TurTech web-store.</description>
 
     <dependencies>
         <dependency>

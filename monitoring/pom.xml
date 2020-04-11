@@ -12,7 +12,7 @@
     <artifactId>monitoring</artifactId>
     <packaging>jar</packaging>
     <name>monitoring</name>
-    <description>Monitoring Service</description>
+    <description>Monitoring Service for the TurTech web-store.</description>
 
     <dependencies>
         <dependency>
