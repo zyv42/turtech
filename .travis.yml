@@ -11,6 +11,7 @@ services:
 #  - docker build -t zyv42/turbine-stream-service-test ./turbine-stream-service
 #  - docker build -t zyv42/auth-service-test ./auth-service
 #  - docker build -t zyv42/account-service-test ./account-service
+#  - docker build -t zyv42/catalog-service-test ./catalog-service
 #  - docker build -t zyv42/frontend-client-test -f ./frontend-client/Dockerfile.dev ./frontend-client
 
 # TODO add test running with script section
@@ -49,6 +50,10 @@ after_success:
 # ACCOUNT SERVICE
   - docker build -t zyv42/turtech-account-service ./account-service
   - docker push zyv42/turtech-account-service
+
+# CATALOG SERVICE
+  - docker build -t zyv42/turtech-catalog-service ./catalog-service
+  - docker push zyv42/turtech-catalog-service
 
 # MONGO DB
   - docker build -t zyv42/turtech-mongodb ./mongodb
