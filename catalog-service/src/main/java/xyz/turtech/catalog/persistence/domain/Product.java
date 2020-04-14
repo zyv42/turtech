@@ -1,13 +1,18 @@
 package xyz.turtech.catalog.persistence.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Document(indexName = "turtech", type = "products")
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
     private Long id;
 
     private String name;
