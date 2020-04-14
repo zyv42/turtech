@@ -43,6 +43,8 @@ public class Product implements Serializable {
     private MultipartFile product Image;
      */
 
+    public Product() {}
+
     public Long getId() {
         return id;
     }
