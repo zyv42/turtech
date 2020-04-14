@@ -20,7 +20,7 @@ public class ProductController {
         this.elasticsearchOperations = elasticsearchOperations;
     }
 
-    @GetMapping("/products")
+    @GetMapping("/all")
     public Page<Product> getAllProducts() {
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(matchAllQuery())
