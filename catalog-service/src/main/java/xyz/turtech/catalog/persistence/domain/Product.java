@@ -1,13 +1,15 @@
 package xyz.turtech.catalog.persistence.domain;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Document(indexName = "turtech", type = "products")
+@Document(collection = "products")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
