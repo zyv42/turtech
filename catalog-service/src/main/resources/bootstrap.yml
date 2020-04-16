@@ -1,9 +1,9 @@
-#spring:
-#  application:
-#    name: catalog-service
-#  cloud:
-#    config:
-#      uri: http://config:8101
-#      fail-fast: true
-#      password: ${CONFIG_SERVICE_PASSWORD}
-#      username: user
+spring:
+  application:
+    name: catalog-service
+  cloud:
+    config:
+      uri: http://config:8101
+      fail-fast: true
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: user
