@@ -21,13 +21,19 @@ zuul:
 
 routes:
   auth-service:
-    path: /uaa/**
+    path: /_uaa/**
     url: http://auth-service:8103
     stripPrefix: false
     sensitiveHeaders:
 
   account-service:
-    path: /accounts/**
+    path: /_accounts/**
     serviceId: account-service
+    stripPrefix: false
+    sensitiveHeaders:
+
+  catalog-service:
+    path: /_catalog/**
+    serviceId: catalog-service
     stripPrefix: false
     sensitiveHeaders:
