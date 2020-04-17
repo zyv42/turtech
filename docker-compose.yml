@@ -128,6 +128,30 @@ services:
         max-size: "10m"
         max-file: "10"
 
+  catalog-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    image: zyv42/turtech-catalog-service
+    restart: always
+    depends_on:
+      - config
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  catalog-mongodb:
+    environment:
+      INIT_DUMP: catalog-service-dump.js
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    image: zyv42/turtech-mongodb
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
   frontend-client:
     image: zyv42/turtech-frontend-client
     restart: always

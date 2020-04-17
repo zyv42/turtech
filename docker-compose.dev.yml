@@ -41,5 +41,15 @@ services:
     ports:
       - 9111:27017
 
+  catalog-service:
+    build: catalog-service
+    ports:
+    - 8112:8112
+
+  catalog-mongodb:
+    build: mongodb
+    ports:
+    - 9112:27017
+
   frontend-client:
     build: frontend-client
