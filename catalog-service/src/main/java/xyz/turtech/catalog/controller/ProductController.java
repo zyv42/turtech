@@ -19,7 +19,7 @@ public class ProductController {
 
     @GetMapping("/all")
     @PreAuthorize("permitAll()")
-    public Page<Product> getAllProducts(PageRequest pageRequest) {
-        return productService.findAll(pageRequest);
+    public Page<Product> getAllProducts() {
+        return productService.findAll(PageRequest.of(0, 5));
     }
 }
