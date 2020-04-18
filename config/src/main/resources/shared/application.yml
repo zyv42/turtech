@@ -7,7 +7,9 @@ eureka:
     hostname: localhost
   client:
     serviceUrl:
-      defaultZone: http://registry:8102/eureka/
+      #defaultZone: http://registry:8102/eureka/
+      # Values for local testing:
+      defaultZone: http://localhost:8102/eureka/
 
 security:
   oauth2:

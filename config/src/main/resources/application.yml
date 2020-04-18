@@ -11,4 +11,6 @@ spring:
     active: native
   security:
     user:
-      password: ${CONFIG_SERVICE_PASSWORD}
+      #password: ${CONFIG_SERVICE_PASSWORD}
+      # Values for local testing:
+      password: sesame

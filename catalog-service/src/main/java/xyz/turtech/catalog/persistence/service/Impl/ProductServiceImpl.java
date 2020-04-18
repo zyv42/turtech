@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(pageRequest);
     }
 
-    public Product findOne(Long id) {
+    public Product findOne(String id) {
         return productRepository.findById(id).orElse(null);
     }
 }

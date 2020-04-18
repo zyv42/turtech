@@ -3,7 +3,10 @@ spring:
     name: catalog-service
   cloud:
     config:
-      uri: http://config:8101
+      #uri: http://config:8101
       fail-fast: true
-      password: ${CONFIG_SERVICE_PASSWORD}
+      #password: ${CONFIG_SERVICE_PASSWORD}
       username: user
+      # Values for local testing:
+      uri: http://localhost:8101
+      password: sesame
