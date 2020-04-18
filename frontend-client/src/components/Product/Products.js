@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import Pagination from "react-js-pagination";
-import { getProducts } from "../../actions/productActions";
+import {getProducts} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Product from "./Product";
@@ -17,13 +17,13 @@ class Products extends Component {
             totalElements: 0
         };
         this.handlePageChange = this.handlePageChange.bind(this);
-        console.log(this.props.products);
-        console.log(this.state.totalPages);
-        console.log(this.state.totalElements);
     }
 
     componentDidMount() {
         this.props.getProducts(this.state.activePage);
+        this.setState({totalPages: this.props.totalPages});
+        this.setState({totalElements: this.props.totalElements});
+        this.setState({itemsCountPerPage: this.props.itemsCountPerPage});
     }
 
     handlePageChange(pageNumber) {
@@ -155,7 +155,10 @@ Products.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    products: state.products
+    products: state.products,
+    totalElements: state.totalElements,
+    totalPages: state.totalPages,
+    itemsCountPerPage: state.itemsCountPerPage
 });
 
 export default connect(
