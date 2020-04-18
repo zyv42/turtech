@@ -12,6 +12,7 @@ import LoginManagement from "./components/Security/LoginManagement";
 import About from "./components/About";
 import Faq from "./components/Faq";
 import Contact from "./components/Contact";
+import Products from "./components/Product/Products";
 
 class App extends Component {
     render() {
@@ -34,6 +35,9 @@ class App extends Component {
                         <Route exact
                                path = {"/register"}
                                component = {LoginManagement} />
+                        <Route exact
+                               path = {"/products"}
+                               component = {Products} />
                         <Route exact
                                path = {"/contact"}
                                component={Contact} />

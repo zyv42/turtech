@@ -33,7 +33,8 @@ class Contact extends Component {
                                     <iframe
                                         src="https://www.openstreetmap.org/export/embed.html?bbox=30.52144378423691%2C50.45031435465748%2C30.52348762750626%2C50.4513271219105&amp;layer=mapnik&amp;marker=50.45082074099383%2C30.522465705871582"
                                         style={{border: '1 solid black'}}
-                                        className="embed-responsive-item">
+                                        className="embed-responsive-item"
+                                        title="turtech_location">
                                     </iframe>
                                 </div>
                             </div>

@@ -20,9 +20,9 @@ class Product extends Component {
                 }
                 <img className="card-img-top"
                      src="https://dummyimage.com/600x400/55595c/fff"
-                     alt="product image" />
+                     alt="product" />
                 <div className="card-body">
-                    <Link to={`/productDetails/${product.productId}`}
+                    <Link to={`/productDetails/${product.id}`}
                           title="View Product">
                         <h4 className="card-title">{product.name}</h4>
                     </Link>
@@ -39,13 +39,13 @@ class Product extends Component {
                             {
                                 //TODO consider price styling
                             }
-                            <span style="font-size: x-large; color: #db3208;">{product.outPrice}</span>
-                            <span style="text-decoration: line-through;">{product.listPrice}</span>
+                            <span style={{fontSize: "x-large", color: "#db3208"}}>{product.ourPrice}</span>
+                            <span style={{textDecoration: "line-through"}}>{product.listPrice}</span>
                         </h5>
                     </div>
                     <div className="col align-bottom">
                         <button className="btn btn-success btn-block"
-                                onClick={this.onAddToCartClick.bind(this, product.productId)}>
+                                onClick={this.onAddToCartClick.bind(this, product.id)}>
                             <span className="fa fa-shopping-cart" /> Add to cart
                         </button>
                     </div>

@@ -11,13 +11,15 @@ class Products extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activePage: 1,
-            totalPages: null,
-            itemsCountPerPAge: null,
-            totalItemCount: null
+            activePage: 0,
+            totalPages: 0,
+            itemsCountPerPage: 10,
+            totalElements: 0
         };
         this.handlePageChange = this.handlePageChange.bind(this);
-        this.getProducts = this.getProducts.bind(this);
+        console.log(this.props.products);
+        console.log(this.state.totalPages);
+        console.log(this.state.totalElements);
     }
 
     componentDidMount() {
@@ -27,16 +29,31 @@ class Products extends Component {
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
-        this.getProducts(pageNumber);
+        this.props.getProducts(pageNumber);
     }
 
     render() {
-        const { products } = this.props.product.products;
+        const { products } = this.props.products;
 
         let ProductsContent;
+        let PaginationDisplay;
+
+        const paginationAlgorithm = () => {
+            if (this.state.totalPages > 1) {
+                return(
+                    <Pagination activePage = {this.state.activePage}
+                                itemsCountPerPage={this.state.itemsCountPerPage}
+                                totalItemsCount={this.state.totalElements}
+                                pageRangeDisplayed={5}
+                                itemClass="page-item"
+                                linkClass="page-link"
+                                onChange={this.handlePageChange.bind(this)} />
+                );
+            }
+        };
 
         const contentAlgorithm = products => {
-          if (products === null || products.length < 1) {
+          if (this.state.totalElements < 1) {
               return(
                   <div className="alert alert-warning text-center">
                     Oops, no products complying with the given criteria have been found...
@@ -53,23 +70,13 @@ class Products extends Component {
                               <Product key = {product.id} product = {product} />
                           ))}
                       </div>
-
-                      {
-                          // Pagination
-                      }
-                      <Pagination activePage = {this.state.activePage}
-                                  itemsCountPerPage={this.state.itemsCountPerPage}
-                                  totalItemsCount={this.state.totalItemsCount}
-                                  pageRangeDisplayed={5}
-                                  itemClass="page-item"
-                                  linkClass="page-link"
-                                  onChange={this.handlePageChange.bind(this)} />
                   </div>
               );
           }
         };
 
         ProductsContent = contentAlgorithm(products);
+        PaginationDisplay = paginationAlgorithm();
 
         return (
             <div className="container">
@@ -131,6 +138,7 @@ class Products extends Component {
                         </div>
                         <div className="col">
                             { ProductsContent }
+                            { PaginationDisplay }
                         </div>
 
                     </div>
@@ -142,12 +150,12 @@ class Products extends Component {
 }
 
 Products.propTypes = {
-    product: PropTypes.object.isRequired,
+    products: PropTypes.object.isRequired,
     getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    product: state.product
+    products: state.products
 });
 
 export default connect(
