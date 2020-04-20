@@ -13,6 +13,7 @@ import About from "./components/About";
 import Faq from "./components/Faq";
 import Contact from "./components/Contact";
 import Products from "./components/Product/Products";
+import ProductDetails from "./components/Product/ProductDetails";
 
 class App extends Component {
     render() {
@@ -38,6 +39,9 @@ class App extends Component {
                         <Route exact
                                path = {"/products"}
                                component = {Products} />
+                        <Route exact
+                               path = {"/products/:productId"}
+                               component = {ProductDetails} />
                         <Route exact
                                path = {"/contact"}
                                component={Contact} />

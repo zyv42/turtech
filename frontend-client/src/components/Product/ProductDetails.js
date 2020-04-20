@@ -2,6 +2,11 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom";
 
 class ProductDetails extends Component {
+
+    componentDidMount() {
+        const { productId } = this.props.match.params;
+    }
+
     render() {
         return (
             <div>

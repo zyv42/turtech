@@ -22,7 +22,7 @@ class Product extends Component {
                      src="https://dummyimage.com/600x400/55595c/fff"
                      alt="product" />
                 <div className="card-body">
-                    <Link to={`/productDetails/${product.id}`}
+                    <Link to={`/products/${product.id}`}
                           title="View Product">
                         <h4 className="card-title">{product.name}</h4>
                     </Link>
