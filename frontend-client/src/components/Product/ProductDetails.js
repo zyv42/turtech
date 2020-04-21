@@ -1,11 +1,20 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import {getProduct} from "../../actions/productActions";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {addToCart} from "../../actions/productActions";
 
 class ProductDetails extends Component {
 
     componentDidMount() {
         const { productId } = this.props.match.params;
+        this.props.getProduct(id, this.props.history);
     }
+
+    onAddToCartClick = id => {
+        this.props.addToCart(id);
+    };
 
     render() {
         return (
@@ -129,8 +138,8 @@ class ProductDetails extends Component {
                                                         </button>
                                                     </div>
                                             </div>
-                                            <button className="btn btn-success btn-lg btn-block text-uppercase add-to-cart"
-                                                    th:id="${product.id}">
+                                            <button className="btn btn-success btn-lg btn-block text-uppercase"
+                                                    onClick={this.onAddToCartClick.bind(this, product.id)}>
                                                 <i className="fa fa-shopping-cart" /> Add To Cart
                                             </button>
                                             <div className="product_reassurance">
@@ -292,4 +301,17 @@ class ProductDetails extends Component {
     }
 }
 
-export default ProductDetails;
+ProductDetails.propTypes = {
+    getProduct: PropTypes.func.isRequired,
+    addToCart: PropTypes.func.isRequired,
+    product: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    product: state.product
+});
+
+export default connect(
+    mapStateToProps,
+    { getProduct, addToCart }
+)(ProductDetails);

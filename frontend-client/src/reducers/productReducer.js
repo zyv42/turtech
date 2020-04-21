@@ -1,4 +1,4 @@
-import { GET_PRODUCTS } from "../actions/types";
+import {GET_PRODUCT, GET_PRODUCTS} from "../actions/types";
 
 const initialState = {
     products: [],
@@ -17,6 +17,12 @@ export default function(state = initialState, action) {
                 totalElements: action.payload.totalElements,
                 totalPages: action.payload.totalPages,
                 itemsCountPerPage: action.payload.size
+            };
+
+        case GET_PRODUCT:
+            return {
+                ...state,
+                product: action.payload
             };
 
         default:

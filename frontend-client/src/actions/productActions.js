@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_PRODUCTS } from "./types";
+import {GET_PRODUCT, GET_PRODUCTS} from "./types";
 
 export const getProducts = page => async dispatch => {
     const res = await axios.get(`http://localhost:8112/all?page=${page}&size=10`);
@@ -7,6 +7,18 @@ export const getProducts = page => async dispatch => {
         type: GET_PRODUCTS,
         payload: res.data
     });
+};
+
+export const getProduct = (productId, history) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8112/${productId}`);
+        dispatch({
+            type: GET_PRODUCT,
+            payload: res.data
+        });
+    } catch (error) {
+        history.push("/products");
+    }
 };
 
 // TODO properly implement addToCart action
