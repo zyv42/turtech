@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import {Link} from "react-router-dom";
 import {getProduct} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {addToCart} from "../../actions/productActions";
+import {Modal} from "react-bootstrap";
 
 class ProductDetails extends Component {
 
@@ -16,7 +17,29 @@ class ProductDetails extends Component {
         this.props.addToCart(id);
     };
 
+    onPlusClick = () => {
+        document.getElementById("qty").value++;
+    };
+
+    onMinusClick = () => {
+        document.getElementById("qty").value--;
+    };
+
     render() {
+        const [show,setShow] = useState(false);
+        const handleClose = () => setShow(false);
+        const handleShow = () => setShow(true);
+
+        function ProductAvailability() {
+            if (props.product.inStockNumber > 10) {
+                return <div className="alert alert-success">In Stock</div>;
+            } else if (props.product.inStockNumber < 10 && props.product.inStockNumber > 0) {
+                return <div className="alert alert-warning">Only {product.inStockNumber} In Stock</div>;
+            } else if (props.product.inStockNumber === 0) {
+                return <div className="alert alert-danger">Unavailable</div>;
+            }
+        }
+
         return (
             <div>
                 <!-- Page Content -->
@@ -46,14 +69,13 @@ class ProductDetails extends Component {
                         <div className="col-12 col-lg-6">
                             <div className="card bg-light mb-3">
                                 <div className="card-body">
-                                    <a href=""
-                                       data-toggle="modal"
-                                       data-target="#productModal">
+                                    <Link to="#"
+                                          onClick={handleShow}>
                                         <img className="img-fluid"
                                              alt="product thumbnail"
                                              src="https://dummyimage.com/800x800/55595c/fff" />
                                         <p className="text-center">Zoom</p>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -63,14 +85,7 @@ class ProductDetails extends Component {
                             <div className="card bg-light mb-3">
                                 <div className="card-body">
                                     <div className="col-xs-6 float-right">
-                                        <div th:if="*{product.inStockNumber > 10}"
-                                             className="alert alert-success">In Stock</div>
-                                        <div th:if="*{product.inStockNumber < 10 and product.inStockNumber > 0}"
-                                             className="alert alert-warning">
-                                             Only {product.inStockNumber} In Stock
-                                        </div>
-                                        <div th:if="*{product.inStockNumber == 0}"
-                                             className="alert alert-danger">Unavailable</div>
+                                        <ProductAvailability />
                                     </div>
                                     <h4>
                                         Our Price:
@@ -83,89 +98,87 @@ class ProductDetails extends Component {
                                         <span style="text-decoration: line-through">
                                             ${product.listPrice}</span>
                                         <span>| You save:
-                                            $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice), 0, 'COMMA', 2, 'POINT' )}" /></span>
+                                            ${product.listPrice - product.ourPrice}</span>
                                     </p>
-                                        <div className="col-xs-5">
-                                            <p>
-                                                <strong>Manufacturer: </strong>
-                                                {product.manufacturer}
-                                            </p>
-                                            <p>
-                                                <strong>Manufacture Date: </strong>
-                                                {product.manufactureDate}
-                                            </p>
-                                            <p>
-                                                <strong>Category: </strong>
-                                                {product.category}
-                                            </p>
-                                            <p>
-                                                <strong>Condition: </strong>
-                                                {product.conditiion}
-                                            </p>
-                                            <p>
-                                                <strong>Shipping Weight: </strong>
-                                                {product.shippingWeight} kg
-                                            </p>
+                                    <div className="col-xs-5">
+                                        <p>
+                                            <strong>Manufacturer: </strong>
+                                            {product.manufacturer}
+                                        </p>
+                                        <p>
+                                            <strong>Manufacture Date: </strong>
+                                            {product.manufactureDate}
+                                        </p>
+                                        <p>
+                                            <strong>Category: </strong>
+                                            {product.category}
+                                        </p>
+                                        <p>
+                                            <strong>Condition: </strong>
+                                            {product.condition}
+                                        </p>
+                                        <p>
+                                            <strong>Shipping Weight: </strong>
+                                            {product.shippingWeight} kg
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <div id="notEnoughStock" style="display: none;"
+                                             className="alert alert-danger">Sorry, but we don't have enough items in stock to fulfill such an order</div>
+                                        <div id="addSuccess" style="display: none;"
+                                             className="alert alert-success">Added to cart</div>
+                                        <label>Quantity :</label>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <button type="button"
+                                                        className="quantity-left-minus btn btn-danger btn-number"
+                                                        onClick={this.onMinusClick}>
+                                                    <i className="fa fa-minus" />
+                                                </button>
+                                            </div>
+                                            <input type="text"
+                                                   className="form-control"
+                                                   id="qty"
+                                                   name="qty"
+                                                   min="1"
+                                                   max="100"
+                                                   value="1" />
+                                            <div className="input-group-append">
+                                                <button type="button"
+                                                        className="quantity-right-plus btn btn-success btn-number"
+                                                        onClick={this.onPlusClick}>
+                                                    <i className="fa fa-plus" />
+                                                </button>
+                                            </div>
                                         </div>
+                                        <button className="btn btn-success btn-lg btn-block text-uppercase"
+                                                onClick={this.onAddToCartClick.bind(this, product.id)}>
+                                            <i className="fa fa-shopping-cart" /> Add To Cart
+                                        </button>
                                         <div>
-                                            <div id="notEnoughStock" style="display: none;"
-                                                 className="alert alert-danger">Sorry, but we don't have enough items in stock to fulfill such an order</div>
-                                            <div id="addSuccess" style="display: none;"
-                                                 className="alert alert-success">Added to cart</div>
-                                            <label>Quantity :</label>
-                                            <div className="input-group mb-3">
-                                                <div className="input-group-prepend">
-                                                    <button type="button"
-                                                            className="quantity-left-minus btn btn-danger btn-number"
-                                                            data-type="minus"
-                                                            data-field="qty">
-                                                        <i className="fa fa-minus" />
-                                                    </button>
-                                                </div>
-                                                <input type="text"
-                                                       className="form-control"
-                                                       id="qty"
-                                                       name="qty"
-                                                       min="1"
-                                                       max="100"
-                                                       th:value="1" />
-                                                    <div className="input-group-append">
-                                                        <button type="button"
-                                                                className="quantity-right-plus btn btn-success btn-number"
-                                                                data-type="plus"
-                                                                data-field="qty">
-                                                            <i className="fa fa-plus" />
-                                                        </button>
-                                                    </div>
-                                            </div>
-                                            <button className="btn btn-success btn-lg btn-block text-uppercase"
-                                                    onClick={this.onAddToCartClick.bind(this, product.id)}>
-                                                <i className="fa fa-shopping-cart" /> Add To Cart
-                                            </button>
-                                            <div className="product_reassurance">
-                                                <ul className="list-inline">
-                                                    <li className="list-inline-item">
-                                                        <i className="fa fa-truck fa-2x" />
-                                                        <br />Fast delivery</li>
-                                                    <li className="list-inline-item">
-                                                        <i className="fa fa-credit-card fa-2x" />
-                                                        <br />Secure payment</li>
-                                                    <li className="list-inline-item">
-                                                        <i className="fa fa-phone fa-2x" />
-                                                        <br />+399 99 999</li>
-                                                </ul>
-                                            </div>
-                                            <div className="reviews_product p-3 mb-2 ">
-                                                <span th:text="${userReviewPage.getNumberOfElements()}" /> reviews
-                                                <i className="fa fa-star" />
-                                                <i className="fa fa-star" />
-                                                <i className="fa fa-star" />
-                                                <i className="fa fa-star" />
-                                                <i className="fa fa-star" /> (4/5)
-                                                <a className="pull-right"
-                                                   href="#reviews">View all reviews</a>
-                                            </div>
+                                            <ul className="list-inline">
+                                                <li className="list-inline-item">
+                                                    <i className="fa fa-truck fa-2x" />
+                                                    <br />Fast delivery</li>
+                                                <li className="list-inline-item">
+                                                    <i className="fa fa-credit-card fa-2x" />
+                                                    <br />Secure payment</li>
+                                                <li className="list-inline-item">
+                                                    <i className="fa fa-phone fa-2x" />
+                                                    <br />+399 99 999</li>
+                                            </ul>
                                         </div>
+                                        <div className="reviews_product p-3 mb-2 ">
+                                            <span th:text="${userReviewPage.getNumberOfElements()}" /> reviews
+                                            <i className="fa fa-star" />
+                                            <i className="fa fa-star" />
+                                            <i className="fa fa-star" />
+                                            <i className="fa fa-star" />
+                                            <i className="fa fa-star" /> (4/5)
+                                            <a className="pull-right"
+                                               href="#reviews">View all reviews</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -243,15 +256,15 @@ class ProductDetails extends Component {
                                     <!-- Leave a review -->
                                     <div className="card">
                                         <div className="card-body">
-                                            <form th:action="@{/leaveReview}"
-                                                  method="post">
-                                                <input type="hidden"
-                                                       th:field="*{product.id}" />
+                                            {
+                                                //TODO implement "leave review" action
+                                            }
+                                            <form>
                                                 <div className="form-group">
-                                                    <label for="text">Your Review</label>
+                                                    <label>Your Review</label>
                                                     <textarea className="form-control"
                                                               id="text"
-                                                              th:name="text"
+                                                              name="text"
                                                               rows="6"
                                                               required="required" />
                                                 </div>
@@ -269,33 +282,20 @@ class ProductDetails extends Component {
                 </div>
 
                 <!-- Modal image -->
-                <div className="modal fade"
-                     id="productModal"
-                     tabindex="-1"
-                     role="dialog"
-                     aria-labelledby="productModalLabel"
-                     aria-hidden="true">
-                    <div className="modal-dialog modal-lg"
-                         role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title"
-                                    id="productModalLabel">{product.name}</h5>
-                                <button type="button"
-                                        className="close"
-                                        data-dismiss="modal"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <img className="img-fluid"
-                                     alt="zoomed product"
-                                     src="https://dummyimage.com/1200x1200/55595c/fff" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Modal {...props}
+                       size="lg"
+                       show={show}
+                       onHide={handleClose}
+                       centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title><h5>{product.name}</h5></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <img className="img-fluid"
+                             alt="zoomed product"
+                             src="https://dummyimage.com/1200x1200/55595c/fff" />
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
