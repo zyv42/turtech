@@ -27,4 +27,9 @@ public class UserReviewServiceImpl implements UserReviewService {
     public Page<UserReview> findUserReviewsByUserId(String userId, PageRequest pageRequest) {
         return userReviewRepository.findUserReviewsByUserId(userId, pageRequest);
     }
+
+    @Override
+    public UserReview saveOrUpdateUserReview(UserReview userReview) {
+        return userReviewRepository.save(userReview);
+    }
 }

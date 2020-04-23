@@ -8,4 +8,6 @@ public interface UserReviewService {
 
     Page<UserReview> findUserReviewsByProductId(String productId, PageRequest pageRequest);
     Page<UserReview> findUserReviewsByUserId(String userId, PageRequest pageRequest);
+
+    UserReview saveOrUpdateUserReview(UserReview userReview);
 }
