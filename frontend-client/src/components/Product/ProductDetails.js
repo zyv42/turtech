@@ -156,7 +156,7 @@ class ProductDetails extends Component {
                                             <i className="fa fa-shopping-cart" /> Add To Cart
                                         </button>
                                         <div>
-                                            <ul className="list-inline">
+                                            <ul className="product_reassurance list-inline">
                                                 <li className="list-inline-item">
                                                     <i className="fa fa-truck fa-2x" />
                                                     <br />Fast delivery</li>

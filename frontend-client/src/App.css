@@ -6,3 +6,17 @@ footer {
 footer a {
     color: #f8f9fa !important;
 }
+
+.product_reassurance .list-inline {
+    margin-bottom: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.product_reassurance .list-inline li:hover {
+    color: #343a40;
+}
+
+.reviews_product .fa-start {
+    color: gold;
+}
