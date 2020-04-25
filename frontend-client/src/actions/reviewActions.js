@@ -3,8 +3,8 @@ import { GET_REVIEWS, LEAVE_REVIEW, GET_ERRORS } from "./types";
 
 export const leaveReview = (review, history) => async dispatch => {
   try {
-      await axios.post("", review);
-      history.push("");
+      await axios.post(`http://localhost:8112/leaveReview`, review);
+      history.push("/products#reviews");
       dispatch({
          type: GET_ERRORS,
          payload: {}
@@ -18,7 +18,7 @@ export const leaveReview = (review, history) => async dispatch => {
 };
 
 export const getReviews = page => async dispatch => {
-    const res = await axios.get("");
+    const res = await axios.get("`http://localhost:8112/all?page=${page}&size=10`");
     dispatch({
        type: GET_REVIEWS,
        payload: res.data
