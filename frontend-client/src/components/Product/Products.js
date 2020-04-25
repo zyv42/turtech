@@ -35,7 +35,7 @@ class Products extends Component {
     render() {
         const { products } = this.props.products;
 
-        let ProductsContent;
+        let ProductsDisplay;
         let PaginationDisplay;
 
         const paginationAlgorithm = () => {
@@ -75,7 +75,7 @@ class Products extends Component {
           }
         };
 
-        ProductsContent = contentAlgorithm(products);
+        ProductsDisplay = contentAlgorithm(products);
         PaginationDisplay = paginationAlgorithm();
 
         return (
@@ -137,7 +137,7 @@ class Products extends Component {
                             </div>
                         </div>
                         <div className="col">
-                            { ProductsContent }
+                            { ProductsDisplay }
                             { PaginationDisplay }
                         </div>
 

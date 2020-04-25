@@ -1,7 +1,78 @@
 import React, {Component} from 'react';
+import Pagination from "react-js-pagination";
+import {getReviews} from "../../actions/reviewActions";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import UserReview from "./UserReview";
+import Product from "./Product";
 
 class UserReviews extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            activePage: 0,
+            totalPages: 0,
+            itemsCountPerPage: 10,
+            totalElements: 0
+        };
+        this.handlePageChange = this.handlePageChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.getProducts(this.state.activePage);
+        this.setState({totalPages: this.props.totalPages});
+        this.setState({totalElements: this.props.totalElements});
+        this.setState({itemsCountPerPage: this.props.itemsCountPerPage});
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({activePage: pageNumber});
+        this.props.getProducts(pageNumber);
+    }
+
     render() {
+        const { reviews } = this.props.reviews;
+
+        let ReviewsDisplay;
+        let PaginationDisplay;
+
+        const paginationAlgorithm = () => {
+            if (this.state.totalPages > 1) {
+                return(
+                    <Pagination activePage = {this.state.activePage}
+                                itemsCountPerPage={this.state.itemsCountPerPage}
+                                totalItemsCount={this.state.totalElements}
+                                pageRangeDisplayed={5}
+                                itemClass="page-item"
+                                linkClass="page-link"
+                                onChange={this.handlePageChange.bind(this)} />
+                );
+            }
+        };
+
+        const contentAlgorithm = reviews => {
+            if (this.state.totalElements < 1) {
+                return(
+                    <div className="alert alert-info">
+                        Oops, no reviews are present yet. Maybe you should leave the first one?
+                    </div>
+                );
+            } else {
+                return(
+                        <div>
+                            {reviews.map(review => (
+                                <UserReview key = {review.id} review = {review} />
+                            ))}
+                        </div>
+                );
+            }
+        };
+
+        ReviewsDisplay = contentAlgorithm(reviews);
+        PaginationDisplay = paginationAlgorithm();
+
         return (
             <div>
                 <div className="col-12" id="reviews">
@@ -10,53 +81,12 @@ class UserReviews extends Component {
                             <i className="fa fa-comment" /> Reviews
                         </div>
                         <div className="card-body">
-                            <div th:if="${userReviewPage.isEmpty()}"
-                                 className="alert alert-info">
-                                Oops, no reviews are present yet. Maybe you should leave the first one?
-                            </div>
-                            <div className="review"
-                                 th:each="userReview, iStat : ${userReviewPage.content}">
-                                <i className="fa fa-calendar" aria-hidden="true" />
-                                <span th:text="${userReview.getTimestamp().toLocalDate() + ' ' + userReview.getTimestamp().toLocalTime()}" />
-                                <span className="fa fa-star" />
-                                <span className="fa fa-star" />
-                                <span className="fa fa-star" />
-                                <span className="fa fa-star" />
-                                <span className="fa fa-star" /> by
-                                <span th:text="${userReview.getUser().getFirstName()} + ' ' + ${userReview.getUser().getLastName()}" />
-                                <p className="blockquote">
-                                    <p className="mb-0" th:text="${userReview.getText()}" />
-                                </p>
-                                <hr />
-                            </div>
+                            { ReviewsDisplay }
                         </div>
 
                         <!-- Reviews Pagination -->
-                        <div className="col-12"
-                             th:if="${userReviewPage != null and userReviewPage.totalPages > 1}">
-                            <nav aria-label="Pagination">
-                                <ul className="pagination">
-                                    <li className="page-item disabled"
-                                        th:class="${!userReviewPage.hasPrevious()} ? 'page-item disabled'">
-                                        <a className="page-link"
-                                           th:href="@{/productDetails#reviews(id=${product.id}, page=${userReviewPage.number})}">Previous</a>
-                                    </li>
-                                    <li className="page-item"
-                                        th:each="pageNumber : ${pageNumbers}"
-                                        th:class="${pageNumber==userReviewPage.number + 1} ? 'page-item active'">
-                                        <a className="page-link"
-                                           th:href="@{/productDetails#reviews(id=${product.id}, page=${pageNumber})}"
-                                           th:inline="text">[[${pageNumber}]]
-                                            <span className="sr-only"
-                                                  th:if="${pageNumber == userReviewPage.number + 1}">(current)</span></a>
-                                    </li>
-                                    <li className="page-item"
-                                        th:class="${!userReviewPage.hasNext()} ? 'page-item disabled'">
-                                        <a className="page-link"
-                                           th:href="@{/productDetails#reviews(id=${product.id}, page=${userReviewPage.number + 2})}">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                        <div className="col-12">
+                            { PaginationDisplay }
                         </div>
 
                         <!-- Leave a review -->
@@ -88,4 +118,19 @@ class UserReviews extends Component {
     }
 }
 
-export default UserReviews;
+UserReviews.propTypes = {
+    reviews: PropTypes.object.isRequired,
+    getReviews: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    reviews: state.reviews,
+    totalElements: state.totalElements,
+    totalPages: state.totalPages,
+    itemsCountPerPage: state.itemsCountPerPage
+});
+
+export default connect(
+    mapStateToProps,
+    { getReviews }
+)(UserReviews);

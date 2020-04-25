@@ -170,7 +170,7 @@ class ProductDetails extends Component {
                                             </ul>
                                         </div>
                                         <div className="reviews_product p-3 mb-2 ">
-                                            {userReviews.size} reviews
+                                            <!--{userReviews.size}-->0 reviews
                                             <i className="fa fa-star" />
                                             <i className="fa fa-star" />
                                             <i className="fa fa-star" />
