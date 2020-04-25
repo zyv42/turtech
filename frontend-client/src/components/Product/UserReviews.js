@@ -4,7 +4,6 @@ import {getReviews} from "../../actions/reviewActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import UserReview from "./UserReview";
-import Product from "./Product";
 
 class UserReviews extends Component {
 

@@ -21,6 +21,8 @@ public class UserReview implements Serializable {
 
     private LocalDateTime timestamp;
 
+    private String authorName;
+
     private String userId;
 
     private String productId;
@@ -49,6 +51,14 @@ public class UserReview implements Serializable {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public String getUserId() {
@@ -86,6 +96,7 @@ public class UserReview implements Serializable {
                 "id='" + id + '\'' +
                 ", text='" + text + '\'' +
                 ", timestamp=" + timestamp +
+                ", authorName=" + authorName + '\'' +
                 ", userId='" + userId + '\'' +
                 ", productId='" + productId + '\'' +
                 '}';
