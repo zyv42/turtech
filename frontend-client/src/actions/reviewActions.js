@@ -17,8 +17,8 @@ export const leaveReview = (review, history) => async dispatch => {
   }
 };
 
-export const getReviews = page => async dispatch => {
-    const res = await axios.get("`http://localhost:8112/all?page=${page}&size=10`");
+export const getReviewsByProduct = (productId, page) => async dispatch => {
+    const res = await axios.get(`http://localhost:8112/reviewsByProduct?productId=${productId}&page=${page}&size=10`);
     dispatch({
        type: GET_REVIEWS,
        payload: res.data

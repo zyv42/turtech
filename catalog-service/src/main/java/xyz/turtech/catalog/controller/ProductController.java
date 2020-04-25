@@ -24,8 +24,9 @@ public class ProductController {
     @GetMapping("/all")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public Page<Product> getAllProducts() {
-        return productService.findAll(PageRequest.of(0, 10));
+    public Page<Product> getAllProducts(@PathVariable int page,
+                                        @PathVariable int size) {
+        return productService.findAll(PageRequest.of(page, size));
     }
 
     @GetMapping("/{productId}")

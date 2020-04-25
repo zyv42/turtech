@@ -21,15 +21,19 @@ public class UserReviewController {
     @GetMapping("/reviewsByProduct")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public Page<UserReview> getReviewsByProduct(String productId) {
-        return userReviewService.findUserReviewsByProductId(productId, PageRequest.of(0, 10));
+    public Page<UserReview> getReviewsByProduct(@PathVariable String productId,
+                                                @PathVariable int page,
+                                                @PathVariable int size) {
+        return userReviewService.findUserReviewsByProductId(productId, PageRequest.of(page, size));
     }
 
     @GetMapping("/reviewsBy")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public Page<UserReview> getReviewsByUser(String userId) {
-        return userReviewService.findUserReviewsByUserId(userId, PageRequest.of(0, 10));
+    public Page<UserReview> getReviewsByUser(@PathVariable String userId,
+                                             @PathVariable int page,
+                                             @PathVariable int size) {
+        return userReviewService.findUserReviewsByUserId(userId, PageRequest.of(page, size));
     }
 
     @PostMapping("/leaveUserReview")

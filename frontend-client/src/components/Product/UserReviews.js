@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Pagination from "react-js-pagination";
-import {getReviews} from "../../actions/reviewActions";
+import {getReviewsByProduct} from "../../actions/reviewActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import UserReview from "./UserReview";
@@ -19,7 +19,8 @@ class UserReviews extends Component {
     }
 
     componentDidMount() {
-        this.props.getProducts(this.state.activePage);
+        const {productId} = this.props.match.params;
+        this.props.getReviewsByProduct(productId, this.state.activePage);
         this.setState({totalPages: this.props.totalPages});
         this.setState({totalElements: this.props.totalElements});
         this.setState({itemsCountPerPage: this.props.itemsCountPerPage});
@@ -28,7 +29,7 @@ class UserReviews extends Component {
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
-        this.props.getProducts(pageNumber);
+        this.props.getReviewsByProduct(productId, pageNumber);
     }
 
     render() {
@@ -119,7 +120,7 @@ class UserReviews extends Component {
 
 UserReviews.propTypes = {
     reviews: PropTypes.object.isRequired,
-    getReviews: PropTypes.func.isRequired
+    getReviewsByProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -131,5 +132,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getReviews }
+    { getReviewsByProduct }
 )(UserReviews);

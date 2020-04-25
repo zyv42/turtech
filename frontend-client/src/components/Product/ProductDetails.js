@@ -9,6 +9,11 @@ import UserReviews from "./UserReviews";
 
 class ProductDetails extends Component {
 
+    constructor(props) {
+        super(props);
+
+    }
+
     componentDidMount() {
         const { productId } = this.props.match.params;
         this.props.getProduct(id, this.props.history);
@@ -27,6 +32,7 @@ class ProductDetails extends Component {
     };
 
     render() {
+        const { product } = this.props.product;
         const [show,setShow] = useState(false);
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
@@ -199,7 +205,7 @@ class ProductDetails extends Component {
                             </div>
 
                             <!-- User Reviews -->
-                            <UserReviews />
+                            <UserReviews productId={productId} />
 
                         </div>
                     </div>
