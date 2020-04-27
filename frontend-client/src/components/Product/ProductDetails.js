@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {addToCart} from "../../actions/productActions";
 import {Modal} from "react-bootstrap";
-import UserReviews from "./UserReviews";
+import UserReviews from "../UserReview/UserReviews";
 
 class ProductDetails extends Component {
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Pagination from "react-js-pagination";
-import {getReviewsByProduct} from "../../actions/reviewActions";
+import {getReviewsByProduct, leaveReview} from "../../actions/reviewActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import UserReview from "./UserReview";
@@ -13,9 +13,17 @@ class UserReviews extends Component {
             activePage: 0,
             totalPages: 0,
             itemsCountPerPage: 10,
-            totalElements: 0
+            totalElements: 0,
+            newReviewText: "",
+            newReviewDate: "",
+            newReviewAuthorName: "",
+            newReviewAuthorId: "",
+            newReviewProductId: ""
         };
+
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -29,7 +37,24 @@ class UserReviews extends Component {
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
-        this.props.getReviewsByProduct(productId, pageNumber);
+        this.props.getReviewsByProduct(this.props.productId, pageNumber);
+    }
+
+    onChange(e) {
+        this.setState({[e.target.name]: e.target.value});
+    }
+    //TODO add user name and id to new review
+    onSubmit(e) {
+        e.preventDefault();
+        const newReview = {
+            newReviewText: this.state.newReviewText,
+            newReviewDate: Date.now(),
+            newReviewAuthorName: "",
+            newReviewAuthorId: "",
+            newReviewProductId: this.props.productId
+        };
+
+        this.props.leaveReview(newReview, this.props.history);
     }
 
     render() {
@@ -92,16 +117,15 @@ class UserReviews extends Component {
                         <!-- Leave a review -->
                         <div className="card">
                             <div className="card-body">
-                                {
-                                    //TODO implement "leave review" action
-                                }
-                                <form>
+                                <form onSubmit={this.onSubmit}>
                                     <div className="form-group">
                                         <label>Your Review</label>
                                         <textarea className="form-control"
                                                   id="text"
-                                                  name="text"
+                                                  name="newReviewText"
                                                   rows="6"
+                                                  value={this.state.newReviewText}
+                                                  onChange={this.onChange}
                                                   required="required" />
                                     </div>
                                     <div className="mx-auto">
@@ -120,7 +144,8 @@ class UserReviews extends Component {
 
 UserReviews.propTypes = {
     reviews: PropTypes.object.isRequired,
-    getReviewsByProduct: PropTypes.func.isRequired
+    getReviewsByProduct: PropTypes.func.isRequired,
+    leaveReview: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -132,5 +157,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getReviewsByProduct }
+    { getReviewsByProduct, leaveReview }
 )(UserReviews);
