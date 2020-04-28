@@ -14,6 +14,7 @@ import Faq from "./components/Faq";
 import Contact from "./components/Contact";
 import Products from "./components/Product/Products";
 import ProductDetails from "./components/Product/ProductDetails";
+import ShoppingCart from "./components/ShoppingCart";
 
 class App extends Component {
     render() {
@@ -26,31 +27,34 @@ class App extends Component {
                             // Public Routes
                         }
                         <Route exact
-                               path = "/welcome"
-                               component = {Landing} />
-                        <Redirect from = "/"
-                                  to = "/welcome" />
+                               path="/welcome"
+                               component={Landing} />
+                        <Redirect from="/"
+                                  to="/welcome" />
                         <Route exact
-                               path = {"/login"}
+                               path={"/login"}
                                component = {LoginManagement} />
                         <Route exact
-                               path = {"/register"}
+                               path={"/register"}
                                component = {LoginManagement} />
                         <Route exact
-                               path = {"/products"}
+                               path={"/products"}
                                component = {Products} />
                         <Route exact
-                               path = {"/products/:productId"}
+                               path={"/products/:productId"}
                                component = {ProductDetails} />
                         <Route exact
-                               path = {"/contact"}
+                               path={"/contact"}
                                component={Contact} />
                         <Route exact
-                               path = {"/faq"}
+                               path={"/faq"}
                                component={Faq} />
                         <Route exact
-                               path = {"/about"}
+                               path={"/about"}
                                component={About} />
+                        <Route exact
+                               path={"/shoppingCart"}
+                               component={ShoppingCart} />
                         {
                             // Private Routes
                         }
