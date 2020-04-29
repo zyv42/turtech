@@ -44,5 +44,6 @@
         <module>account-service</module>
         <module>turbine-stream-service</module>
         <module>catalog-service</module>
+        <module>shopping-cart-service</module>
     </modules>
 </project>
