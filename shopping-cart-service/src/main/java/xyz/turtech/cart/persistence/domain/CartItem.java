@@ -1,13 +1,18 @@
 package xyz.turtech.cart.persistence.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@RedisHash("CartItem")
 public class CartItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
     private String id;
     private int qty;
     private BigDecimal subtotal;
