@@ -1,5 +1,6 @@
 package xyz.turtech.cart.persistence.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -15,6 +16,10 @@ public class CartItem implements Serializable {
     @Id
     private String id;
     private int qty;
+    @JsonIgnore
+    private int productInStock;
+    @JsonIgnore
+    private BigDecimal singleItemPrice;
     private BigDecimal subtotal;
     private String productId;
     private String shoppingCartId;
@@ -33,6 +38,22 @@ public class CartItem implements Serializable {
 
     public void setQty(int qty) {
         this.qty = qty;
+    }
+
+    public int getProductInStock() {
+        return productInStock;
+    }
+
+    public void setProductInStock(int productInStock) {
+        this.productInStock = productInStock;
+    }
+
+    public BigDecimal getSingleItemPrice() {
+        return singleItemPrice;
+    }
+
+    public void setSingleItemPrice(BigDecimal singleItemPrice) {
+        this.singleItemPrice = singleItemPrice;
     }
 
     public BigDecimal getSubtotal() {
@@ -79,7 +100,9 @@ public class CartItem implements Serializable {
         return "CartItem{" +
                 "id='" + id + '\'' +
                 ", qty=" + qty +
-                ", subtotal=" + subtotal +
+                ", productInStock=" + productInStock + '\'' +
+                ", singleItemPrice=" + singleItemPrice + '\'' +
+                ", subtotal=" + subtotal + '\'' +
                 ", productId='" + productId + '\'' +
                 ", shoppingCartId='" + shoppingCartId + '\'' +
                 '}';
