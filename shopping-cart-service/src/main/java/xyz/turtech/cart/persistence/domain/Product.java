@@ -1,15 +1,15 @@
-package xyz.turtech.catalog.persistence.domain;
+package xyz.turtech.cart.persistence.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Document(collection = "products")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@RedisHash("Product")
+@JsonIgnoreProperties
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,10 +28,6 @@ public class Product implements Serializable {
     private String specifications;
     private int inStockNumber;
     private boolean discontinued = false;
-
-    /*
-    private MultipartFile product Image;
-     */
 
     public Product() {}
 
@@ -144,19 +140,18 @@ public class Product implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id.equals(product.id) &&
-                name.equals(product.name);
+        return id.equals(product.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
                 ", manufactureDate=" + manufactureDate +

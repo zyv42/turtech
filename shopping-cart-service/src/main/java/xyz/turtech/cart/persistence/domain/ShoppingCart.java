@@ -21,6 +21,8 @@ public class ShoppingCart implements Serializable {
     private List<CartItem> cartItemList;
     private String userId;
 
+    public ShoppingCart() {}
+
     public String getId() {
         return id;
     }

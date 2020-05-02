@@ -24,6 +24,8 @@ public class CartItem implements Serializable {
     private String productId;
     private String shoppingCartId;
 
+    public CartItem() {}
+
     public String getId() {
         return id;
     }
