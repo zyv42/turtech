@@ -16,13 +16,10 @@ public class CartItem implements Serializable {
     @Id
     private String id;
     private int qty;
-    @JsonIgnore
-    private int productInStock;
-    @JsonIgnore
-    private BigDecimal singleItemPrice;
     private BigDecimal subtotal;
-    private String productId;
     private String shoppingCartId;
+    @JsonIgnore
+    private Product product;
 
     public CartItem() {}
 
@@ -42,36 +39,12 @@ public class CartItem implements Serializable {
         this.qty = qty;
     }
 
-    public int getProductInStock() {
-        return productInStock;
-    }
-
-    public void setProductInStock(int productInStock) {
-        this.productInStock = productInStock;
-    }
-
-    public BigDecimal getSingleItemPrice() {
-        return singleItemPrice;
-    }
-
-    public void setSingleItemPrice(BigDecimal singleItemPrice) {
-        this.singleItemPrice = singleItemPrice;
-    }
-
     public BigDecimal getSubtotal() {
         return subtotal;
     }
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
     }
 
     public String getShoppingCartId() {
@@ -82,19 +55,27 @@ public class CartItem implements Serializable {
         this.shoppingCartId = shoppingCartId;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartItem cartItem = (CartItem) o;
         return id.equals(cartItem.id) &&
-                productId.equals(cartItem.productId) &&
+                product.equals(cartItem.product) &&
                 shoppingCartId.equals(cartItem.shoppingCartId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productId, shoppingCartId);
+        return Objects.hash(id, product, shoppingCartId);
     }
 
     @Override
@@ -102,11 +83,9 @@ public class CartItem implements Serializable {
         return "CartItem{" +
                 "id='" + id + '\'' +
                 ", qty=" + qty +
-                ", productInStock=" + productInStock + '\'' +
-                ", singleItemPrice=" + singleItemPrice + '\'' +
                 ", subtotal=" + subtotal + '\'' +
-                ", productId='" + productId + '\'' +
                 ", shoppingCartId='" + shoppingCartId + '\'' +
+                ", productId='" + product.getId() + '\'' +
                 '}';
     }
 }

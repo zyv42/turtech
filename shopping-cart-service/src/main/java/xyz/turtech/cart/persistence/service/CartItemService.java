@@ -8,8 +8,7 @@ public interface CartItemService {
 
     Iterable<CartItem> findByShoppingCartId(String shoppingCartId);
     CartItem findById(String id);
-    CartItem addProductToCartItem(String productId, int productInStock, BigDecimal productPrice,
-                                  String shoppingCartId, int qty);
+    CartItem addProductToCartItem(String productId, String shoppingCartId, int qty);
     CartItem save(CartItem cartItem);
     CartItem updateCartItem(CartItem cartItem);
     void deleteCartItem(CartItem cartItem);
