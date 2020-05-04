@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import xyz.turtech.cart.persistence.domain.Product;
 
-@FeignClient(name = "product-service")
+@FeignClient(name = "product-service", fallback = ProductServiceClientFallback.class)
 public interface ProductServiceClient {
 
     @GetMapping(value = "/catalog/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
