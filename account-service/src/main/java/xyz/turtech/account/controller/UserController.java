@@ -1,5 +1,7 @@
 package xyz.turtech.account.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import xyz.turtech.account.persistence.domain.User;
 import xyz.turtech.account.persistence.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,13 +21,15 @@ public class UserController {
 
     @PreAuthorize("#oauth2.hasScope('server')")
     @GetMapping(path = "/{username}")
-    public User getUserByUsername(@PathVariable String username) {
-        return userService.findByUsername(username).get();
+    public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
+        User user = userService.findByUsername(username).get();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping(path = "/current")
-    public User getCurrentUser(Principal principal) {
-        return userService.findByUsername(principal.getName()).get();
+    public ResponseEntity<?> getCurrentUser(Principal principal) {
+        User user = userService.findByUsername(principal.getName()).get();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping(path = "/current")
@@ -34,7 +38,8 @@ public class UserController {
     }
 
     @PostMapping(path = "/")
-    public User createNewUser(@Valid @RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<?> createNewUser(@Valid @RequestBody User newUser) {
+        User user = userService.createUser(newUser);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }
