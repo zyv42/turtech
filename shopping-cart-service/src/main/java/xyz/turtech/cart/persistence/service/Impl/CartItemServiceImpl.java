@@ -36,11 +36,11 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public CartItem addProductToCartItem(String productId, String shoppingCartId, int qty) {
+    public CartItem addProductToCartItem(Product product, String shoppingCartId, int qty) {
         Iterable<CartItem> cartItems = findByShoppingCartId(shoppingCartId);
 
         for (CartItem cartItem : cartItems) {
-            if (productId.equals(cartItem.getProduct().getId())) {
+            if (product.getId().equals(cartItem.getProduct().getId())) {
                 cartItem.setQty(cartItem.getQty() + qty);
                 cartItem.setSubtotal(BigDecimal.valueOf(cartItem.getProduct().getOurPrice())
                         .multiply(BigDecimal.valueOf(qty + cartItem.getQty())));
@@ -49,7 +49,6 @@ public class CartItemServiceImpl implements CartItemService {
             }
         }
 
-        Product product = productServiceClient.getProduct(productId).get();
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCartId(shoppingCartId);
         cartItem.setProduct(product);

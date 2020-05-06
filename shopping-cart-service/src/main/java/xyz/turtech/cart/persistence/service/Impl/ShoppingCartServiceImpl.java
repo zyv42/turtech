@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.turtech.cart.persistence.domain.CartItem;
 import xyz.turtech.cart.persistence.domain.ShoppingCart;
+import xyz.turtech.cart.persistence.domain.User;
 import xyz.turtech.cart.persistence.repository.ShoppingCartRepository;
 import xyz.turtech.cart.persistence.service.CartItemService;
 import xyz.turtech.cart.persistence.service.ShoppingCartService;
@@ -26,8 +27,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     //TODO check is Principal name in Spring Security returns username or Id and change method accordingly
     @Override
-    public ShoppingCart createShoppingCart(String username, String sessionId) {
-        if (username.equals("anonymousUser")) {
+    public ShoppingCart createShoppingCart(User user, String sessionId) {
+        if (user == null) {
             Optional<ShoppingCart> shoppingCart = shoppingCartRepository.findById(sessionId);
             if (shoppingCart.isPresent()) {
                 return shoppingCart.get();
@@ -39,12 +40,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 return newShoppingCart;
             }
         } else {
-            Optional<ShoppingCart> shoppingCart = shoppingCartRepository.getByUserId(username);
+            Optional<ShoppingCart> shoppingCart = shoppingCartRepository.getByUserId(user.getUsername());
             if(shoppingCart.isPresent()) {
                 return shoppingCart.get();
             } else {
                 ShoppingCart newShoppingCart = new ShoppingCart();
-                newShoppingCart.setUserId(username);
+                newShoppingCart.setUserId(user.getUsername());
                 newShoppingCart.setId(sessionId);
                 newShoppingCart.setGrandTotal(BigDecimal.valueOf(0));
                 return newShoppingCart;
@@ -59,7 +60,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         Iterable<CartItem> cartItems = cartItemService.findByShoppingCartId(shoppingCart.getId());
 
         for (CartItem cartItem : cartItems) {
-            if (cartItem.getProductInStock() > 0) {
+            if (cartItem.getProduct().getInStockNumber() > 0) {
                 cartItemService.updateCartItem(cartItem);
                 cartTotal = cartTotal.add(cartItem.getSubtotal());
             }
