@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {getProduct} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {addToCart} from "../../actions/productActions";
+import {addToCart} from "../../actions/shoppingCartActions";
 import {Modal} from "react-bootstrap";
 import UserReviews from "../UserReview/UserReviews";
 

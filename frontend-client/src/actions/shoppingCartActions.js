@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GET_CART, ADD_TO_CART} from "./types";
+import {GET_CART, ADD_TO_CART, GET_ERRORS} from "./types";
 
 export const getShoppingCart = () => async dispatch => {
     const res = await axios.get(`http://localhost:8112/cart`);
@@ -9,7 +9,17 @@ export const getShoppingCart = () => async dispatch => {
     });
 };
 
-// TODO properly implement addToCart action
-export const addToCart = id => async dispatch => {
-    console.log("Added to Cart!");
+export const addToCart = (productId, qty) => async dispatch => {
+    try {
+        await axios.get(`http://localhost:8112/addCartItem?productId=${productId}&qty=${qty}`);
+        dispatch({
+            type: ADD_TO_CART,
+            payload: {}
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_ERRORS,
+            payload: error.response.data
+        });
+    }
 };
