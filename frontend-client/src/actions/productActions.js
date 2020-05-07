@@ -20,8 +20,3 @@ export const getProduct = (productId, history) => async dispatch => {
         history.push("/products");
     }
 };
-
-// TODO properly implement addToCart action
-export const addToCart = id => async dispatch => {
-    console.log("Added to Cart!");
-};
