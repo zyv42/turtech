@@ -14,7 +14,7 @@ import Faq from "./components/Faq";
 import Contact from "./components/Contact";
 import Products from "./components/Product/Products";
 import ProductDetails from "./components/Product/ProductDetails";
-import ShoppingCart from "./components/ShoppingCart";
+import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
 
 class App extends Component {
     render() {
