@@ -4,7 +4,6 @@ import { getShoppingCart } from "../../actions/shoppingCartActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import CartItem from "./CartItem";
-import Product from "../Product/Product";
 
 class ShoppingCart extends Component {
 
@@ -83,9 +82,7 @@ class ShoppingCart extends Component {
                                         <td />
                                         <td />
                                         <td>
-                                            <strong>Total (<span id="totalNumber"
-                                                                 th:text="${numberOfItems}" /> items):
-                                            </strong>
+                                            <strong>Total ({shoppingCart.cartItemList.size()} items):</strong>
                                         </td>
                                         <td className="text-right">
                                             <strong>

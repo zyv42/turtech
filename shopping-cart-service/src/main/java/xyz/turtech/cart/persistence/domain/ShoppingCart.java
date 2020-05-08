@@ -1,6 +1,5 @@
 package xyz.turtech.cart.persistence.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -17,7 +16,6 @@ public class ShoppingCart implements Serializable {
     @Id
     private String id;
     private BigDecimal grandTotal;
-    @JsonIgnore
     private List<CartItem> cartItemList;
     private String userId;
 
