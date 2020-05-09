@@ -18,9 +18,33 @@ class ShoppingCart extends Component {
         this.props.getShoppingCart();
     }
 
+
+
     render() {
         const { shoppingCart } = this.props.shoppingCart;
         const { errors } = this.state;
+
+        let ErrorsContent;
+
+        const errorsAlgorithm = (errors, shoppingCart) => {
+            if (shoppingCart.cartItemList.length === 0) {
+                return (
+                    <div className="alert alert-warning">
+                        Oops, your cart is empty. See if you can find what you like in the store
+                        and add it to the cart.
+                    </div>
+                );
+            } else if (errors.notEnoughStock) {
+                return (
+                    <div className="alert alert-warning">
+                        Oops, some of the products don't have enough stock. Please update
+                        product quantity.
+                    </div>
+                );
+            }
+        };
+
+        ErrorsContent = errorsAlgorithm(errors, shoppingCart);
 
         return (
             <div>
@@ -97,16 +121,7 @@ class ShoppingCart extends Component {
                                     </tbody>
                                 </table>
                             </div>
-                            <div th:if="${notEnoughStock}"
-                                 className="alert alert-warning">
-                                Oops, some of the products don't have enough stock. Please update
-                                product quantity.
-                            </div>
-                            <div th:if="${emptyCart}"
-                                 className="alert alert-warning">
-                                Oops, your cart is empty. See if you can find what you like in the store
-                                and add it to the cart.
-                            </div>
+                            { ErrorsContent }
                         </div>
                         <div className="col mb-2">
                             <div className="row">
