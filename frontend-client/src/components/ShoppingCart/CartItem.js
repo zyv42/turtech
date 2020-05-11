@@ -1,9 +1,44 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+import classnames from "classnames";
 
 class CartItem extends Component {
+    //TODO consider if it should deal with cart items classes on frontend and then send it to checkout or send
+    // updates to backend with every minusClick() and plusClick() and let backend deal with it entirely
+
+    minusClick() {
+        document.getElementById("qty").value--;
+    }
+
+    plusClick() {
+        document.getElementById("qty").value++;
+    }
+
     render() {
         const { cartItem } = this.props;
+
+        let InStock;
+
+        const inStockAlgorithm = (cartItem) => {
+            if (cartItem.product.inStockNumber > 10) {
+                return (
+                    <p style="color: green;">In Stock</p>
+                );
+            } else if (cartItem.product.inStockNumber < 10 && cartItem.product.inStockNumber > 0) {
+                return (
+                    <p style="color: green;">
+                        Only {cartItem.product.inStockNumber} In Stock
+                    </p>
+                );
+            } else if (cartItem.product.inStockNumber === 0) {
+                return (
+                    <p style="color: darkred;">Product Unavailable</p>
+                );
+            }
+        };
+
+        InStock = inStockAlgorithm(cartItem);
+
         return (
             <tr>
                 <td>
@@ -14,20 +49,14 @@ class CartItem extends Component {
                     <Link to="@{/productDetails?id=}+${cartItem.product.id}">
                         <h5>{cartItem.product.name}</h5>
                     </Link></td>
-                <td><p th:if="${cartItem.product.inStockNumber&gt;10}"
-                       style="color: green;">In Stock</p>
-                    <p th:if="${cartItem.product.inStockNumber&lt;10 and cartItem.product.inStockNumber&gt;0}"
-                       style="color: green;">
-                        Only <span th:text="${cartItem.product.inStockNumber}" />
-                        In Stock
-                    </p>
-                    <p th:if="${cartItem.product.inStockNumber==0}"
-                       style="color: darkred;">Product Unavailable</p></td>
+                <td>
+                    { InStock }
+                </td>
                 <td>
                     <div className="input-group">
                         <div className="input-group-prepend">
                             <button type="button"
-                                    th:id="m + ${cartItem.id}"
+                                    onClick={this.minusClick()}
                                     className="quantity-left-minus btn btn-danger btn-number"
                                     data-field="qty">
                                 <i className="fa fa-minus" />
@@ -35,14 +64,13 @@ class CartItem extends Component {
                         </div>
                         <input type="text"
                                className="form-control"
-                               th:id="qty + ${cartItem.id}"
                                name="qty"
                                min="1"
                                max="100"
-                               th:value="${cartItem.qty}" />
+                               value={cartItem.qty} />
                         <div className="input-group-append">
                             <button type="button"
-                                    th:id="p + ${cartItem.id}"
+                                    onClick={this.plusClick()}
                                     className="quantity-right-plus btn btn-success btn-number"
                                     data-field="qty">
                                 <i className="fa fa-plus" />
@@ -52,9 +80,8 @@ class CartItem extends Component {
                 </td>
                 <td className="text-right">
                     <h5 style="color: #db3208; font-size: large;">
-                        $<span th:text="${cartItem.product.ourPrice}"
-                               th:style="${cartItem.product.inStockNumber}==0? 'text-decoration: line-through' : ''">
-										</span>
+                        $<span className={classnames({'text-strike': cartItem.product.inStockNumber===0})}>
+                            {cartItem.product.ourPrice}</span>
                     </h5>
                 </td>
                 <td className="text-right">
