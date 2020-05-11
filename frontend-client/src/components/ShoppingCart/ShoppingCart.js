@@ -79,8 +79,7 @@ class ShoppingCart extends Component {
                                         <td />
                                         <td />
                                         <td />
-                                        //TODO get number of items from each individual cartItem
-                                        <td>Sub-Total ({cartItem.size} items):
+                                        <td>Sub-Total ({shoppingCart.cartItemList.size()} items):
                                         </td>
                                         <td className="text-right">
                                             <span style="color: #db3208;">
@@ -96,7 +95,7 @@ class ShoppingCart extends Component {
                                         <td>Tax</td>
                                         <td className="text-right">
                                             <span style="color: #db3208;">
-                                                $<span id="tax" th:text="${#numbers.formatDecimal(shoppingCart.grandTotal*0.06,0,2)}" />
+                                                ${shoppingCart.grandTotal.toFixed(2) * 0.06}
                                             </span>
                                         </td>
                                     </tr>
@@ -111,9 +110,8 @@ class ShoppingCart extends Component {
                                         <td className="text-right">
                                             <strong>
                                                 <span style="color: #db3208; font-size: large;">
-                                                $<span id="totalSum"
-                                                       th:with="total=${shoppingCart.grandTotal+shoppingCart.grandTotal*0.06}"
-                                                       th:text="${#numbers.formatDecimal(total, 0, 2)}" />
+                                                ${shoppingCart.grandTotal.toFixed(2) +
+                                                    shoppingCart.grandTotal.toFixed(2) * 0.06}
                                                 </span>
                                             </strong>
                                         </td>
