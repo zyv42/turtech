@@ -10,7 +10,8 @@ class ShoppingCart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            errors: {}
+            errors: {},
+            grandTotal: 0
         };
     }
 
@@ -20,12 +21,13 @@ class ShoppingCart extends Component {
 
     render() {
         const { shoppingCart } = this.props.shoppingCart;
+        const { cartItemList } = this.props.cartItemList;
         const { errors } = this.state;
 
         let ErrorsContent;
 
-        const errorsAlgorithm = (errors, shoppingCart) => {
-            if (shoppingCart.cartItemList.length === 0) {
+        const errorsAlgorithm = (errors, cartItemList) => {
+            if (cartItemList.length === 0) {
                 return (
                     <div className="alert alert-warning">
                         Oops, your cart is empty. See if you can find what you like in the store
@@ -42,7 +44,7 @@ class ShoppingCart extends Component {
             }
         };
 
-        ErrorsContent = errorsAlgorithm(errors, shoppingCart);
+        ErrorsContent = errorsAlgorithm(errors, cartItemList);
 
         return (
             <div>
@@ -71,7 +73,7 @@ class ShoppingCart extends Component {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {shoppingCart.cartItemList.map(cartItem => (
+                                    {cartItemList.map(cartItem => (
                                         <CartItem key = {cartItem.id} cartItem = {cartItem} />
                                     ))}
                                     <tr>
@@ -79,11 +81,13 @@ class ShoppingCart extends Component {
                                         <td />
                                         <td />
                                         <td />
-                                        <td>Sub-Total ({shoppingCart.cartItemList.size()} items):
+                                        <td>Sub-Total ({cartItemList.size} items):
                                         </td>
                                         <td className="text-right">
-                                            <span style="color: #db3208;">
-                                            ${shoppingCart.grandTotal}
+                                            <span style={{color: '#db3208'}}>
+                                                {
+                                                  //  ${grandTotal}
+                                                }
                                             </span>
                                         </td>
                                     </tr>
@@ -94,8 +98,10 @@ class ShoppingCart extends Component {
                                         <td />
                                         <td>Tax</td>
                                         <td className="text-right">
-                                            <span style="color: #db3208;">
-                                                ${shoppingCart.grandTotal.toFixed(2) * 0.06}
+                                            <span style={{color: '#db3208'}}>
+                                                {
+                                                   // ${grandTotal.toFixed(2) * 0.06}
+                                                }
                                             </span>
                                         </td>
                                     </tr>
@@ -105,13 +111,15 @@ class ShoppingCart extends Component {
                                         <td />
                                         <td />
                                         <td>
-                                            <strong>Total ({shoppingCart.cartItemList.size()} items):</strong>
+                                            <strong>Total ({cartItemList.size} items):</strong>
                                         </td>
                                         <td className="text-right">
                                             <strong>
-                                                <span style="color: #db3208; font-size: large;">
-                                                ${shoppingCart.grandTotal.toFixed(2) +
-                                                    shoppingCart.grandTotal.toFixed(2) * 0.06}
+                                                <span style={{color: '#db3208', fontSize: 'large'}}>
+                                                    {
+                                                     //   ${grandTotal.toFixed(2) +
+                                                     //       grandTotal.toFixed(2) * 0.06}
+                                                    }
                                                 </span>
                                             </strong>
                                         </td>
@@ -149,6 +157,7 @@ ShoppingCart.propTypes = {
 
 const mapStateToProps = state => ({
     shoppingCart: state.cart,
+    cartItemList: state.cart,
     errors: state.errors
 });
 

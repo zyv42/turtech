@@ -102,13 +102,13 @@ class ProductDetails extends Component {
                                     </div>
                                     <h4>
                                         Our Price:
-                                        <span style="color: #db3208;">
+                                        <span style={{color: '#db3208'}}>
                                             ${product.ourPrice}
                                         </span>
                                     </h4>
                                     <p>
                                         List Price:
-                                        <span style="text-decoration: line-through">
+                                        <span style={{textDecoration: 'line-through'}}>
                                             ${product.listPrice}</span>
                                         <span>| You save:
                                             ${product.listPrice - product.ourPrice}</span>
@@ -136,9 +136,14 @@ class ProductDetails extends Component {
                                         </p>
                                     </div>
                                     <div>
-                                        <div id="notEnoughStock" style="display: none;"
+                                        {
+                                            //TODO change display implementation to an interactive one
+                                        }
+                                        <div id="notEnoughStock"
+                                             style={{display: 'none'}}
                                              className="alert alert-danger">Sorry, but we don't have enough items in stock to fulfill such an order</div>
-                                        <div id="addSuccess" style="display: none;"
+                                        <div id="addSuccess"
+                                             style={{display: 'none'}}
                                              className="alert alert-success">Added to cart</div>
                                         <label>Quantity :</label>
                                         <div className="input-group mb-3">
