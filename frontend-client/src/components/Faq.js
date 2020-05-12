@@ -163,7 +163,7 @@ class Faq extends Component {
                             </Card.Header>
                             <Accordion.Collapse eventKey="1">
                                 <Card.Body>
-                                    A: We ship NovaPoshta or UkrPoshta.
+                                    A: We ship with NovaPoshta or UkrPoshta.
                                 </Card.Body>
                             </Accordion.Collapse>
                         </Card>

@@ -22,17 +22,17 @@ class CartItem extends Component {
         const inStockAlgorithm = (cartItem) => {
             if (cartItem.product.inStockNumber > 10) {
                 return (
-                    <p style="color: green;">In Stock</p>
+                    <p style={{color: 'green'}}>In Stock</p>
                 );
             } else if (cartItem.product.inStockNumber < 10 && cartItem.product.inStockNumber > 0) {
                 return (
-                    <p style="color: green;">
+                    <p style={{color: 'green'}}>
                         Only {cartItem.product.inStockNumber} In Stock
                     </p>
                 );
             } else if (cartItem.product.inStockNumber === 0) {
                 return (
-                    <p style="color: darkred;">Product Unavailable</p>
+                    <p style={{color: 'darkred'}}>Product Unavailable</p>
                 );
             }
         };
@@ -46,7 +46,9 @@ class CartItem extends Component {
                          alt="product thumbnail" />
                 </td>
                 <td>
-                    //TODO change link to the proper one
+                    {
+                        //TODO change link to the proper one
+                    }
                     <Link to="@{/productDetails?id=}+${cartItem.product.id}">
                         <h5>{cartItem.product.name}</h5>
                     </Link></td>
@@ -80,7 +82,7 @@ class CartItem extends Component {
                     </div>
                 </td>
                 <td className="text-right">
-                    <h5 style="color: #db3208; font-size: large;">
+                    <h5 style={{color: '#db3208', fontSize: 'large'}}>
                         $<span className={classnames({'text-strike': cartItem.product.inStockNumber===0})}>
                             {cartItem.product.ourPrice}</span>
                     </h5>

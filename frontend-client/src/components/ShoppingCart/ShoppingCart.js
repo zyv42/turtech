@@ -10,8 +10,7 @@ class ShoppingCart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            errors: {},
-            grandTotal: 0
+            errors: {}
         };
     }
 
@@ -88,6 +87,7 @@ class ShoppingCart extends Component {
                                                 {
                                                   //  ${grandTotal}
                                                 }
+                                                $0.00
                                             </span>
                                         </td>
                                     </tr>
@@ -102,6 +102,7 @@ class ShoppingCart extends Component {
                                                 {
                                                    // ${grandTotal.toFixed(2) * 0.06}
                                                 }
+                                                $0.00
                                             </span>
                                         </td>
                                     </tr>
@@ -120,6 +121,7 @@ class ShoppingCart extends Component {
                                                      //   ${grandTotal.toFixed(2) +
                                                      //       grandTotal.toFixed(2) * 0.06}
                                                     }
+                                                    $0.00
                                                 </span>
                                             </strong>
                                         </td>
