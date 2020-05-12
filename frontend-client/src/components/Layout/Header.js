@@ -180,7 +180,7 @@ class Header extends Component {
                             // Shopping Cart
                         }
                         <Link className="btn btn-success btn-sm ml-2"
-                              to="/shoppingCart/cart">
+                              to="/cart">
                             <i className="fa fa-shopping-cart fa-fw" /> Cart
                         </Link>
                         {

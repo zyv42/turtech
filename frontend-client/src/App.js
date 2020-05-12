@@ -53,7 +53,7 @@ class App extends Component {
                                path={"/about"}
                                component={About} />
                         <Route exact
-                               path={"/shoppingCart"}
+                               path={"/cart"}
                                component={ShoppingCart} />
                         {
                             // Private Routes

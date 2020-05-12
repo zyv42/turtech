@@ -108,12 +108,16 @@ class UserReviews extends Component {
                             { ReviewsDisplay }
                         </div>
 
-                        <!-- Reviews Pagination -->
+                        {
+                            // Reviews pagination
+                        }
                         <div className="col-12">
                             { PaginationDisplay }
                         </div>
 
-                        <!-- Leave a review -->
+                        {
+                            // Leave a review
+                        }
                         <div className="card">
                             <div className="card-body">
                                 <form onSubmit={this.onSubmit}>

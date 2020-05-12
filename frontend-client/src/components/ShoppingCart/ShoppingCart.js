@@ -18,8 +18,6 @@ class ShoppingCart extends Component {
         this.props.getShoppingCart();
     }
 
-
-
     render() {
         const { shoppingCart } = this.props.shoppingCart;
         const { errors } = this.state;
@@ -57,7 +55,9 @@ class ShoppingCart extends Component {
                 <div className="container mb-4">
                     <div className="row">
                         <div className="col-12">
-                            <!-- Products in cart -->
+                            {
+                                // Products in the cart
+                            }
                             <div className="table-responsive">
                                 <table className="table table-striped">
                                     <thead>

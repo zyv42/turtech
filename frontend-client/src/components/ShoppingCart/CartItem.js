@@ -46,6 +46,7 @@ class CartItem extends Component {
                          alt="product thumbnail" />
                 </td>
                 <td>
+                    //TODO change link to the proper one
                     <Link to="@{/productDetails?id=}+${cartItem.product.id}">
                         <h5>{cartItem.product.name}</h5>
                     </Link></td>

@@ -16,11 +16,11 @@ class ProductDetails extends Component {
 
     componentDidMount() {
         const { productId } = this.props.match.params;
-        this.props.getProduct(id, this.props.history);
+        this.props.getProduct(productId, this.props.history);
     }
 
-    onAddToCartClick = id => {
-        this.props.addToCart(id);
+    onAddToCartClick = productId => {
+        this.props.addToCart(productId);
     };
 
     onPlusClick = () => {
@@ -37,7 +37,7 @@ class ProductDetails extends Component {
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
 
-        function ProductAvailability() {
+        function ProductAvailability(props) {
             if (props.product.inStockNumber > 10) {
                 return <div className="alert alert-success">In Stock</div>;
             } else if (props.product.inStockNumber < 10 && props.product.inStockNumber > 0) {
@@ -49,7 +49,9 @@ class ProductDetails extends Component {
 
         return (
             <div>
-                <!-- Page Content -->
+                {
+                    // Page Content
+                }
                 <section className="jumbotron text-center">
                     <div className="container">
                         <h1 className="jumbotron-heading">TURTECH PRODUCT</h1>
@@ -72,7 +74,9 @@ class ProductDetails extends Component {
                 </div>
                 <div className="container">
                     <div className="row">
-                        <!-- Image -->
+                        {
+                            // Image
+                        }
                         <div className="col-12 col-lg-6">
                             <div className="card bg-light mb-3">
                                 <div className="card-body">
@@ -87,7 +91,9 @@ class ProductDetails extends Component {
                             </div>
                         </div>
 
-                        <!-- Add to cart -->
+                        {
+                            // Add to cart
+                        }
                         <div className="col-12 col-lg-6 add_to_cart_block">
                             <div className="card bg-light mb-3">
                                 <div className="card-body">
@@ -176,7 +182,10 @@ class ProductDetails extends Component {
                                             </ul>
                                         </div>
                                         <div className="reviews_product p-3 mb-2 ">
-                                            <!--{userReviews.size}-->0 reviews
+                                            {
+                                                // TODO {userReviews.size} to show the number of reviews
+                                            }
+                                            0 reviews
                                             <i className="fa fa-star" />
                                             <i className="fa fa-star" />
                                             <i className="fa fa-star" />
@@ -191,7 +200,9 @@ class ProductDetails extends Component {
                         </div>
 
                         <div className="row">
-                            <!-- Description -->
+                            {
+                                // Description
+                            }
                             <div className="col-12">
                                 <div className="card border-light mb-3">
                                     <div className="card-header bg-primary text-white text-uppercase">
@@ -204,16 +215,19 @@ class ProductDetails extends Component {
                                 </div>
                             </div>
 
-                            <!-- User Reviews -->
-                            <UserReviews productId={productId} />
+                            {
+                                // User reviews
+                            }
+                            <UserReviews productId={product.id} />
 
                         </div>
                     </div>
                 </div>
 
-                <!-- Modal image -->
-                <Modal {...props}
-                       size="lg"
+                {
+                    // Modal image
+                }
+                <Modal size="lg"
                        show={show}
                        onHide={handleClose}
                        centered>
