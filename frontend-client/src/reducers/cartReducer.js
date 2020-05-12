@@ -1,7 +1,8 @@
 import {GET_CART, ADD_TO_CART} from "../actions/types";
 
 const initialState = {
-    shoppingCart: {}
+    shoppingCart: {},
+    cartItemList: []
 };
 
 export default function(state = initialState, action) {
@@ -9,7 +10,8 @@ export default function(state = initialState, action) {
         case GET_CART:
             return {
                 ...state,
-                shoppingCart: action.payload
+                shoppingCart: action.payload,
+                cartItemList: action.payload.cartItemList
             };
 
         default:
