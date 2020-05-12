@@ -148,7 +148,7 @@ ShoppingCart.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    shoppingCart: state.shoppingCart,
+    shoppingCart: state.cart,
     errors: state.errors
 });
 
