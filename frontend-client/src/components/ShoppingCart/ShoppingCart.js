@@ -10,12 +10,15 @@ class ShoppingCart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            errors: {}
+            errors: {},
+            grandTotal: 0
         };
     }
 
     componentDidMount() {
         this.props.getShoppingCart();
+        //TODO uncomment when running with a working backend
+        //this.setState({grandTotal: this.props.grandTotal});
     }
 
     render() {
@@ -84,10 +87,7 @@ class ShoppingCart extends Component {
                                         </td>
                                         <td className="text-right">
                                             <span style={{color: '#db3208'}}>
-                                                {
-                                                  //  ${grandTotal}
-                                                }
-                                                $0.00
+                                                ${this.state.grandTotal.toFixed(2)}
                                             </span>
                                         </td>
                                     </tr>
@@ -99,10 +99,7 @@ class ShoppingCart extends Component {
                                         <td>Tax</td>
                                         <td className="text-right">
                                             <span style={{color: '#db3208'}}>
-                                                {
-                                                   // ${grandTotal.toFixed(2) * 0.06}
-                                                }
-                                                $0.00
+                                                ${(this.state.grandTotal * 0.06).toFixed(2)}
                                             </span>
                                         </td>
                                     </tr>
@@ -117,11 +114,8 @@ class ShoppingCart extends Component {
                                         <td className="text-right">
                                             <strong>
                                                 <span style={{color: '#db3208', fontSize: 'large'}}>
-                                                    {
-                                                     //   ${grandTotal.toFixed(2) +
-                                                     //       grandTotal.toFixed(2) * 0.06}
-                                                    }
-                                                    $0.00
+                                                    ${(this.state.grandTotal +
+                                                    this.state.grandTotal * 0.06).toFixed(2)}
                                                 </span>
                                             </strong>
                                         </td>
@@ -160,7 +154,8 @@ ShoppingCart.propTypes = {
 const mapStateToProps = state => ({
     shoppingCart: state.cart,
     cartItemList: state.cart,
-    errors: state.errors
+    errors: state.errors,
+    grandTotal: state.grandTotal
 });
 
 export default connect(

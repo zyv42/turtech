@@ -2,7 +2,8 @@ import {GET_CART, ADD_TO_CART} from "../actions/types";
 
 const initialState = {
     shoppingCart: {},
-    cartItemList: []
+    cartItemList: [],
+    grandTotal: 0
 };
 
 export default function(state = initialState, action) {
@@ -11,7 +12,8 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 shoppingCart: action.payload,
-                cartItemList: action.payload.cartItemList
+                cartItemList: action.payload.cartItemList,
+                grandTotal: action.payload.grandTotal
             };
 
         default:
