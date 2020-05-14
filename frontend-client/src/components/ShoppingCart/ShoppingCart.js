@@ -17,8 +17,10 @@ class ShoppingCart extends Component {
 
     componentDidMount() {
         this.props.getShoppingCart();
-        //TODO uncomment when running with a working backend
-        //this.setState({grandTotal: this.props.grandTotal});
+        // Check for the case when shopping-cart-service in unavailable
+        if (typeof this.props.grandTotal !== 'undefined') {
+            this.setState({grandTotal: this.props.grandTotal})
+        }
     }
 
     render() {
