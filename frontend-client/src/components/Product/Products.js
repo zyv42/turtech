@@ -5,6 +5,7 @@ import {getProducts} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Product from "./Product";
+import classnames from "classnames";
 
 class Products extends Component {
 
@@ -14,9 +15,11 @@ class Products extends Component {
             activePage: 0,
             totalPages: 0,
             itemsCountPerPage: 10,
-            totalElements: 0
+            totalElements: 0,
+            category: "All"
         };
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
 
     componentDidMount() {
@@ -26,14 +29,19 @@ class Products extends Component {
         this.setState({itemsCountPerPage: this.props.itemsCountPerPage});
     }
 
-    handlePageChange(pageNumber) {
-        console.log(`active page is ${pageNumber}`);
+    handlePageChange = pageNumber => {
         this.setState({activePage: pageNumber});
         this.props.getProducts(pageNumber);
-    }
+    };
+
+    handleCategoryChange = category => {
+       this.setState({category: category});
+       //this.props.products = this.state.products.filter(product => product.category === category);
+    };
 
     render() {
         const { products } = this.props.products;
+        const { category } = this.state;
 
         let ProductsDisplay;
         let PaginationDisplay;
@@ -99,12 +107,7 @@ class Products extends Component {
                                     <li className="breadcrumb-item"><Link to="/welcome">Home</Link></li>
                                     <li className="breadcrumb-item"><Link to="/products">Products</Link></li>
                                     <li className="breadcrumb-item active" aria-current="page">
-                                        {/*
-                                            <span th:if=${activeAll}>All</span>
-                                            < span th:if=${activeLaptops}>Laptops</span>
-                                            <span th:if=${activeCellphones}>Cellphones</span>
-                                            <span th:if=${activeTablets}>Tablets</span>*/
-                                        }
+                                        {this.state.category}
                                     </li>
                                 </ol>
                             </nav>
@@ -118,22 +121,28 @@ class Products extends Component {
                                 <div className="card-header bg-success text-white text-uppercase">
                                     <i className="fa fa-list" /> Categories
                                 </div>
-                                {/*
-                                    <div className="list-group category_block">
-                                        <a className="list-group-item"
-                                           th:classappend="${activeAll} ? 'active'"
-                                           th:href="@{/products(category='all')}">All</a>
-                                        <a className="list-group-item"
-                                           th:classappend="${activeLaptops} ? 'active'"
-                                           th:href="@{/searchByCategory(category='Laptops')}">Laptops</a>
-                                        <a className="list-group-item"
-                                           th:classappend="${activeCellphones} ? 'active'"
-                                           th:href="@{/searchByCategory(category='Cellphones')}">Cellphones</a>
-                                        <a className="list-group-item"
-                                           th:classappend="${activeTablets} ? 'active'"
-                                           th:href="@{/searchByCategory(category='Tablets')}">Tablets</a>
-                                    </div>*/
-                                }
+                                <div className="list-group">
+                                    <Link to="#"
+                                          onClick={() => this.handleCategoryChange("All")}
+                                          className={classnames("list-group-item", {
+                                              "active": this.state.category === "All"
+                                          })}>All</Link>
+                                    <Link to="#"
+                                          onClick={() => this.handleCategoryChange("Laptops")}
+                                          className={classnames("list-group-item", {
+                                              "active": this.state.category === "Laptops"
+                                          })}>Laptops</Link>
+                                    <Link to="#"
+                                          onClick={() => this.handleCategoryChange("Cellphones")}
+                                          className={classnames("list-group-item", {
+                                              "active": this.state.category === "Cellphones"
+                                          })}>Cellphones</Link>
+                                    <Link to="#"
+                                          onClick={() => this.handleCategoryChange("Tablets")}
+                                          className={classnames("list-group-item", {
+                                              "active": this.state.category === "Tablets"
+                                          })}>Tablets</Link>
+                                </div>
                             </div>
                         </div>
                         <div className="col">
