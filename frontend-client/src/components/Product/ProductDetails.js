@@ -11,7 +11,10 @@ class ProductDetails extends Component {
 
     constructor(props) {
         super(props);
-
+        this.state = {
+            addedToCart: false,
+            errors: {}
+        };
     }
 
     componentDidMount() {
@@ -21,6 +24,7 @@ class ProductDetails extends Component {
 
     onAddToCartClick = productId => {
         this.props.addToCart(productId);
+        //TODO if response is "success" then change "addedToCart" to true;
     };
 
     onPlusClick = () => {
@@ -33,6 +37,7 @@ class ProductDetails extends Component {
 
     render() {
         const { product } = this.props.product;
+        const { errors } = this.state;
         const [show,setShow] = useState(false);
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
@@ -44,6 +49,21 @@ class ProductDetails extends Component {
                 return <div className="alert alert-warning">Only {product.inStockNumber} In Stock</div>;
             } else if (props.product.inStockNumber === 0) {
                 return <div className="alert alert-danger">Unavailable</div>;
+            }
+        }
+
+        function NotEnoughStock(errors) {
+            if (errors.notEnoughStock) {
+                return <div id="notEnoughStock"
+                            className="alert alert-danger">
+                    Sorry, but we don't have enough items in stock to fulfill such an order</div>
+            }
+        }
+
+        function AddedToCart() {
+            if (this.state.addedToCart) {
+                return <div id="addSuccess"
+                            className="alert alert-success">Added to cart</div>;
             }
         }
 
@@ -137,14 +157,14 @@ class ProductDetails extends Component {
                                     </div>
                                     <div>
                                         {
-                                            //TODO change display implementation to an interactive one
+                                            // Not enough stock error
                                         }
-                                        <div id="notEnoughStock"
-                                             style={{display: 'none'}}
-                                             className="alert alert-danger">Sorry, but we don't have enough items in stock to fulfill such an order</div>
-                                        <div id="addSuccess"
-                                             style={{display: 'none'}}
-                                             className="alert alert-success">Added to cart</div>
+                                        <NotEnoughStock />
+                                        {
+                                            // Added to cart notification
+                                        }
+                                        <AddedToCart />
+
                                         <label>Quantity :</label>
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
