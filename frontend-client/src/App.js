@@ -15,6 +15,7 @@ import Contact from "./components/Contact";
 import Products from "./components/Product/Products";
 import ProductDetails from "./components/Product/ProductDetails";
 import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
+import MyAccount from "./components/Account/MyAccount";
 
 class App extends Component {
     render() {
@@ -58,6 +59,9 @@ class App extends Component {
                         {
                             // Private Routes
                         }
+                        <Route exact
+                               path={"/myAccount"}
+                               component={MyAccount} />
                         <Footer />
                     </div>
                 </Router>
