@@ -3,57 +3,63 @@ import MyProfile from "./MyProfile";
 import MyOrders from "./MyOrders";
 import MyBilling from "./MyBilling";
 import MyShipping from "./MyShipping";
+import {Nav, Tab} from "react-bootstrap";
 
 class MyAccount extends Component {
     render() {
         return (
-            <div className="container mt-3 mb-3">
+            <Tab.Container className="mt-3 mb-3"
+                           defaultActiveKey="myProfile">
                 <div className="row">
                     <div className="col-md-3">
-                        <div className="list-group ">
-                            <a href="#"
-                               className="list-group-item list-group-item-action"
-                               data-toggle="tab" data-target="#profile"
-                               th:classappend="${classActiveProfile}? 'in active'">Profile</a>
-                            <a href="#"
-                               className="list-group-item list-group-item-action"
-                            data-toggle="tab" data-target="#orders"
-                            th:classappend="${classActiveOrders}? 'active'">Orders</a>
-                            <a href="#"
-                               className="list-group-item list-group-item-action"
-                            data-toggle="tab" data-target="#billing"
-                            th:classappend="${classActiveBilling}? 'active'">Billing</a>
-                            <a href="#"
-                               className="list-group-item list-group-item-action"
-                            data-toggle="tab" data-target="#shipping"
-                            th:classappend="${classActiveShipping}? 'active'">Shipping</a>
-                        </div>
+                        <Nav className="flex-column"
+                             variant="pills">
+                            <Nav.Item>
+                                <Nav.Link eventKey="myProfile">Profile</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="myOrders">Orders</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="myBilling">Billing</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="myShipping">Shipping</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
                     </div>
 
                     {
                     // User profile information
                     }
-                    <div className="tab-content col-md-9">
-                        <MyProfile />
+                    <Tab.Content className="col-md-9">
+                        <Tab.Pane eventKey="myProfile">
+                            <MyProfile />
+                        </Tab.Pane>
 
                         {
                             // Orders information
                         }
-                        <MyOrders />
+                        <Tab.Pane eventKey="myOrders">
+                            <MyOrders />
+                        </Tab.Pane>
 
                         {
                             // Billing information
                         }
-                        <MyBilling />
+                        <Tab.Pane eventKey="myBilling">
+                            <MyBilling />
+                        </Tab.Pane>
 
                         {
                             // Shipping information
                         }
-                        <MyShipping />
-
-                    </div>
+                        <Tab.Pane eventKey="myShipping">
+                            <MyShipping />
+                        </Tab.Pane>
+                    </Tab.Content>
                 </div>
-            </div>
+            </Tab.Container>
         );
     }
 }
