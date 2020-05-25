@@ -1,7 +1,79 @@
 import React, {Component} from 'react';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import  classnames from "classnames";
 
 class MyProfile extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            id: "",
+            username: "",
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone: "",
+            newPassword: "",
+            errors: ""
+        };
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.errors) {
+            this.setState({errors: nextProps.errors});
+        }
+        const {
+            id,
+            username,
+            firstName,
+            lastName,
+            email,
+            phone,
+            newPassword
+        } = nextProps.userProfile;
+
+        this.setState({
+            id,
+            username,
+            firstName,
+            lastName,
+            email,
+            phone,
+            newPassword
+        });
+    }
+
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        this.props.getUserProfile(id, this.props.history);
+    }
+
+    onChange(e) {
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+
+        const updatedUserProfile = {
+            id: this.state.id,
+            username: this.state.username,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            phone: this.state.phone,
+            newPassword: this.state.newPassword
+        };
+
+        this.props.updateUserProfile(updatedUserProfile, this.props.history);
+    }
+
     render() {
+        const { errors } = this.state;
         return (
             <div className="card">
                 <div className="card-body">
@@ -257,4 +329,19 @@ class MyProfile extends Component {
     }
 }
 
-export default MyProfile;
+MyProfile.propTypes = {
+    getUserProfile: PropTypes.func.isRequired,
+    updateUserProfile: propTypes.func.isRequired,
+    userProfile: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    userProfile: state.userProfile,
+    errors: state.errors
+});
+
+export default connect(
+    mapStateToProps,
+    { getUserProfile, updateUserProfile}
+)(MyProfile);

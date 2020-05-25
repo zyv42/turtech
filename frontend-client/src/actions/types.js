@@ -12,5 +12,9 @@ export const LEAVE_REVIEW = "LEAVE_REVIEW";
 export const GET_CART = "GET_CART";
 export const ADD_TO_CART = "ADD_TO_CART";
 
+// Types for USER PROFILE ACTIONS
+export const GET_USER_PROFILE = "GET_USER_PROFILE";
+export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
+
 // Types for SECURITY ACTIONS
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
