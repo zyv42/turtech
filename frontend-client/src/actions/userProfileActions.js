@@ -3,7 +3,7 @@ import { GET_USER_PROFILE, GET_ERRORS } from "./types";
 
 export const getUserProfile = (id, history) => async dispatch => {
     try {
-        const res = await axios.get(`/api/userProfile/${id}`);
+        const res = await axios.get("/api/userProfile/current");
         dispatch({
             type: GET_USER_PROFILE,
             payload: res.data
@@ -15,7 +15,10 @@ export const getUserProfile = (id, history) => async dispatch => {
 
 export const updateUserProfile = userProfile => async dispatch => {
     try {
-        await axios.post("/api/userProfile", userProfile);
+        const res = await axios.post("/api/userProfile/current", userProfile);
+        if (res.status === 200) {
+            this.status.infoUpdated = true;
+        }
         dispatch({
             type: GET_ERRORS,
             payload: {}

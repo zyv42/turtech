@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import  classnames from "classnames";
+import {getUserProfile, updateUserProfile} from "../../actions/userProfileActions";
 
 class MyProfile extends Component {
 
@@ -16,7 +17,8 @@ class MyProfile extends Component {
             email: "",
             phone: "",
             newPassword: "",
-            errors: ""
+            errors: "",
+            infoUpdated: false
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -50,6 +52,7 @@ class MyProfile extends Component {
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.getUserProfile(id, this.props.history);
+        this.setState({infoUpdated: false})
     }
 
     onChange(e) {
@@ -69,39 +72,45 @@ class MyProfile extends Component {
             newPassword: this.state.newPassword
         };
 
-        this.props.updateUserProfile(updatedUserProfile, this.props.history);
+        this.props.updateUserProfile(updatedUserProfile);
     }
 
     render() {
         const { errors } = this.state;
+        const { infoUpdated } = this.state.infoUpdated;
+
+        let infoUpdatedDisplay;
+
+        const infoUpdatedAlgorithm = infoUpdated => {
+            if (infoUpdated) {
+                return (
+                    <div className="alert alert-info">User info updated.</div>
+                )
+            }
+        };
+
+        infoUpdatedDisplay = infoUpdatedAlgorithm(infoUpdated);
+
         return (
             <div className="card">
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-12">
                             <h4>Your Profile</h4>
-                            <div className="alert alert-danger"
-                                 th:if="${incorrectPassword}">
-                                <strong>Incorrect Password!</strong> Please enter the correct
-                                password for the current user.
-                            </div>
-                            <div className="alert alert-success" th:if="${updateSuccess}">
-                                <strong>Update Success!</strong>
-                            </div>
-                            <div className="alert alert-info" th:if="${updateUserInfo}">User
-                                info updated.
-                            </div>
+                            {errors.incorrectPassword && (
+                                <div className="alert alert-danger"><strong>Incorrect Password!</strong>
+                                    Please enter a correct password for the current user.</div>
+                            )}
+                            { infoUpdatedDisplay }
                             <hr/>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <form th:action="@{/updateUserInfo}"
-                                  th:object="${user}"
-                                  method="post">
+                            <form onSubmit={this.onSubmit}>
                                 <input type="hidden"
-                                       th:field="*{id}"
-                                       th:value="${user.id}"/>
+                                       name="id"
+                                       value={this.state.id} />
 
                                 {
                                     // Username
@@ -109,11 +118,12 @@ class MyProfile extends Component {
                                 <div className="form-group row">
                                     <label htmlFor="username"
                                            className="col-4 col-form-label">Username:</label>
-                                    <p th:if="${usernameExists}"
-                                       className="text-danger">Username already exists. Choose a different one.</p>
-                                    <p th:if="${#fields.hasErrors('username')}"
-                                       className="text-danger"
-                                       th:errors="*{username}"/>
+                                    {errors.usernameExists && (
+                                        <p className="text-danger">Username already exists. Choose a different one</p>
+                                    )}
+                                    {errors.username && (
+                                        <p className="text-danger">{errors.username}</p>
+                                    )}
                                     <div className="col-8">
                                         <div className="input-group">
                                             <div className="input-group-prepend">
@@ -121,12 +131,14 @@ class MyProfile extends Component {
 													<i className="fa fa-user fa-fw"/></span>
                                             </div>
                                             <input id="username"
-                                                   th:field="*{username}"
-                                                   className="form-control here"
+                                                   name="username"
                                                    required="required"
                                                    type="text"
-                                                   th:value="${user.username}"
-                                                   th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'"/>
+                                                   value={this.state.username}
+                                                   onChange={this.onChange}
+                                                   className={classnames("form-control form-control-lg", {
+                                                       "is-invalid": errors.username
+                                                   })} />
                                         </div>
                                     </div>
                                 </div>
@@ -138,16 +150,18 @@ class MyProfile extends Component {
                                     <label htmlFor="firstName"
                                            className="col-4 col-form-label">First
                                         Name:</label>
-                                    <p th:if="${#fields.hasErrors('firstName')}"
-                                       className="text-danger"
-                                       th:errors="*{firstName}"/>
+                                    {errors.firstName && (
+                                        <p className="text-danger">{errors.firstName}</p>
+                                    )}
                                     <div className="col-8">
                                         <input id="firstName"
-                                               th:field="*{firstName}"
-                                               className="form-control here"
+                                               name="firstName"
                                                type="text"
-                                               th:value="${user.firstName}"
-                                               th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'"/>
+                                               value={this.state.firstName}
+                                               onChange={this.onChange}
+                                               className={classnames("form-control form-control-lg", {
+                                                   "is-invalid": errors.firstName
+                                               })} />
                                     </div>
                                 </div>
 
@@ -158,16 +172,18 @@ class MyProfile extends Component {
                                     <label htmlFor="lastName"
                                            className="col-4 col-form-label">Last
                                         Name:</label>
-                                    <p th:if="${#fields.hasErrors('lastName')}"
-                                       className="text-danger"
-                                       th:errors="*{lastName}"/>
+                                    {errors.lastName && (
+                                        <p className="text-danger">{errors.lastName}</p>
+                                    )}
                                     <div className="col-8">
                                         <input id="lastName"
-                                               th:field="*{lastName}"
-                                               className="form-control here"
+                                               name="lastName"
                                                type="text"
-                                               th:value="${user.lastName}"
-                                               th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'"/>
+                                               value={this.state.lastName}
+                                               onChange={this.onChange}
+                                               className={classnames("form-control form-control-lg", {
+                                                   "is-invalid": errors.lastName
+                                               })} />
                                     </div>
                                 </div>
 
@@ -178,11 +194,12 @@ class MyProfile extends Component {
                                     <label htmlFor="email"
                                            className="col-4 col-form-label">Email
                                         address:</label>
-                                    <p className="text-danger"
-                                       th:if="${emailExists}">Email already exists. Choose a different one.</p>
-                                    <p th:if="${#fields.hasErrors('email')}"
-                                       className="text-danger"
-                                       th:errors="*{email}"/>
+                                    {errors.emailExists && (
+                                        <p className="text-danger">Email already exists. Choose a different one.</p>
+                                    )}
+                                    {errors.email && (
+                                        <p className="text-danger">{errors.email}</p>
+                                    )}
                                     <div className="col-8">
                                         <div className="input-group">
                                             <div className="input-group-prepend">
@@ -190,12 +207,14 @@ class MyProfile extends Component {
                                                     className="fa fa-envelope fa-fw"/></span>
                                             </div>
                                             <input id="email"
-                                                   th:field="*{email}"
-                                                   className="form-control here"
+                                                   name="email"
                                                    required="required"
                                                    type="email"
-                                                   th:value="${user.email}"
-                                                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"/>
+                                                   value={this.state.email}
+                                                   onChange={this.onChange}
+                                                   className={classnames("form-control form-control-lg", {
+                                                       "is-invalid": errors.email
+                                                   })} />
                                         </div>
                                         <small className="form-text text-muted">A valid email address. All
                                             emails from the system will be sent to this address. The
@@ -219,11 +238,11 @@ class MyProfile extends Component {
                                                     className="fa fa-phone fa-fw"/></span>
                                             </div>
                                             <input id="phone"
-                                                   th:field="*{phone}"
+                                                   name="phone"
                                                    className="form-control here"
                                                    type="tel"
                                                    pattern="\\+380|0)[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
-                                                   th:value="${user.phone}"/>
+                                                   value={this.state.phone} />
                                         </div>
                                         <small className="form-text text-muted">Pattern:
                                             (+380|0)XX-XXX-XX-XX</small>
@@ -241,12 +260,14 @@ class MyProfile extends Component {
                                     <label htmlFor="newPasswordEdit"
                                            className="col-4 col-form-label">New
                                         Password:</label>
-                                    <p className="text-danger"
-                                       th:if="${incorrectPattern}">Password should start with a letter, followed by
-                                        letters or numbers, 8 through 32 characters long.</p>
-                                    <p className="text-danger"
-                                       th:if="${samePassword}">In order to update the password, you should provide a
-                                        different one, not the same one.</p>
+                                    {errors.incorrectPasswordPattern && (
+                                        <p className="text-danger">Password should start with a letter, followed by
+                                            letters or numbers, 8 through 32 characters long.</p>
+                                    )}
+                                    {errors.samePassword && (
+                                        <p className="text-danger">In order to update the password, you should provide
+                                            a different one, not the same one.</p>
+                                    )}
                                     <div className="col-8">
                                         <div className="input-group">
                                             <div className="input-group-prepend">
@@ -256,9 +277,11 @@ class MyProfile extends Component {
                                             <input id="newPasswordEdit"
                                                    name="newPassword"
                                                    placeholder="New Password"
-                                                   className="form-control here"
                                                    type="password"
-                                                   th:classappend="${incorrectPattern} or ${samePassword} ? 'is-invalid'"/>
+                                                   onChange={this.onChange}
+                                                   className={classnames("form-control form-control-lg", {
+                                                       "is-invalid": errors.incorrectPattern || errors.samePassword
+                                                   })} />
                                         </div>
                                     </div>
                                 </div>
@@ -291,9 +314,9 @@ class MyProfile extends Component {
                                     <label htmlFor="currentPassword"
                                            className="col-4 col-form-label">Current
                                         Password:</label>
-                                    <p className="text-danger"
-                                       th:if="${incorrectPassword}">In order to update the password,
-                                        you should provide a different one, not the same one.</p>
+                                    {errors.incorrectPassword && (
+                                        <p className="text-danger">Incorrect password.</p>
+                                    )}
                                     <div className="col-8">
                                         <div className="input-group">
                                             <div className="input-group-prepend">
@@ -301,11 +324,12 @@ class MyProfile extends Component {
                                                     className="fa fa-unlock-alt fa-fw"/></span>
                                             </div>
                                             <input id="currentPassword"
-                                                   th:field="*{password}"
+                                                   name="password"
                                                    placeholder="Current Password"
-                                                   className="form-control"
                                                    type="password"
-                                                   th:classappend="${incorrectPassword} ? 'is-invalid'"/>
+                                                   className={classnames("form-control form-control-lg", {
+                                                       "is-invalid": errors.incorrectPassword
+                                                   })} />
                                         </div>
                                         <small className="form-text text-muted">Enter your current password to
                                             change password for the account.</small>
