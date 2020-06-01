@@ -19,7 +19,7 @@ public class UserShipping implements Serializable {
     private String userShippingCity;
     private String userShippingCountry;
     private String userShippingZipcode;
-    private boolean userShippingDefault;
+    private boolean defaultUserShipping;
     private String userId;
 
     public String getId() {
@@ -78,12 +78,12 @@ public class UserShipping implements Serializable {
         this.userShippingZipcode = userShippingZipcode;
     }
 
-    public boolean isUserShippingDefault() {
-        return userShippingDefault;
+    public boolean isDefaultUserShipping() {
+        return defaultUserShipping;
     }
 
-    public void setUserShippingDefault(boolean userShippingDefault) {
-        this.userShippingDefault = userShippingDefault;
+    public void setDefaultUserShipping(boolean defaultUserShipping) {
+        this.defaultUserShipping = defaultUserShipping;
     }
 
     public String getUserId() {
@@ -117,7 +117,7 @@ public class UserShipping implements Serializable {
                 ", userShippingCity='" + userShippingCity + '\'' +
                 ", userShippingCountry='" + userShippingCountry + '\'' +
                 ", userShippingZipcode='" + userShippingZipcode + '\'' +
-                ", userShippingDefault=" + userShippingDefault +
+                ", defaultUserShipping=" + defaultUserShipping +
                 ", userId='" + userId + '\'' +
                 '}';
     }
