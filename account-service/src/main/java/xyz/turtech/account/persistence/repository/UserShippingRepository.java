@@ -6,4 +6,6 @@ import xyz.turtech.account.persistence.domain.UserShipping;
 
 @Repository
 public interface UserShippingRepository extends MongoRepository<UserShipping, String> {
+
+    Iterable<UserShipping> findByUserId(String userId);
 }

@@ -19,6 +19,7 @@ public class UserBilling implements Serializable {
     private String userBillingCity;
     private String userBillingCountry;
     private String userBillingZipcode;
+    private String userPaymentId;
 
     public String getId() {
         return id;
@@ -76,6 +77,14 @@ public class UserBilling implements Serializable {
         this.userBillingZipcode = userBillingZipcode;
     }
 
+    public String getUserPaymentId() {
+        return userPaymentId;
+    }
+
+    public void setUserPaymentId(String userPaymentId) {
+        this.userPaymentId = userPaymentId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,6 +108,7 @@ public class UserBilling implements Serializable {
                 ", userBillingCity='" + userBillingCity + '\'' +
                 ", userBillingCountry='" + userBillingCountry + '\'' +
                 ", userBillingZipcode='" + userBillingZipcode + '\'' +
+                ", userPaymentId='" + userPaymentId + '\'' +
                 '}';
     }
 }

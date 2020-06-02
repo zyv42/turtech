@@ -6,4 +6,6 @@ import xyz.turtech.account.persistence.domain.UserPayment;
 
 @Repository
 public interface UserPaymentRepository extends MongoRepository<UserPayment, String> {
+
+    Iterable<UserPayment> findByUserId(String userId);
 }
