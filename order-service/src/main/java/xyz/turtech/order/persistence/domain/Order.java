@@ -21,7 +21,6 @@ public class Order implements Serializable {
     private String shippingMethod;
     private String orderStatus;
     private BigDecimal orderTotal;
-    private List<CartItem> cartItems;
     private String shippingAddressId;
     private String billingAddressId;
     private String paymentId;
@@ -73,14 +72,6 @@ public class Order implements Serializable {
 
     public void setOrderTotal(BigDecimal orderTotal) {
         this.orderTotal = orderTotal;
-    }
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
     }
 
     public String getShippingAddressId() {
@@ -138,7 +129,6 @@ public class Order implements Serializable {
                 ", shippingMethod='" + shippingMethod + '\'' +
                 ", orderStatus='" + orderStatus + '\'' +
                 ", orderTotal=" + orderTotal +
-                ", cartItems=" + cartItems +
                 ", shippingAddressId='" + shippingAddressId + '\'' +
                 ", billingAddressId='" + billingAddressId + '\'' +
                 ", paymentId='" + paymentId + '\'' +
