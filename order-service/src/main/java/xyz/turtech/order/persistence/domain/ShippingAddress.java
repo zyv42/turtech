@@ -1,11 +1,114 @@
 package xyz.turtech.order.persistence.domain;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Document
 public class ShippingAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    private String id;
+    private String shippingAddressName;
+    private String shippingAddressStreet1;
+    private String shippingAddressStreet2;
+    private String shippingAddressCity;
+    private String shippingAddressCountry;
+    private String shippingAddressZipcode;
+    private String orderId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getShippingAddressName() {
+        return shippingAddressName;
+    }
+
+    public void setShippingAddressName(String shippingAddressName) {
+        this.shippingAddressName = shippingAddressName;
+    }
+
+    public String getShippingAddressStreet1() {
+        return shippingAddressStreet1;
+    }
+
+    public void setShippingAddressStreet1(String shippingAddressStreet1) {
+        this.shippingAddressStreet1 = shippingAddressStreet1;
+    }
+
+    public String getShippingAddressStreet2() {
+        return shippingAddressStreet2;
+    }
+
+    public void setShippingAddressStreet2(String shippingAddressStreet2) {
+        this.shippingAddressStreet2 = shippingAddressStreet2;
+    }
+
+    public String getShippingAddressCity() {
+        return shippingAddressCity;
+    }
+
+    public void setShippingAddressCity(String shippingAddressCity) {
+        this.shippingAddressCity = shippingAddressCity;
+    }
+
+    public String getShippingAddressCountry() {
+        return shippingAddressCountry;
+    }
+
+    public void setShippingAddressCountry(String shippingAddressCountry) {
+        this.shippingAddressCountry = shippingAddressCountry;
+    }
+
+    public String getShippingAddressZipcode() {
+        return shippingAddressZipcode;
+    }
+
+    public void setShippingAddressZipcode(String shippingAddressZipcode) {
+        this.shippingAddressZipcode = shippingAddressZipcode;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShippingAddress payment = (ShippingAddress) o;
+        return id.equals(payment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "ShippingAddress{" +
+                "id='" + id + '\'' +
+                ", shippingAddressName='" + shippingAddressName + '\'' +
+                ", shippingAddressStreet1='" + shippingAddressStreet1 + '\'' +
+                ", shippingAddressStreet2='" + shippingAddressStreet2 + '\'' +
+                ", shippingAddressCity='" + shippingAddressCity + '\'' +
+                ", shippingAddressCountry='" + shippingAddressCountry + '\'' +
+                ", shippingAddressZipcode='" + shippingAddressZipcode + '\'' +
+                ", orderId='" + orderId + '\'' +
+                '}';
+    }
 }
