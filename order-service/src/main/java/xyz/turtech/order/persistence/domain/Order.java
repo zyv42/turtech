@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Document
@@ -21,9 +20,9 @@ public class Order implements Serializable {
     private String shippingMethod;
     private String orderStatus;
     private BigDecimal orderTotal;
-    private String shippingAddressId;
-    private String billingAddressId;
-    private String paymentId;
+    private ShippingAddress shippingAddress;
+    private BillingAddress billingAddress;
+    private Payment payment;
     private String userId;
 
     public String getId() {
@@ -74,28 +73,28 @@ public class Order implements Serializable {
         this.orderTotal = orderTotal;
     }
 
-    public String getShippingAddressId() {
-        return shippingAddressId;
+    public ShippingAddress getShippingAddress() {
+        return shippingAddress;
     }
 
-    public void setShippingAddressId(String shippingAddressId) {
-        this.shippingAddressId = shippingAddressId;
+    public void setShippingAddress(ShippingAddress shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
-    public String getBillingAddressId() {
-        return billingAddressId;
+    public BillingAddress getBillingAddress() {
+        return billingAddress;
     }
 
-    public void setBillingAddressId(String billingAddressId) {
-        this.billingAddressId = billingAddressId;
+    public void setBillingAddress(BillingAddress billingAddress) {
+        this.billingAddress = billingAddress;
     }
 
-    public String getPaymentId() {
-        return paymentId;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public String getUserId() {
@@ -129,9 +128,9 @@ public class Order implements Serializable {
                 ", shippingMethod='" + shippingMethod + '\'' +
                 ", orderStatus='" + orderStatus + '\'' +
                 ", orderTotal=" + orderTotal +
-                ", shippingAddressId='" + shippingAddressId + '\'' +
-                ", billingAddressId='" + billingAddressId + '\'' +
-                ", paymentId='" + paymentId + '\'' +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", billingAddress='" + billingAddress + '\'' +
+                ", payment='" + payment + '\'' +
                 ", userId='" + userId + '\'' +
                 '}';
     }
