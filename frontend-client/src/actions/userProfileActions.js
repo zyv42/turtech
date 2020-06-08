@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_USER_PROFILE, GET_USER_BILLING, GET_USER_SHIPPING, GET_USER_ORDERS, GET_ERRORS } from "./types";
+import { GET_USER_PROFILE, GET_USER_PAYMENT, GET_USER_SHIPPING, GET_USER_ORDERS, GET_ERRORS } from "./types";
 
 export const getUserProfile = history => async dispatch => {
     try {
@@ -31,11 +31,11 @@ export const updateUserProfile = userProfile => async dispatch => {
     }
 };
 
-export const getUserBilling = userId => async dispatch => {
+export const getUserPayment = userId => async dispatch => {
     try {
-        const res = await axios.get(`/api/userBilling/${userId}`);
+        const res = await axios.get(`/api/userPayment/${userId}`);
         dispatch({
-            type: GET_USER_BILLING,
+            type: GET_USER_PAYMENT,
             payload: res.data
         });
     } catch (error) {
