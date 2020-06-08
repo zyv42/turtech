@@ -19,7 +19,7 @@ public class UserBillingController {
         this.userBillingService = userBillingService;
     }
 
-    @GetMapping("/userBilling")
+    @GetMapping("/userBilling/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getUserBillingByUserPaymentId(@PathVariable String userPaymentId) {

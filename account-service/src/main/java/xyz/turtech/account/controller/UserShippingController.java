@@ -19,7 +19,7 @@ public class UserShippingController {
         this.userShippingService = userShippingService;
     }
 
-    @GetMapping("/userShipping")
+    @GetMapping("/userShipping/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getUserShippingsByUserId(@PathVariable String userId) {

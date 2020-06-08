@@ -19,7 +19,7 @@ public class UserPaymentController {
         this.userPaymentService = userPaymentService;
     }
 
-    @GetMapping("/userPayment")
+    @GetMapping("/userPayment/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getUserPaymentsByUserId(@PathVariable String userId) {
