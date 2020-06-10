@@ -22,9 +22,25 @@ public class UserShippingController {
     @GetMapping("/userShipping/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getUserShippingsByUserId(@PathVariable String userId) {
-        Iterable<UserShipping> userShippings = userShippingService.findByUserId(userId);
+    public ResponseEntity<?> getUserShippingAddressesByUserId(@PathVariable String userId) {
+        Iterable<UserShipping> userShippingAddresses = userShippingService.findByUserId(userId);
 
-        return new ResponseEntity<>(userShippings, HttpStatus.OK);
+        return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> addNewUserShippingAddress() {
+        return null;
+    }
+
+    public ResponseEntity<?> updateUserShippingAddress() {
+        return null;
+    }
+
+    public ResponseEntity<?> setDefaultUserShippingAddress() {
+        return null;
+    }
+
+    public ResponseEntity<?> removeUserShippingAddress() {
+        return null;
     }
 }

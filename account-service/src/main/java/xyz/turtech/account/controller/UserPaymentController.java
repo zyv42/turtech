@@ -27,4 +27,20 @@ public class UserPaymentController {
 
         return new ResponseEntity<>(userPayments, HttpStatus.OK);
     }
+
+    public ResponseEntity<?> setDefaultPayment() {
+        return null;
+    }
+
+    public ResponseEntity<?> addNewCreditCard() {
+        return null;
+    }
+
+    public ResponseEntity<?> updateCreditCard() {
+        return null;
+    }
+
+    public ResponseEntity<?> removeCreditCard() {
+        return null;
+    }
 }

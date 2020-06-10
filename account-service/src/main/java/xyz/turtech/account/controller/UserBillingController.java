@@ -19,12 +19,12 @@ public class UserBillingController {
         this.userBillingService = userBillingService;
     }
 
-    @GetMapping("/userBilling/{userId}")
+    @GetMapping("/userBilling/{userPaymentId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getUserBillingByUserPaymentId(@PathVariable String userPaymentId) {
-        UserBilling userBilling = userBillingService.findByUserPaymentId(userPaymentId).get();
+    public ResponseEntity<?> getUserBillingAddressesByUserPaymentId(@PathVariable String userPaymentId) {
+        UserBilling userBillingAddresses = userBillingService.findByUserPaymentId(userPaymentId).get();
 
-        return new ResponseEntity<>(userBilling, HttpStatus.OK);
+        return new ResponseEntity<>(userBillingAddresses, HttpStatus.OK);
     }
 }
