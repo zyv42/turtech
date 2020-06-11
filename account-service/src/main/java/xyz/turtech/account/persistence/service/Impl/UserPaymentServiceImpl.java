@@ -18,4 +18,9 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     public Iterable<UserPayment> findByUserId(String userId) {
         return userPaymentRepository.findByUserId(userId);
     }
+
+    @Override
+    public UserPayment save(UserPayment newUserPayment) {
+        return userPaymentRepository.save(newUserPayment);
+    }
 }
