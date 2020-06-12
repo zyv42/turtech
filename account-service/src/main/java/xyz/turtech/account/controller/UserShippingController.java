@@ -3,10 +3,7 @@ package xyz.turtech.account.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.turtech.account.persistence.domain.UserShipping;
 import xyz.turtech.account.persistence.service.UserShippingService;
 
@@ -28,19 +25,33 @@ public class UserShippingController {
         return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> addNewUserShippingAddress() {
-        return null;
+    @PostMapping("/addNewUserShippingAddress")
+    @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<?> addNewUserShippingAddress(@RequestBody UserShipping newUserShippingAddress) {
+        UserShipping userShipping = userShippingService.addNewUserShippingAddress(newUserShippingAddress);
+        return new ResponseEntity<>(userShipping, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateUserShippingAddress() {
-        return null;
+    @PutMapping("/updateUserShippingAddress")
+    @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<?> updateUserShippingAddress(@RequestBody UserShipping updatedUserShipping) {
+        UserShipping userShipping = userShippingService.updateUserShippingAddress(updatedUserShipping);
+        return new ResponseEntity<>(userShipping, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> setDefaultUserShippingAddress() {
-        return null;
+    @PutMapping("/setDefaultUserShippingAddress/{userShippingAddressId}")
+    @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<?> setDefaultUserShippingAddress(@PathVariable String userShippingAddressId) {
+        userShippingService.setDefaultUserShippingAddress(userShippingAddressId);
+        return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> removeUserShippingAddress() {
-        return null;
+    @DeleteMapping("/removeUserShippingAddress/{userShippingAddressId}")
+    public ResponseEntity<?> removeUserShippingAddress(@PathVariable String userShippingAddressId) {
+        userShippingService.removeUserShippingAddress(userShippingAddressId);
+        return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
     }
 }

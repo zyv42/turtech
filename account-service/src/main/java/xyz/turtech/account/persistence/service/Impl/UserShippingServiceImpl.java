@@ -18,4 +18,28 @@ public class UserShippingServiceImpl implements UserShippingService {
     public Iterable<UserShipping> findByUserId(String userId) {
         return userShippingRepository.findByUserId(userId);
     }
+
+    @Override
+    public UserShipping addNewUserShippingAddress(UserShipping newUserShippingAddress) {
+        return userShippingRepository.save(newUserShippingAddress);
+    }
+
+    @Override
+    public UserShipping updateUserShippingAddress(UserShipping userShipping) {
+        return userShippingRepository.save(userShipping);
+    }
+
+    @Override
+    public void setDefaultUserShippingAddress(String userShippingAddressId) {
+        UserShipping userShipping = userShippingRepository.findById(userShippingAddressId).get();
+        userShipping.setDefaultUserShipping(true);
+        userShippingRepository.save(userShipping);
+    }
+
+    @Override
+    public String removeUserShippingAddress(String userShippingAddressId) {
+        UserShipping userShipping = userShippingRepository.findById(userShippingAddressId).get();
+        userShippingRepository.delete(userShipping);
+        return userShippingAddressId;
+    }
 }

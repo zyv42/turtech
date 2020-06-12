@@ -33,7 +33,8 @@ public class UserController {
     }
 
     @PutMapping(path = "/current")
-    public void updateCurrentUser(Principal principal, @Valid @RequestBody User user) {
+    public void updateCurrentUser(@Valid @RequestBody User user,
+                                  Principal principal) {
         userService.updateUser(principal.getName(), user);
     }
 

@@ -52,6 +52,7 @@ public class UserPaymentController {
 
         UserPayment userPayment = userPaymentService.save(newCreditCard);
         return new ResponseEntity<>(userPayment, HttpStatus.OK);
+        // TODO Consider adding UserBilling to UserPayment directly(not through id) and rename it to UserBillingAddress
     }
 
     @PutMapping("/updateCreditCard")
