@@ -20,7 +20,26 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
-    public UserPayment save(UserPayment newUserPayment) {
+    public UserPayment addNewUserPayment(UserPayment newUserPayment) {
         return userPaymentRepository.save(newUserPayment);
+    }
+
+    @Override
+    public UserPayment updateUserPayment(UserPayment userPayment) {
+        return userPaymentRepository.save(userPayment);
+    }
+
+    @Override
+    public void setDefaultUserPayment(String userPaymentId) {
+        UserPayment userPayment = userPaymentRepository.findById(userPaymentId).get();
+        userPayment.setDefaultPayment(true);
+        userPaymentRepository.save(userPayment);
+    }
+
+    @Override
+    public String removeUserPayment(String userPaymentId) {
+        UserPayment userPayment = userPaymentRepository.findById(userPaymentId).get();
+        userPaymentRepository.delete(userPayment);
+        return userPaymentId;
     }
 }

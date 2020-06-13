@@ -50,9 +50,8 @@ public class UserPaymentController {
         newUserBillingAddress.setUserPaymentId(newCreditCard.getId());
         newCreditCard.setUserBillingId(newUserBillingAddress.getId());
 
-        UserPayment userPayment = userPaymentService.save(newCreditCard);
+        UserPayment userPayment = userPaymentService.addNewUserPayment(newCreditCard);
         return new ResponseEntity<>(userPayment, HttpStatus.OK);
-        // TODO Consider adding UserBilling to UserPayment directly(not through id) and rename it to UserBillingAddress
     }
 
     @PutMapping("/updateCreditCard")
