@@ -1,7 +1,18 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
+import { connect } from "react-redux";
+import { getUserOrders } from "../../actions/userProfileActions";
+import PropTypes from "prop-types";
 
 class MyOrders extends Component {
+
+    componentDidMount() {
+        this.props.getUserOrders();
+    }
+
     render() {
+
+        const { userOrders } = this.props.userOrders;
+
         return (
             <div className="card">
                 <div className="card-body">
@@ -158,4 +169,16 @@ class MyOrders extends Component {
     }
 }
 
-export default MyOrders;
+MyOrders.propTypes = {
+    userOrders: PropTypes.object.isRequired,
+    getUserOrders: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    userOrders: state.userOrders
+});
+
+export default connect(
+    mapStateToProps,
+    { getUserOrders }
+)(MyOrders);
