@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
+import { connect } from "react-redux";
 
 class OrderDetails extends Component {
+
     render() {
+
+        const userOrder = this.props;
+
         return (
             <div>
                 <div className="row">
                     <div className="col-12">
                         <div className="text-center">
                             <h4>
-                                Order Details for Purchase #<span th:text="${order.id}" />
+                                Order Details for Purchase #{userOrder.id}
                             </h4>
                         </div>
                         <hr />
@@ -20,12 +25,11 @@ class OrderDetails extends Component {
                                         <strong>Billing Details</strong>
                                     </div>
                                     <div className="panel-body">
-                                        <span th:text="${order.billingAddress.billingAddressName}" /><br />
-                                        <span
-                                            th:text="${order.billingAddress.billingAddressStreet1}+' '+${order.billingAddress.billingAddressStreet2}" /><br />
-                                        <span th:text="${order.billingAddress.billingAddressCity}" /><br />
-                                        <span
-                                            th:text="${order.billingAddress.billingAddressZipcode}" /><br />
+                                        {userOrder.billingAddress.billingAddressName} <br />
+                                        {userOrder.billingAddress.billingAddressStreet1}
+                                        {userOrder.billingAddress.billingAddressStreet2} <br />
+                                        {userOrder.billingAddress.billingAddressCity} <br />
+                                        {userOrder.billingAddress.billingAddressZipcode} <br />
                                     </div>
                                 </div>
                             </div>
@@ -35,11 +39,9 @@ class OrderDetails extends Component {
                                         <strong>Payment Information</strong>
                                     </div>
                                     <div className="panel-body">
-														<span th:text="${order.payment.holderName}">Card
-															Name</span><br /> <span th:text="${order.payment.cardNumber}">Card
-															Number</span><br /> <span>Exp Date:</span><span
-                                        th:text="${order.payment.expiryMonth}" />/<span
-                                        th:text="${order.payment.expiryYear}" /><br />
+                                        {userOrder.payment.holderName} <br />
+                                        {userOrder.payment.cardNumber} <br />
+                                        Exp Date: {userOrder.payment.expiryMonth} / {userOrder.payment.expiryYear} <br />
                                     </div>
                                 </div>
                             </div>
@@ -49,14 +51,11 @@ class OrderDetails extends Component {
                                         <strong>Billing Details</strong>
                                     </div>
                                     <div className="panel-body">
-														<span
-                                                            th:text="${order.shippingAddress.shippingAddressName}" /><br />
-                                        <span
-                                            th:text="${order.shippingAddress.shippingAddressStreet1}+' '+${order.shippingAddress.shippingAddressStreet2}" /><br />
-                                        <span
-                                            th:text="${order.shippingAddress.shippingAddressCity}" /><br />
-                                        <span
-                                            th:text="${order.shippingAddress.shippingAddressZipcode}" /><br />
+                                        {userOrder.shippingAddress.shippingAddressName} <br />
+                                        {userOrder.shippingAddress.shippingAddressStreet1}
+                                        {userOrder.shippingAddress.shippingAddressStreet2} <br />
+                                        {userOrder.shippingAddress.shippingAddressCity} <br />
+                                        {userOrder.shippingAddress.shippingAddressZipcode} <br />
                                     </div>
                                 </div>
                             </div>

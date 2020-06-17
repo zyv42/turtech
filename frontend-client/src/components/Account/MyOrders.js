@@ -38,7 +38,8 @@ class MyOrders extends Component {
                             {userOrders.map(userOrder => (
                                 <tr>
                                     <td><Link key={userOrder.id}
-                                              to={`/userOrders/${userOrder.id}`}>
+                                              to={`/userOrders/${userOrder.id}`}
+                                              userOrder={userOrder}>
                                         {userOrder.orderDate.toLocaleDateString()}</Link></td>
                                     <td>{userOrder.id}</td>
                                     <td>{userOrder.orderTotal}</td>
