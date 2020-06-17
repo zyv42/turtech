@@ -19,7 +19,7 @@ public class CartItemController {
         this.cartItemService = cartItemService;
     }
 
-    @GetMapping("/cartItemsByOrderId")
+    @GetMapping("/cartItemsByOrderId/{orderId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getCartItemsByOrderId(@PathVariable String orderId) {

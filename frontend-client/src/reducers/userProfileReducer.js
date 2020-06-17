@@ -1,10 +1,17 @@
-import {GET_USER_PAYMENT, GET_USER_ORDERS, GET_USER_PROFILE, GET_USER_SHIPPING} from "../actions/types";
+import {
+    GET_USER_PAYMENT,
+    GET_USER_ORDERS,
+    GET_USER_PROFILE,
+    GET_USER_SHIPPING,
+    GET_CART_ITEM_LIST_BY_ORDER_ID
+} from "../actions/types";
 
 const initialState = {
     userProfile: {},
     userPayment: [],
     userShipping: [],
-    userOrders: []
+    userOrders: [],
+    cartItems: []
 };
 
 export default function(state = initialState, action) {
@@ -31,6 +38,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 userOrders: action.payload
+            };
+
+        case GET_CART_ITEM_LIST_BY_ORDER_ID:
+            return {
+                ...state,
+                cartItems: action.payload
             };
 
         default:

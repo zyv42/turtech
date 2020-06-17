@@ -1,5 +1,12 @@
 import axios from "axios";
-import { GET_USER_PROFILE, GET_USER_PAYMENT, GET_USER_SHIPPING, GET_USER_ORDERS, GET_ERRORS } from "./types";
+import {
+    GET_USER_PROFILE,
+    GET_USER_PAYMENT,
+    GET_USER_SHIPPING,
+    GET_USER_ORDERS,
+    GET_ERRORS,
+    GET_CART_ITEM_LIST_BY_ORDER_ID
+} from "./types";
 
 export const getUserProfile = history => async dispatch => {
     try {
@@ -61,5 +68,17 @@ export const getUserOrders = userId => async dispatch => {
             payload: res.data
         });
     } catch (error) {
+    }
+};
+
+export const getCartItemListByOrderId = orderId => async dispatch => {
+    try {
+        const res = await axios.get(`/api/cartItemsByOrderId/${orderId}`);
+        dispatch({
+            type: GET_CART_ITEM_LIST_BY_ORDER_ID,
+            payload: res.data
+        });
+    } catch (error) {
+
     }
 };
