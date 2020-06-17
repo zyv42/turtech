@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
+import { getCartItemListByOrderId } from "../../actions/userProfileActions";
+import PropTypes from "prop-types";
 
 class OrderDetails extends Component {
 
+    componentDidMount() {
+        this.props.getCartItemListByOrderId(this.props.userOrder.id);
+    }
+
     render() {
 
-        const userOrder = this.props;
+        const userOrder = this.props.userOrder;
+        const cartItems = this.props.cartItems;
 
         return (
             <div>
@@ -82,36 +89,34 @@ class OrderDetails extends Component {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="cartItem : ${cartItemList}">
-                                        <td data-th-text="${cartItem.product.name}" />
-                                        <td className="text-center"
-                                            data-th-text="${cartItem.product.ourPrice}" />
-                                        <td className="text-center" data-th-text="${cartItem.qty}" />
-                                        <td className="text-center"
-                                            data-th-text="${cartItem.subtotal}" />
-                                    </tr>
+                                    {cartItems.map(cartItem => (
+                                        <tr>
+                                            <td>{cartItem.product.name}</td>
+                                            <td className="text-center">{cartItem.product.ourPrice}</td>
+                                            <td className="text-center">{cartItem.qty}</td>
+                                            <td className="text-center">{cartItem.subtotal}</td>
+                                        </tr>
+                                    ))}
                                     <tr>
                                         <td className="highrow" />
                                         <td className="highrow" />
                                         <td className="highrow text-right"><strong>Subtotal</strong></td>
-                                        <td className="highrow text-right"
-                                            data-th-text="${order.orderTotal}" />
+                                        <td className="highrow text-right">
+                                            ${(userOrder.orderTotal).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td className="emptyrow" />
                                         <td className="emptyrow" />
                                         <td className="emptyrow text-right"><strong>Tax</strong></td>
-                                        <td className="emptyrow text-right"
-                                            data-th-text="${#numbers.formatDecimal(order.orderTotal*0.06,0,2)}" />
+                                        <td className="emptyrow text-right">
+                                            ${(userOrder.orderTotal * 0.06).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td className="emptyrow"><i className="fa fa-barcode fa-2x" /></td>
                                         <td className="emptyrow" />
                                         <td className="emptyrow text-right"><strong>Total</strong></td>
-                                        <td
-                                            th:with="total=${order.orderTotal+order.orderTotal*0.06}"
-                                            data-th-text="${#numbers.formatDecimal(total, 0, 2)}"
-                                            className="emptyrow text-right" />
+                                        <td className="emptyrow text-right">
+                                            ${(userOrder.orderTotal + userOrder.order * 0.06).toFixed(2)}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -124,4 +129,16 @@ class OrderDetails extends Component {
     }
 }
 
-export default OrderDetails;
+OrderDetails.propTypes = {
+    cartItems: PropTypes.object.isRequired,
+    getCartItemListByOrderId: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    cartItems: state.cartItems
+});
+
+export default connect(
+    mapStateToProps,
+    { getCartItemListByOrderId }
+)(OrderDetails);
