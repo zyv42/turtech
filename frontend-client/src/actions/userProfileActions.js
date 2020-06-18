@@ -60,6 +60,46 @@ export const getUserShipping = userId => async dispatch => {
     }
 };
 
+export const addUserShipping = userShipping => async dispatch => {
+    try {
+        await axios.post("/api/addNewUserShippingAddress", userShipping);
+        dispatch({
+            type: GET_ERRORS,
+            payload: error.response.data
+        });
+    } catch (error) {
+
+    }
+};
+
+export const updateUserShipping = userShipping => async dispatch => {
+    try {
+        await axios.put("/api/updateUserShippingAddress", userShipping);
+        dispatch({
+            type: GET_ERRORS,
+            payload: error.response.data
+        });
+    } catch (error) {
+
+    }
+};
+
+export const setDefaultUserShippingAddress = userShippingId => async dispatch => {
+    try {
+        await axios.get(`/api/setDefaultUserShippingAddress/${userShippingId}`);
+    } catch (error) {
+
+    }
+};
+
+export const removeUserShippingAddress = userShippingId => async dispatch => {
+    try {
+        await axios.delete(`/api/removeUserShippingAddress/${userShippingId}`);
+    } catch (error) {
+
+    }
+};
+
 export const getUserOrders = userId => async dispatch => {
     try {
         const res = await axios.get(`/api/userOrders/${userId}`);
