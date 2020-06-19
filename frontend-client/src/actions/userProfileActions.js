@@ -49,7 +49,7 @@ export const getUserPayment = userId => async dispatch => {
     }
 };
 
-export const getUserShipping = userId => async dispatch => {
+export const getUserShippingAddresses = userId => async dispatch => {
     try {
         const res = await axios.get(`/api/userShipping/${userId}`);
         dispatch({
@@ -60,7 +60,7 @@ export const getUserShipping = userId => async dispatch => {
     }
 };
 
-export const addUserShipping = userShipping => async dispatch => {
+export const addUserShippingAddress = userShipping => async dispatch => {
     try {
         await axios.post("/api/addNewUserShippingAddress", userShipping);
         dispatch({
@@ -72,7 +72,7 @@ export const addUserShipping = userShipping => async dispatch => {
     }
 };
 
-export const updateUserShipping = userShipping => async dispatch => {
+export const updateUserShippingAddress = userShipping => async dispatch => {
     try {
         await axios.put("/api/updateUserShippingAddress", userShipping);
         dispatch({

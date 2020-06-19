@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import { getUserShipping, addUserShippingAddress, updateUserShippingAddress, removeUserShippingAddress, setDefaultUserShippingAddress} from "../../actions/userProfileActions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 class MyShipping extends Component {
     render() {
@@ -131,4 +135,20 @@ class MyShipping extends Component {
     }
 }
 
-export default MyShipping;
+MyShipping.propTypes = {
+    userShipping: PropTypes.object.isRequired,
+    getUserShipping: PropTypes.func.isRequired,
+    addUserShippingAddress: PropTypes.func.isRequired,
+    updateUserShippingAddress: PropTypes.func.isRequired,
+    removeUserShippingAddress: PropTypes.func.isRequired,
+    setDefaultUserShippingAddress: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    userShipping: state.userShipping
+});
+
+export default connect(
+    mapStateToProps,
+    { getUserShipping }
+)(MyShipping);
