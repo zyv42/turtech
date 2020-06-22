@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
-import { getUserShipping, addUserShippingAddress, updateUserShippingAddress, removeUserShippingAddress, setDefaultUserShippingAddress} from "../../actions/userProfileActions";
+import { getUserShippingAddresses, addUserShippingAddress, updateUserShippingAddress, removeUserShippingAddress, setDefaultUserShippingAddress} from "../../actions/userProfileActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 class MyShipping extends Component {
+
+    componentDidMount() {
+        // TODO Consider removing parameter of userId from the method on frontend side and move it to backend only
+        this.props.getUserShippingAddresses();
+    }
+
     render() {
+
+        const { userShippingAddresses } = this.props.userShipping;
+
         return (
             <div className="card">
                 <div className="card-body">
@@ -137,7 +146,7 @@ class MyShipping extends Component {
 
 MyShipping.propTypes = {
     userShipping: PropTypes.object.isRequired,
-    getUserShipping: PropTypes.func.isRequired,
+    getUserShippingAddresses: PropTypes.func.isRequired,
     addUserShippingAddress: PropTypes.func.isRequired,
     updateUserShippingAddress: PropTypes.func.isRequired,
     removeUserShippingAddress: PropTypes.func.isRequired,
@@ -150,5 +159,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getUserShipping }
+    { getUserShippingAddresses }
 )(MyShipping);
