@@ -13,6 +13,16 @@ class MyShipping extends Component {
         this.props.getUserShippingAddresses();
     }
 
+    //TODO reimplement setting default user shipping address
+    onSubmit(e) {
+        e.preventDefault();
+        this.props.setDefaultUserShippingAddress(this.state.userShipping.id);
+    }
+
+    removeUserShipping(userShippingId) {
+        this.props.removeUserShippingAddress(userShippingId);
+    }
+
     render() {
 
         const { userShippingAddresses } = this.props.userShipping;
@@ -24,23 +34,16 @@ class MyShipping extends Component {
                         <div className="col-md-12">
                             <h4>Shipping</h4>
                             <ol className="breadcrumb">
-                                <li className="breadcrumb-item active"><a
-                                    th:href="@{/listOfShippingAddresses}"
-                                    th:style="${listOfShippingAddresses}? 'color:grey'">List
-                                    of Shipping Addresses</a></li>
-                                <li className="breadcrumb-item active"><a
-                                    th:href="@{/addNewShippingAddress}"
-                                    th:style="${addNewShippingAddress}? 'color:grey'">Add(Update)
-                                    Shipping Address</a></li>
+                                <li className="breadcrumb-item active">
+                                    <Link to="@{/listOfShippingAddresses}"
+                                          style="color:grey">
+                                        List of Shipping Addresses</Link></li>
                             </ol>
                             <hr/>
                         </div>
                     </div>
                     <div>
-                        {
-                            // OnSubmit the method "setDefaultUserShippingAddress" should be implemented
-                        }
-                        <form onSubmit={} >
+                        <form onSubmit={this.onSubmit} >
                             <table className="table">
                                 <thead>
                                 <tr>
@@ -65,11 +68,12 @@ class MyShipping extends Component {
                                             {
                                                 // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
                                             }
-                                            <Button className="fa fa-pencil"
-                                                    onClick={} />
+                                            <Button className="fa fa-pencil">
+                                                <Link to="/updateUserShipping" />
+                                            </Button>
                                             &nbsp;&nbsp;
                                             <Button className="fa fa-times"
-                                                    onClick={} />
+                                                    onClick={this.removeUserShipping(userShippingAddress.id)} />
                                         </td>
                                     </tr>
                                 ))}
