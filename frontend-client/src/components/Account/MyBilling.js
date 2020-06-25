@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
+import { getUserPayment } from "../../actions/userProfileActions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class MyBilling extends Component {
+
+    componentDidMount() {
+        this.props.getUserPayment();
+    }
+
     render() {
+
+        const { userPayment } = this.props.userPayment;
+
         return (
             <div className="card">
                 <div className="card-body">
@@ -262,4 +273,16 @@ class MyBilling extends Component {
     }
 }
 
-export default MyBilling;
+MyBilling.propTypes = {
+    userPayment: PropTypes.object.isRequired,
+    getUserPayment: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    userPayment: state.userPayment
+});
+
+export default connect(
+    mapStateToProps,
+    { getUserPayment }
+)(MyBilling);
