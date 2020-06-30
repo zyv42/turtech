@@ -49,6 +49,46 @@ export const getUserPayment = userId => async dispatch => {
     }
 };
 
+export const addUserPayment = userPayment => async dispatch => {
+    try {
+        await axios.post("/api/addNewUserPayment", userPayment);
+        dispatch({
+            type: GET_ERRORS,
+            payload: error.response.data
+        });
+    } catch (error) {
+
+    }
+};
+
+export const updateUserPayment = userPayment => async dispatch => {
+    try {
+        await axios.put("/api/updateUserPayment", userPayment);
+        dispatch({
+            type: GET_ERRORS,
+            payload: error.response.data
+        });
+    } catch (error) {
+
+    }
+};
+
+export const setDefaultUserPayment = userPaymentId => async dispatch => {
+    try {
+        await axios.get(`/api/setDefaultUserPayment/${userPaymentId}`);
+    } catch (error) {
+
+    }
+};
+
+export const removeUserPayment = userPaymentId => async dispatch => {
+    try {
+        await axios.delete(`/api/removeUserPayment/${userPaymentId}`);
+    } catch (error) {
+
+    }
+};
+
 export const getUserShippingAddresses = userId => async dispatch => {
     try {
         const res = await axios.get(`/api/userShipping/${userId}`);
