@@ -1,6 +1,34 @@
 import React, {Component} from 'react';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { addUserPayment } from "../../actions/userProfileActions";
 
 class AddNewPayment extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            id: "",
+            cardName: "",
+            billingName: "",
+            billingStreet1: "",
+            billingStreet2: "",
+            billingCity: "",
+            billingZipCode: "",
+            billingCountry: "",
+            cardType: "",
+            holderName: "",
+            cardNumber: "",
+            expiryMonth: "",
+            expiryYear: "",
+            cvc: ""
+        };
+
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
     render() {
         return (
             <div th:if="${addNewCreditCard}">
@@ -207,4 +235,16 @@ class AddNewPayment extends Component {
     }
 }
 
-export default AddNewPayment;
+AddNewPayment.propTypes = {
+    addUserPayment: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    errors: state.errors
+});
+
+export default connect(
+    mapStateToProps,
+    { addUserPayment }
+)(AddNewPayment);

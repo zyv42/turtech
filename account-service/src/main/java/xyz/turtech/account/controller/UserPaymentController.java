@@ -37,20 +37,20 @@ public class UserPaymentController {
         return new ResponseEntity<>(userPayments, HttpStatus.OK);
     }
 
-    @GetMapping("/setDefaultPayment/{paymentId}")
+    @GetMapping("/setDefaultUserPayment/{paymentId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> setDefaultPayment(@PathVariable String paymentId) {
+    public ResponseEntity<?> setDefaultUserPayment(@PathVariable String paymentId) {
         userPaymentService.setDefaultUserPayment(paymentId);
         return new ResponseEntity<>(paymentId, HttpStatus.OK);
     }
 
-    @PostMapping("/addNewCreditCard")
+    @PostMapping("/addNewUserPayment")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> addNewCreditCard(@RequestBody UserPayment newCreditCard,
-                                              @RequestBody UserBilling newUserBillingAddress,
-                                              Principal principal) {
+    public ResponseEntity<?> addNewUserPayment(@RequestBody UserPayment newCreditCard,
+                                               @RequestBody UserBilling newUserBillingAddress,
+                                               Principal principal) {
 
         User user = userService.findByUsername(principal.getName()).get();
         newUserBillingAddress.setUserPaymentId(newCreditCard.getId());
@@ -60,19 +60,19 @@ public class UserPaymentController {
         return new ResponseEntity<>(userPayment, HttpStatus.OK);
     }
 
-    @PutMapping("/updateCreditCard")
+    @PutMapping("/updateUserPayment")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> updateCreditCard(@RequestBody UserPayment updatedCreditCard) {
+    public ResponseEntity<?> updateUserPayment(@RequestBody UserPayment updatedCreditCard) {
 
         userPaymentService.updateUserPayment(updatedCreditCard);
         return new ResponseEntity<>(updatedCreditCard.getId(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteCreditCard/{paymentId}")
+    @DeleteMapping("/removeUserPayment/{paymentId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> removeCreditCard(@PathVariable String paymentId) {
+    public ResponseEntity<?> removeUserPayment(@PathVariable String paymentId) {
 
         userPaymentService.removeUserPayment(paymentId);
         return new ResponseEntity<>(paymentId, HttpStatus.OK);

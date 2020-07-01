@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+// TODO change updateUserShippingAddress to addNewUserShippingAddress
 import { updateUserShippingAddress } from "../../actions/userProfileActions";
 
 class AddNewShippingAddress extends Component {
