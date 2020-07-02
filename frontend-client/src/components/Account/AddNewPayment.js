@@ -29,18 +29,56 @@ class AddNewPayment extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.errors) {
+            this.setState({errors: nextProps.errors})
+        }
+    }
+
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        const newUserShipping = {
+            id: this.state.id,
+            cardName: this.state.cardName,
+            billingName: this.state.billingName,
+            billingStreet1: this.state.billingStreet1,
+            billingStreet2: this.state.billingStreet2,
+            billingCity: this.state.billingCity,
+            billingZipCode: this.state.billingZipCode,
+            billingCountry: this.state.billingCountry,
+            cardType: this.state.cardType,
+            holderName: this.state.holderName,
+            cardNumber: this.state.cardNumber,
+            expiryMonth: this.state.expiryMonth,
+            expiryYear: this.state.expiryYear,
+            cvc: this.state.cvc
+        };
+
+        this.props.updateUserShippingAddress(newUserShipping);
+    }
+
     render() {
+
+        const { errors } = this.state;
+
         return (
-            <div th:if="${addNewCreditCard}">
-                <form th:action="@{addNewCreditCard}"
-                      method="post">
-                    <div className="bg-info" th:if="${updateUserPaymentInfo}">User
-                        info updated.
-                    </div>
+            <div>
+                <form onSubmit={this.onSubmit}>
+                    {/* TODO to show this only after info was update. Also to implement display of errors in form
+
+                        <div className="bg-info">
+                            User info updated.
+                        </div>
+                        */
+                    }
 
                     <input hidden="hidden"
                            name="id"
-                           th:value="${userPayment.id}"/>
+                           value={this.state.id} />
 
                     <div className="form-group">
                         <h5>* Give a name for your card:</h5>
@@ -48,9 +86,9 @@ class AddNewPayment extends Component {
                                className="form-control"
                                id="cardName"
                                placeholder="Card Name"
-                               th:name="cardName"
+                               name="cardName"
                                required="required"
-                               th:value="${userPayment.cardName}"/>
+                               value={this.state.cardName} />
                     </div>
 
                     {
@@ -66,9 +104,9 @@ class AddNewPayment extends Component {
                                className="form-control"
                                id="billingName"
                                placeholder="Receiver Name"
-                               th:name="userBillingName"
+                               name="billingName"
                                required="required"
-                               th:value="${userBilling.userBillingName}"/>
+                               value={this.state.billingName}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="billingAddress1">* Street Address</label>
@@ -76,27 +114,28 @@ class AddNewPayment extends Component {
                                className="form-control"
                                id="billingAddress1"
                                placeholder="Street Address 1"
-                               th:name="userBillingStreet1"
+                               name="billingStreet1"
                                required="required"
-                               th:value="${userBilling.userBillingStreet1}"/>
+                               value={this.state.billingStreet1} />
                         <input type="text"
                                className="form-control mt-2"
                                id="billingAddress2"
                                placeholder="Street Address 2"
-                               th:name="userBillingStreet2"
-                               th:value="${userBilling.userBillingStreet2}"/>
+                               name="billingStreet2"
+                               value={this.state.billingStreet2}/>
                     </div>
 
                     <div className="row">
                         <div className="col-4">
                             <div className="form-group">
-                                <label htmlFor="billingCity">* City</label> <input type="text"
-                                                                                   className="form-control"
-                                                                                   id="billingCity"
-                                                                                   placeholder="Billing city"
-                                                                                   th:name="userBillingCity"
-                                                                                   required="required"
-                                                                                   th:value="${userBilling.userBillingCity}"/>
+                                <label htmlFor="billingCity">* City</label>
+                                <input type="text"
+                                       className="form-control"
+                                       id="billingCity"
+                                       placeholder="Billing city"
+                                       name="billingCity"
+                                       required="required"
+                                       value={this.state.billingCity} />
                             </div>
                         </div>
                         <div className="col-4">
@@ -106,19 +145,22 @@ class AddNewPayment extends Component {
                                        className="form-control"
                                        id="billingZipcode"
                                        placeholder="Billing Zipcode"
-                                       th:name="userBillingZipcode"
+                                       name="billingZipcode"
                                        required="required"
-                                       th:value="${userBilling.userBillingZipcode}"/>
+                                       value={this.state.billingZipcode} />
                             </div>
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="country">* Country</label> <input
-                        type="text" className="form-control" id="country"
-                        placeholder="Country" th:name="userBillingCountry"
-                        required="required"
-                        th:value="${userBilling.userBillingCountry}"/>
+                        <label htmlFor="country">* Country</label>
+                        <input type="text"
+                               className="form-control"
+                               id="country"
+                               placeholder="Country"
+                               name="billingCountry"
+                               required="required"
+                               value={this.state.billingCountry} />
                     </div>
 
                     {
@@ -131,9 +173,11 @@ class AddNewPayment extends Component {
                     <div className="row">
                         <div className="col-12">
                             <div className="form-group">
-                                <label htmlFor="cardType">* Select Card Type:</label> <select
-                                className="form-control" id="cardType" th:name="type"
-                                th:value="${userPayment.type}">
+                                <label htmlFor="cardType">* Select Card Type:</label>
+                                <select className="form-control"
+                                        id="cardType"
+                                        name="cardType"
+                                        value={this.state.cardType}>
                                 <option value="visa">Visa</option>
                                 <option value="mastercard">Mastercard</option>
                             </select>
@@ -145,10 +189,13 @@ class AddNewPayment extends Component {
 																<span className="input-group-text"><i
                                                                     className="fa fa-user fa-fw"/></span>
                                     </div>
-                                    <input type="text" className="form-control" id="cardHolder"
-                                           required="required" placeholder="Card Holder Name"
-                                           th:name="holderName"
-                                           th:value="${userPayment.holderName}"/>
+                                    <input type="text"
+                                           className="form-control"
+                                           id="cardHolder"
+                                           required="required"
+                                           placeholder="Card Holder Name"
+                                           name="holderName"
+                                           value={this.state.holderName} />
                                 </div>
                             </div>
                             <div className="form-group">
@@ -158,10 +205,13 @@ class AddNewPayment extends Component {
 																<span className="input-group-text"><i
                                                                     className="fa fa-credit-card fa-fw"/></span>
                                     </div>
-                                    <input type="tel" className="form-control" id="cardNumber"
-                                           required="required" placeholder="Valid Card Number"
-                                           th:name="cardNumber"
-                                           th:value="${userPayment.cardNumber}"/>
+                                    <input type="tel"
+                                           className="form-control"
+                                           id="cardNumber"
+                                           required="required"
+                                           placeholder="Valid Card Number"
+                                           name="cardNumber"
+                                           value={this.state.cardNumber} />
                                 </div>
                             </div>
                         </div>
@@ -177,7 +227,7 @@ class AddNewPayment extends Component {
                                     <select className="form-control"
                                             name="expiryMonth"
                                             required="required"
-                                            th:value="${userPayment.expiryMonth}"
+                                            value={this.state.expiryMonth}
                                             style="width: 45%">
                                         <option disabled="disabled">-- Month --</option>
                                         <option value="01">Jan (01)</option>
@@ -194,8 +244,10 @@ class AddNewPayment extends Component {
                                         <option value="12">Dec (12)</option>
                                     </select> <span
                                     style="width: 10%; text-align: center"> / </span>
-                                    <select className="form-control" name="expiryYear"
-                                            th:value="${userPayment.expiryYear}" style="width: 45%">
+                                    <select className="form-control"
+                                            name="expiryYear"
+                                            value={this.state.expiryYear}
+                                            style="width: 45%">
                                         <option disabled="disabled">-- Year --</option>
                                         <option value="19">2019</option>
                                         <option value="20">2020</option>
@@ -214,20 +266,20 @@ class AddNewPayment extends Component {
                         </div>
                         <div className="col-sm-4">
                             <div className="form-group">
-                                <label htmlFor="cardCVC">* CV Code</label> <input id="cardCVC"
-                                                                                  type="tel"
-                                                                                  className="form-control"
-                                                                                  name="cvc"
-                                                                                  placeholder="CVC"
-                                                                                  th:name="cvc"
-                                                                                  required="required"
-                                                                                  th:value="${userPayment.cvc}"/>
+                                <label htmlFor="cardCVC">* CV Code</label>
+                                <input id="cardCVC"
+                                       type="tel"
+                                       className="form-control"
+                                       name="cvc"
+                                       placeholder="CVC"
+                                       required="required"
+                                       value={this.state.cvc} />
                             </div>
                         </div>
                     </div>
                     <hr/>
-                    <button type="submit" className="btn btn-primary btn-lg">Save
-                        All
+                    <button type="submit" className="btn btn-primary btn-lg">
+                        Save All
                     </button>
                 </form>
             </div>
