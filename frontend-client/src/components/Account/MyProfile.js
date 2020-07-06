@@ -355,7 +355,7 @@ class MyProfile extends Component {
 
 MyProfile.propTypes = {
     getUserProfile: PropTypes.func.isRequired,
-    updateUserProfile: propTypes.func.isRequired,
+    updateUserProfile: PropTypes.func.isRequired,
     userProfile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };

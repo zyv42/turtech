@@ -54,7 +54,7 @@ export const addUserPayment = userPayment => async dispatch => {
         await axios.post("/api/addNewUserPayment", userPayment);
         dispatch({
             type: GET_ERRORS,
-            payload: error.response.data
+            payload: {}
         });
     } catch (error) {
 
@@ -66,7 +66,7 @@ export const updateUserPayment = userPayment => async dispatch => {
         await axios.put("/api/updateUserPayment", userPayment);
         dispatch({
             type: GET_ERRORS,
-            payload: error.response.data
+            payload: {}
         });
     } catch (error) {
 
@@ -105,7 +105,7 @@ export const addUserShippingAddress = userShipping => async dispatch => {
         await axios.post("/api/addNewUserShippingAddress", userShipping);
         dispatch({
             type: GET_ERRORS,
-            payload: error.response.data
+            payload: {}
         });
     } catch (error) {
 
@@ -117,7 +117,7 @@ export const updateUserShippingAddress = userShipping => async dispatch => {
         await axios.put("/api/updateUserShippingAddress", userShipping);
         dispatch({
             type: GET_ERRORS,
-            payload: error.response.data
+            payload: {}
         });
     } catch (error) {
 

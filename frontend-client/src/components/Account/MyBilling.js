@@ -67,10 +67,12 @@ class MyBilling extends Component {
                                                         // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
                                                     }
                                                     <Button className="fa fa-pencil"
-                                                            onClick={}>
+                                                        //onClick={}
+                                                    >
                                                     </Button>&nbsp;&nbsp;
                                                     <Button className="fa fa-times"
-                                                            onClick={}>
+                                                        //onClick={}
+                                                    >
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -84,7 +86,6 @@ class MyBilling extends Component {
                             </div>
 
                             <AddNewPayment />
-                        </div>
                         </div>
                     </div>
                 </div>
