@@ -2,7 +2,7 @@
  * Create pre-filled demo account
  */
 
-print("dump start");
+print("account service dump start");
 
 db.users.update(
     { "_id": "demo" },
@@ -21,4 +21,4 @@ db.users.update(
     }
 );
 
-print("dump complete");
+print("account service dump complete");
