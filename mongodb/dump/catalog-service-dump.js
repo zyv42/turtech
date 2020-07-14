@@ -4,11 +4,9 @@
 
 print("product service dump start");
 
-db.products.update(
-    { "_id": "demo" },
+db.products.insertMany([
+    // here goes information about demo products
     {
-        // here goes information about demo products
-        "_id": "demo",
         "name": "",
         "manufacturer": "",
         "manufactureDate": "",
@@ -23,8 +21,19 @@ db.products.update(
         "discontinued": "",
     },
     {
-        upsert: true
+        "name": "",
+        "manufacturer": "",
+        "manufactureDate": "",
+        "category": "",
+        "condition": "",
+        "shippingWeight": "",
+        "listPrice": "",
+        "ourPrice": "",
+        "description": "",
+        "specifications": "",
+        "inStockNumber": "",
+        "discontinued": "",
     }
-);
+]);
 
 print("product service dump complete");
