@@ -5,10 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.turtech.catalog.persistence.domain.Product;
 import xyz.turtech.catalog.persistence.service.ProductService;
 
@@ -24,8 +21,8 @@ public class ProductController {
     @GetMapping("/all")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public Page<Product> getAllProducts(@PathVariable int page,
-                                        @PathVariable int size) {
+    public Page<Product> getAllProducts(@RequestParam int page,
+                                        @RequestParam int size) {
         return productService.findAll(PageRequest.of(page, size));
     }
 

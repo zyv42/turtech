@@ -9,7 +9,7 @@ db.products.insertMany([
     {
         "name": "product1",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -23,7 +23,7 @@ db.products.insertMany([
     {
         "name": "product2",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -37,7 +37,7 @@ db.products.insertMany([
     {
         "name": "product3",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -51,7 +51,7 @@ db.products.insertMany([
     {
         "name": "product4",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -65,7 +65,7 @@ db.products.insertMany([
     {
         "name": "product5",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -79,7 +79,7 @@ db.products.insertMany([
     {
         "name": "product6",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -93,7 +93,7 @@ db.products.insertMany([
     {
         "name": "product7",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -107,7 +107,7 @@ db.products.insertMany([
     {
         "name": "product8",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -121,7 +121,7 @@ db.products.insertMany([
     {
         "name": "product9",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -135,7 +135,7 @@ db.products.insertMany([
     {
         "name": "product10",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -149,7 +149,7 @@ db.products.insertMany([
     {
         "name": "product11",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
@@ -163,7 +163,7 @@ db.products.insertMany([
     {
         "name": "product12",
         "manufacturer": "manufacturer1",
-        "manufactureDate": "01-01-2010",
+        "manufactureDate": "2010-01-01",
         "category": "cellphone",
         "condition": "new",
         "shippingWeight": "5",
