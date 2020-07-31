@@ -73,11 +73,11 @@ class Products extends Component {
                       {
                           // Product display
                       }
-                      <div className="col-lg-4 col-md-6 mb-4">
-                          {products.map(product => (
-                              <Product key = {product.id} product = {product} />
-                          ))}
-                      </div>
+                      {products.map(product => (
+                          <div className="col-lg-4 col-md-6 mb-4">
+                            <Product key = {product.id} product = {product} />
+                          </div>
+                      ))}
                   </div>
               );
           }
@@ -119,7 +119,7 @@ class Products extends Component {
                         <div className="col-12 col-sm-3">
                             <div className="card bg-light mb-3">
                                 <div className="card-header bg-success text-white text-uppercase">
-                                    <i className="fa fa-list" /> Categories
+                                    <i className="fa fa-list"/> Categories
                                 </div>
                                 <div className="list-group">
                                     <Link to="#"
@@ -145,12 +145,12 @@ class Products extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col">
-                            { ProductsDisplay }
-                            { PaginationDisplay }
+                        <div className="col-12 col-sm-9">
+                            {ProductsDisplay}
+                            {PaginationDisplay}
                         </div>
-
                     </div>
+
                 </div>
 
             </div>

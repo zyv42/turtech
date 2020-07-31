@@ -10,6 +10,10 @@ class Product extends Component {
         this.props.addToCart(id);
     };
 
+    truncate = str => {
+        return str.length > 100 ? str.substring(0, 7) + "..." : str;
+    };
+
     render() {
         const { product } = this.props;
         return (
@@ -26,11 +30,10 @@ class Product extends Component {
                           title="View Product">
                         <h4 className="card-title">{product.name}</h4>
                     </Link>
-                    {
-                        //TODO consider specifications-text truncation
-                    }
                     <p className="card-text">
-                        {product.specifications}
+                        <span style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                                {this.truncate(product.specifications)}
+                        </span>
                     </p>
                 </div>
                 <div className="card-footer">
