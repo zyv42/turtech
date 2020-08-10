@@ -3,9 +3,7 @@ import {GET_PRODUCT, GET_PRODUCTS} from "../actions/types";
 const initialState = {
     products: [],
     product: {},
-    totalElements: 0,
-    totalPages: 0,
-    itemsCountPerPage: 10
+    pagination: {}
 };
 
 export default function(state = initialState, action) {
@@ -14,9 +12,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 products: action.payload.content,
-                totalElements: action.payload.totalElements,
-                totalPages: action.payload.totalPages,
-                itemsCountPerPage: action.payload.size
+                pagination: {
+                    totalElements: action.payload.totalElements,
+                    totalPages: action.payload.totalPages,
+                    itemsCountPerPage: action.payload.size
+                }
             };
 
         case GET_PRODUCT:

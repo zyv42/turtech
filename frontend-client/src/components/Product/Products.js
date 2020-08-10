@@ -12,10 +12,12 @@ class Products extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activePage: 0,
-            totalPages: 0,
-            itemsCountPerPage: 10,
-            totalElements: 0,
+            pagination: {
+                activePage: 0,
+                totalElements: 0,
+                totalPages: 0,
+                itemsCountPerPage: 10
+            },
             category: "All"
         };
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -23,14 +25,16 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        this.props.getProducts(this.state.activePage);
-        this.setState({totalPages: this.props.totalPages});
-        this.setState({totalElements: this.props.totalElements});
-        this.setState({itemsCountPerPage: this.props.itemsCountPerPage});
+        this.props.getProducts(this.state.pagination.activePage, 10);
+        this.setState({pagination: {
+                totalPages: this.props.pagination.totalPages,
+                totalElements: this.props.pagination.totalElements,
+                itemsCountPerPage: this.props.pagination.itemsCountPerPage
+        }});
     }
 
     handlePageChange = pageNumber => {
-        this.setState({activePage: pageNumber});
+        this.setState({pagination: { activePage: pageNumber }});
         this.props.getProducts(pageNumber);
     };
 
@@ -40,18 +44,18 @@ class Products extends Component {
     };
 
     render() {
-        const { products } = this.props.products;
+        const { products } = this.props;
         const { category } = this.state;
 
         let ProductsDisplay;
         let PaginationDisplay;
 
         const paginationAlgorithm = () => {
-            if (this.state.totalPages > 1) {
+            if (this.state.pagination.totalPages > 1) {
                 return(
-                    <Pagination activePage = {this.state.activePage}
-                                itemsCountPerPage={this.state.itemsCountPerPage}
-                                totalItemsCount={this.state.totalElements}
+                    <Pagination activePage = {this.state.pagination.activePage}
+                                itemsCountPerPage={this.state.pagination.itemsCountPerPage}
+                                totalItemsCount={this.state.pagination.totalElements}
                                 pageRangeDisplayed={5}
                                 itemClass="page-item"
                                 linkClass="page-link"
@@ -61,7 +65,7 @@ class Products extends Component {
         };
 
         const contentAlgorithm = products => {
-          if (this.state.totalElements < 1) {
+          if (this.state.pagination.totalElements < 1) {
               return(
                   <div className="alert alert-warning text-center">
                     Oops, no products complying with the given criteria have been found...
@@ -160,14 +164,17 @@ class Products extends Component {
 
 Products.propTypes = {
     products: PropTypes.object.isRequired,
+    pagination: PropTypes.object.isRequired,
     getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    products: state.products,
-    totalElements: state.totalElements,
-    totalPages: state.totalPages,
-    itemsCountPerPage: state.itemsCountPerPage
+    products: state.products.products,
+    pagination: {
+        totalElements: state.products.pagination.totalElements,
+        totalPages: state.products.pagination.totalPages,
+        itemsCountPerPage: state.products.pagination.itemsCountPerPage
+    }
 });
 
 export default connect(
