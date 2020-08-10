@@ -13,11 +13,11 @@ class Products extends Component {
         super(props);
         this.state = {
             pagination: {
-                activePage: 0,
                 totalElements: 0,
                 totalPages: 0,
                 itemsCountPerPage: 10
             },
+            activePage: 1,
             category: "All"
         };
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -25,17 +25,18 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        this.props.getProducts(this.state.pagination.activePage, 10);
+        this.props.getProducts(this.state.activePage, 10);
         this.setState({pagination: {
                 totalPages: this.props.pagination.totalPages,
                 totalElements: this.props.pagination.totalElements,
                 itemsCountPerPage: this.props.pagination.itemsCountPerPage
         }});
+        console.log(this.state.activePage);
     }
 
     handlePageChange = pageNumber => {
-        this.setState({pagination: { activePage: pageNumber }});
-        this.props.getProducts(pageNumber);
+        this.setState({ activePage: pageNumber });
+        this.props.getProducts(pageNumber, 10);
     };
 
     handleCategoryChange = category => {
@@ -53,7 +54,7 @@ class Products extends Component {
         const paginationAlgorithm = () => {
             if (this.state.pagination.totalPages > 1) {
                 return(
-                    <Pagination activePage = {this.state.pagination.activePage}
+                    <Pagination activePage = {this.state.activePage}
                                 itemsCountPerPage={this.state.pagination.itemsCountPerPage}
                                 totalItemsCount={this.state.pagination.totalElements}
                                 pageRangeDisplayed={5}

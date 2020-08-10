@@ -42,7 +42,7 @@ class Product extends Component {
                             {
                                 //TODO consider price styling
                             }
-                            <span style={{fontSize: "x-large", color: "#db3208"}}>{product.ourPrice}</span>
+                            <span style={{fontSize: "x-large", color: "#db3208"}}>{product.ourPrice}</span>&nbsp;
                             <span style={{textDecoration: "line-through"}}>{product.listPrice}</span>
                         </h5>
                     </div>
