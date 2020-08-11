@@ -18,7 +18,7 @@ class UserReviews extends Component {
             newReviewDate: "",
             newReviewAuthorName: "",
             newReviewAuthorId: "",
-            productId: this.props.match.params
+            productId: this.props.productId
         };
 
         this.handlePageChange = this.handlePageChange.bind(this);

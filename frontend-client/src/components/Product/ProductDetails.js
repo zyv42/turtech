@@ -36,34 +36,43 @@ class ProductDetails extends Component {
     };
 
     render() {
-        const { product } = this.props.product;
+        const { product } = this.props;
         const { errors } = this.state;
-        const [show,setShow] = useState(false);
+        // TODO fix show and setShow in order to show modal of the zoomed picture of the product
+        const { show,setShow } = false;
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
 
         function ProductAvailability(props) {
-            if (props.product.inStockNumber > 10) {
+            if (product.inStockNumber >= 10) {
                 return <div className="alert alert-success">In Stock</div>;
-            } else if (props.product.inStockNumber < 10 && props.product.inStockNumber > 0) {
+            } else if (product.inStockNumber < 10 && props.product.inStockNumber > 0) {
                 return <div className="alert alert-warning">Only {product.inStockNumber} In Stock</div>;
-            } else if (props.product.inStockNumber === 0) {
+            } else if (product.inStockNumber === 0) {
                 return <div className="alert alert-danger">Unavailable</div>;
+            } else {
+                return null;
             }
         }
+
 
         function NotEnoughStock(errors) {
             if (errors.notEnoughStock) {
                 return <div id="notEnoughStock"
                             className="alert alert-danger">
                     Sorry, but we don't have enough items in stock to fulfill such an order</div>
+            } else {
+                return null;
             }
         }
 
+        // TODO return element only after item was added to cart
         function AddedToCart() {
-            if (this.state.addedToCart) {
+            if (false) {
                 return <div id="addSuccess"
                             className="alert alert-success">Added to cart</div>;
+            } else {
+                return null;
             }
         }
 
@@ -129,9 +138,9 @@ class ProductDetails extends Component {
                                     <p>
                                         List Price:
                                         <span style={{textDecoration: 'line-through'}}>
-                                            ${product.listPrice}</span>
-                                        <span>| You save:
-                                            ${product.listPrice - product.ourPrice}</span>
+                                            &nbsp;${product.listPrice}</span>
+                                        <span>&nbsp;| You save:
+                                            &nbsp;${product.listPrice - product.ourPrice}</span>
                                     </p>
                                     <div className="col-xs-5">
                                         <p>
@@ -277,7 +286,7 @@ ProductDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    product: state.product
+    product: state.products.product
 });
 
 export default connect(
