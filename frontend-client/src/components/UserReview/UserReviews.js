@@ -98,45 +98,43 @@ class UserReviews extends Component {
         PaginationDisplay = paginationAlgorithm();
 
         return (
-            <div>
-                <div className="col-12" id="reviews">
-                    <div className="card border-light mb-3">
-                        <div className="card-header bg-primary text-white text-uppercase">
-                            <i className="fa fa-comment" /> Reviews
-                        </div>
+            <div className="col-12" id="reviews">
+                <div className="card border-light mb-3">
+                    <div className="card-header bg-primary text-white text-uppercase">
+                        <i className="fa fa-comment" /> Reviews
+                    </div>
+                    <div className="card-body">
+                        { ReviewsDisplay }
+                    </div>
+
+                    {
+                        // Reviews pagination
+                    }
+                    <div className="col-12">
+                        { PaginationDisplay }
+                    </div>
+
+                    {
+                        // Leave a review
+                    }
+                    <div className="card">
                         <div className="card-body">
-                            { ReviewsDisplay }
-                        </div>
-
-                        {
-                            // Reviews pagination
-                        }
-                        <div className="col-12">
-                            { PaginationDisplay }
-                        </div>
-
-                        {
-                            // Leave a review
-                        }
-                        <div className="card">
-                            <div className="card-body">
-                                <form onSubmit={this.onSubmit}>
-                                    <div className="form-group">
-                                        <label>Your Review</label>
-                                        <textarea className="form-control"
-                                                  id="text"
-                                                  name="newReviewText"
-                                                  rows="6"
-                                                  value={this.state.newReviewText}
-                                                  onChange={this.onChange}
-                                                  required="required" />
-                                    </div>
-                                    <div className="mx-auto">
-                                        <button type="submit"
-                                                className="btn btn-primary text-right">Leave the review</button>
-                                    </div>
-                                </form>
-                            </div>
+                            <form onSubmit={this.onSubmit}>
+                                <div className="form-group">
+                                    <label>Your Review</label>
+                                    <textarea className="form-control"
+                                              id="text"
+                                              name="newReviewText"
+                                              rows="6"
+                                              value={this.state.newReviewText}
+                                              onChange={this.onChange}
+                                              required="required" />
+                                </div>
+                                <div className="mx-auto">
+                                    <button type="submit"
+                                            className="btn btn-primary text-right">Leave the review</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

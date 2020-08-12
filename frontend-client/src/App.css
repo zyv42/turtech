@@ -7,6 +7,14 @@ footer a {
     color: #f8f9fa !important;
 }
 
+.product_reassurance {
+    padding: 10px;
+    margin-top: 15px;
+    background: #ffffff;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+
 .product_reassurance .list-inline {
     margin-bottom: 0;
     text-transform: uppercase;
@@ -17,6 +25,6 @@ footer a {
     color: #343a40;
 }
 
-.reviews_product .fa-start {
+.fa-start {
     color: gold;
 }

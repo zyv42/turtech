@@ -4,7 +4,7 @@ import {getProduct} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {addToCart} from "../../actions/shoppingCartActions";
-import {Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import UserReviews from "../UserReview/UserReviews";
 
 class ProductDetails extends Component {
@@ -38,10 +38,6 @@ class ProductDetails extends Component {
     render() {
         const { product } = this.props;
         const { errors } = this.state;
-        // TODO fix show and setShow in order to show modal of the zoomed picture of the product
-        const { show,setShow } = false;
-        const handleClose = () => setShow(false);
-        const handleShow = () => setShow(true);
 
         function ProductAvailability(props) {
             if (product.inStockNumber >= 10) {
@@ -53,6 +49,37 @@ class ProductDetails extends Component {
             } else {
                 return null;
             }
+        }
+
+        function PictureWithZoom() {
+            const [ show,setShow ] = useState(false);
+            const handleClose = () => setShow(false);
+            const handleShow = () => setShow(true);
+
+            return (
+                <>
+                    <div className="text-center">
+                        <img className="img-fluid"
+                             alt="product thumbnail"
+                             src="https://dummyimage.com/800x800/55595c/fff" />
+                        <button className="btn btn-link"
+                                onClick={handleShow}>Zoom</button>
+                    </div>
+                    <Modal size="lg"
+                           show={show}
+                           onHide={handleClose}
+                           centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title><h5>{product.name}</h5></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <img className="img-fluid"
+                                 alt="zoomed product"
+                                 src="https://dummyimage.com/1200x1200/55595c/fff" />
+                        </Modal.Body>
+                    </Modal>
+                </>
+            )
         }
 
 
@@ -109,13 +136,7 @@ class ProductDetails extends Component {
                         <div className="col-12 col-lg-6">
                             <div className="card bg-light mb-3">
                                 <div className="card-body">
-                                    <Link to="#"
-                                          onClick={handleShow}>
-                                        <img className="img-fluid"
-                                             alt="product thumbnail"
-                                             src="https://dummyimage.com/800x800/55595c/fff" />
-                                        <p className="text-center">Zoom</p>
-                                    </Link>
+                                    <PictureWithZoom />
                                 </div>
                             </div>
                         </div>
@@ -130,17 +151,17 @@ class ProductDetails extends Component {
                                         <ProductAvailability />
                                     </div>
                                     <h4>
-                                        Our Price:
+                                        Our Price:&nbsp;
                                         <span style={{color: '#db3208'}}>
                                             ${product.ourPrice}
                                         </span>
                                     </h4>
                                     <p>
-                                        List Price:
+                                        List Price:&nbsp;
                                         <span style={{textDecoration: 'line-through'}}>
-                                            &nbsp;${product.listPrice}</span>
-                                        <span>&nbsp;| You save:
-                                            &nbsp;${product.listPrice - product.ourPrice}</span>
+                                            ${product.listPrice}</span>&nbsp;
+                                        <span>| You save:
+                                            ${product.listPrice - product.ourPrice}</span>
                                     </p>
                                     <div className="col-xs-5">
                                         <p>
@@ -202,8 +223,8 @@ class ProductDetails extends Component {
                                                 onClick={this.onAddToCartClick.bind(this, product.id)}>
                                             <i className="fa fa-shopping-cart" /> Add To Cart
                                         </button>
-                                        <div>
-                                            <ul className="product_reassurance list-inline">
+                                        <div className="product_reassurance">
+                                            <ul className="list-inline">
                                                 <li className="list-inline-item">
                                                     <i className="fa fa-truck fa-2x" />
                                                     <br />Fast delivery</li>
@@ -219,7 +240,7 @@ class ProductDetails extends Component {
                                             {
                                                 // TODO {userReviews.size} to show the number of reviews
                                             }
-                                            0 reviews
+                                            0 reviews&nbsp;
                                             <i className="fa fa-star" />
                                             <i className="fa fa-star" />
                                             <i className="fa fa-star" />
@@ -232,48 +253,32 @@ class ProductDetails extends Component {
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="row">
-                            {
-                                // Description
-                            }
-                            <div className="col-12">
-                                <div className="card border-light mb-3">
-                                    <div className="card-header bg-primary text-white text-uppercase">
-                                        <i className="fa fa-align-justify" /> Description & Specifications
-                                    </div>
-                                    <div className="card-body">
-                                        <p className="card-text">{product.specifications}</p>
-                                        <p className="card-text">{product.description}</p>
-                                    </div>
+                    <div className="row">
+                        {
+                            // Description
+                        }
+                        <div className="col-12">
+                            <div className="card border-light mb-3">
+                                <div className="card-header bg-primary text-white text-uppercase">
+                                    <i className="fa fa-align-justify" /> Description & Specifications
+                                </div>
+                                <div className="card-body">
+                                    <p className="card-text">{product.specifications}</p>
+                                    <p className="card-text">{product.description}</p>
                                 </div>
                             </div>
-
-                            {
-                                // User reviews
-                            }
-                            <UserReviews productId={product.id} />
-
                         </div>
+
+                        {
+                            // User reviews
+                        }
+                        <UserReviews productId={product.id} />
+
                     </div>
                 </div>
 
-                {
-                    // Modal image
-                }
-                <Modal size="lg"
-                       show={show}
-                       onHide={handleClose}
-                       centered>
-                    <Modal.Header closeButton>
-                        <Modal.Title><h5>{product.name}</h5></Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <img className="img-fluid"
-                             alt="zoomed product"
-                             src="https://dummyimage.com/1200x1200/55595c/fff" />
-                    </Modal.Body>
-                </Modal>
             </div>
         );
     }
