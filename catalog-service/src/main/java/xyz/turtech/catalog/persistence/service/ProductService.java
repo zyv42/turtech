@@ -8,4 +8,6 @@ public interface ProductService {
 
     Page<Product> findAll(PageRequest pageRequest);
     Product findOne(String id);
+    Page<Product> findByCategory(String category, PageRequest pageRequest);
+    Page<Product> findByNameIgnoreCase(String name, PageRequest pageRequest);
 }

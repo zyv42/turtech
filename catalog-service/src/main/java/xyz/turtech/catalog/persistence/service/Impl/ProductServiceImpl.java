@@ -25,4 +25,12 @@ public class ProductServiceImpl implements ProductService {
     public Product findOne(String id) {
         return productRepository.findById(id).orElse(null);
     }
+
+    public Page<Product> findByCategory(String category, PageRequest pageRequest) {
+        return productRepository.findByCategory(category, pageRequest);
+    }
+
+    public Page<Product> findByNameIgnoreCase(String name, PageRequest pageRequest) {
+        return productRepository.findByNameIgnoreCase(name, pageRequest);
+    }
 }
