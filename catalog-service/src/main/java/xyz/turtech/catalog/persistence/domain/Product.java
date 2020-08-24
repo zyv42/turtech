@@ -1,6 +1,7 @@
 package xyz.turtech.catalog.persistence.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.querydsl.core.annotations.QueryEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@QueryEntity
 @Document(collection = "products")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Product implements Serializable {

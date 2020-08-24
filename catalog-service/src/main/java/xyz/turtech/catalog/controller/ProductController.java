@@ -34,4 +34,11 @@ public class ProductController {
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<?> blurrySearch() {
+        return new ResponseEntity<>(null);
+    }
 }
