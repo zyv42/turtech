@@ -1,5 +1,6 @@
 package xyz.turtech.catalog.persistence.service.Impl;
 
+import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -18,19 +19,11 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    public Page<Product> findAll(PageRequest pageRequest) {
-        return productRepository.findAll(pageRequest);
-    }
-
     public Product findOne(String id) {
         return productRepository.findById(id).orElse(null);
     }
 
-    public Page<Product> findByCategory(String category, PageRequest pageRequest) {
-        return productRepository.findByCategory(category, pageRequest);
-    }
-
-    public Page<Product> findByNameIgnoreCase(String name, PageRequest pageRequest) {
-        return productRepository.findByNameIgnoreCase(name, pageRequest);
+    public Page<Product> findAllBy(Predicate predicate, PageRequest pageRequest) {
+        return productRepository.findAll(predicate, pageRequest);
     }
 }

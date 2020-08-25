@@ -1,13 +1,12 @@
 package xyz.turtech.catalog.persistence.service;
 
+import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import xyz.turtech.catalog.persistence.domain.Product;
 
 public interface ProductService {
 
-    Page<Product> findAll(PageRequest pageRequest);
     Product findOne(String id);
-    Page<Product> findByCategory(String category, PageRequest pageRequest);
-    Page<Product> findByNameIgnoreCase(String name, PageRequest pageRequest);
+    Page<Product> findAllBy(Predicate predicate, PageRequest pageRequest);
 }
