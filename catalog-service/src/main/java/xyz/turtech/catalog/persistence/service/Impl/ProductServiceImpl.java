@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
-    public Page<Product> findAllBy(Predicate predicate, PageRequest pageRequest) {
+    public Page<Product> findAll(Predicate predicate, PageRequest pageRequest) {
         return productRepository.findAll(predicate, pageRequest);
     }
 }

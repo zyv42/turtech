@@ -38,7 +38,7 @@ public class ProductController {
                                           @RequestParam(defaultValue = "10") int size,
                                           @RequestParam MultiValueMap<String, String> parameters) {
 
-        Page<Product> products = productService.findAllBy(predicate, PageRequest.of(page - 1, size));
+        Page<Product> products = productService.findAll(predicate, PageRequest.of(page - 1, size));
 
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
