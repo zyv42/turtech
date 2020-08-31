@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import Pagination from "react-js-pagination";
-import {getProducts} from "../../actions/productActions";
+import {getProducts, getProductsByCategory} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Product from "./Product";
@@ -18,7 +18,8 @@ class Products extends Component {
                 itemsCountPerPage: 10
             },
             activePage: 1,
-            category: "All"
+            category: "All",
+            products: this.props.products
         };
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
@@ -31,7 +32,6 @@ class Products extends Component {
                 totalElements: this.props.pagination.totalElements,
                 itemsCountPerPage: this.props.pagination.itemsCountPerPage
         }});
-        console.log(this.state.activePage);
     }
 
     handlePageChange = pageNumber => {
@@ -41,56 +41,75 @@ class Products extends Component {
 
     handleCategoryChange = category => {
        this.setState({category: category});
-       //this.props.products = this.state.products.filter(product => product.category === category);
     };
 
-    render() {
-        const { products } = this.props;
-        const { category } = this.state;
+    // TODO change renderPagination() and renderProducts() to methods sending new HTTP requests to the catalog API
+    renderPagination() {
+        let numberOfProducts;
+        if (this.state.category === "All") {
+            numberOfProducts = this.state.pagination.totalElements;
+        } else {
+            numberOfProducts = this.state.products.filter(product =>
+                product.category.includes(this.state.category)).length;
+        }
+        console.log(numberOfProducts);
 
-        let ProductsDisplay;
-        let PaginationDisplay;
+        if (numberOfProducts > this.state.pagination.itemsCountPerPage) {
+            return(
+                <Pagination activePage = {this.state.activePage}
+                            itemsCountPerPage={this.state.pagination.itemsCountPerPage}
+                            totalItemsCount={this.state.pagination.totalElements}
+                            pageRangeDisplayed={5}
+                            itemClass="page-item"
+                            linkClass="page-link"
+                            onChange={this.handlePageChange.bind(this)} />
+            );
+        }
+    }
 
-        const paginationAlgorithm = () => {
-            if (this.state.pagination.totalPages > 1) {
+    renderProductList() {
+        if (this.state.category === "All") {
+            if (this.state.products.length === 0) {
                 return(
-                    <Pagination activePage = {this.state.activePage}
-                                itemsCountPerPage={this.state.pagination.itemsCountPerPage}
-                                totalItemsCount={this.state.pagination.totalElements}
-                                pageRangeDisplayed={5}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                onChange={this.handlePageChange.bind(this)} />
+                    <div className="alert alert-warning text-center">
+                        Oops, no products complying with the given criteria have been found...
+                    </div>)
+            } else {
+                return(
+                    <div className="row">
+                        {this.state.products.map(product => (
+                            <div className="col-lg-4 col-md-6 mb-4">
+                                <Product key={product.id} product={product} />
+                            </div>
+                        ))}
+                    </div>
                 );
             }
-        };
+        } else {
+            const categorizedProducts = this.state.products.filter(product =>
+                product.category.includes(this.state.category));
 
-        const contentAlgorithm = products => {
-          if (this.state.pagination.totalElements < 1) {
-              return(
-                  <div className="alert alert-warning text-center">
-                    Oops, no products complying with the given criteria have been found...
-                  </div>
-              );
-          } else {
-              return(
-                  <div className="row">
-                      {
-                          // Product display
-                      }
-                      {products.map(product => (
-                          <div className="col-lg-4 col-md-6 mb-4">
-                            <Product key = {product.id} product = {product} />
-                          </div>
-                      ))}
-                  </div>
-              );
-          }
-        };
+            if (categorizedProducts.length === 0) {
+                return(
+                    <div className="alert alert-warning text-center">
+                        Oops, no products complying with the given criteria have been found...
+                    </div>)
+            } else {
+                return(
+                    <div className="row">
+                        {this.state.products.filter(product =>
+                        product.category.includes(this.state.category)).map(product => (
+                            <div className="col-lg-4 col-md-6 mb-4">
+                                <Product key={product.id} product={product} />
+                            </div>
+                        ))}
+                    </div>
+                );
+            }
+        }
+    }
 
-        ProductsDisplay = contentAlgorithm(products);
-        PaginationDisplay = paginationAlgorithm();
-
+    render() {
         return (
             <div className="container">
                 <section className="jumbotron text-center">
@@ -151,13 +170,11 @@ class Products extends Component {
                             </div>
                         </div>
                         <div className="col-12 col-sm-9">
-                            {ProductsDisplay}
-                            {PaginationDisplay}
+                            {this.renderProductList()}
+                            {this.renderPagination()}
                         </div>
                     </div>
-
                 </div>
-
             </div>
         );
     }
@@ -166,7 +183,8 @@ class Products extends Component {
 Products.propTypes = {
     products: PropTypes.object.isRequired,
     pagination: PropTypes.object.isRequired,
-    getProducts: PropTypes.func.isRequired
+    getProducts: PropTypes.func.isRequired,
+    getProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -180,5 +198,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getProducts }
+    { getProducts, getProductsByCategory }
 )(Products);

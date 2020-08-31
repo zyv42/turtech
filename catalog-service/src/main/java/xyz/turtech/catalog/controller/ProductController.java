@@ -35,8 +35,7 @@ public class ProductController {
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getProducts(@QuerydslPredicate(root = Product.class) Predicate predicate,
                                           @RequestParam(defaultValue = "1") int page,
-                                          @RequestParam(defaultValue = "10") int size,
-                                          @RequestParam MultiValueMap<String, String> parameters) {
+                                          @RequestParam(defaultValue = "10") int size) {
 
         Page<Product> products = productService.findAll(predicate, PageRequest.of(page - 1, size));
 
