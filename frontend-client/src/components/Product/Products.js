@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import Pagination from "react-js-pagination";
-import {getProducts, getProductsByCategory} from "../../actions/productActions";
+import {getProducts} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Product from "./Product";
@@ -12,53 +12,36 @@ class Products extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pagination: {
-                totalElements: 0,
-                totalPages: 0,
-                itemsCountPerPage: 10
-            },
             activePage: 1,
-            category: "All",
-            products: this.props.products
+            category: "All"
         };
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
 
     componentDidMount() {
-        this.props.getProducts(this.state.activePage, 10);
-        this.setState({pagination: {
-                totalPages: this.props.pagination.totalPages,
-                totalElements: this.props.pagination.totalElements,
-                itemsCountPerPage: this.props.pagination.itemsCountPerPage
-        }});
+        this.props.getProducts(null, null, this.state.activePage, 10);
     }
 
     handlePageChange = pageNumber => {
         this.setState({ activePage: pageNumber });
-        this.props.getProducts(pageNumber, 10);
+        this.props.getProducts(this.state.category, null, pageNumber, 10);
+        console.log(this.state.activePage);
+        console.log(this.state.category);
     };
 
     handleCategoryChange = category => {
        this.setState({category: category});
+       this.props.getProducts(category, null, 1, 10);
     };
 
-    // TODO change renderPagination() and renderProducts() to methods sending new HTTP requests to the catalog API
     renderPagination() {
-        let numberOfProducts;
-        if (this.state.category === "All") {
-            numberOfProducts = this.state.pagination.totalElements;
-        } else {
-            numberOfProducts = this.state.products.filter(product =>
-                product.category.includes(this.state.category)).length;
-        }
-        console.log(numberOfProducts);
 
-        if (numberOfProducts > this.state.pagination.itemsCountPerPage) {
+        if (this.props.pagination.totalPages > 1) {
             return(
                 <Pagination activePage = {this.state.activePage}
-                            itemsCountPerPage={this.state.pagination.itemsCountPerPage}
-                            totalItemsCount={this.state.pagination.totalElements}
+                            itemsCountPerPage={this.props.pagination.itemsCountPerPage}
+                            totalItemsCount={this.props.pagination.totalElements}
                             pageRangeDisplayed={5}
                             itemClass="page-item"
                             linkClass="page-link"
@@ -68,44 +51,22 @@ class Products extends Component {
     }
 
     renderProductList() {
-        if (this.state.category === "All") {
-            if (this.state.products.length === 0) {
-                return(
-                    <div className="alert alert-warning text-center">
-                        Oops, no products complying with the given criteria have been found...
-                    </div>)
-            } else {
-                return(
-                    <div className="row">
-                        {this.state.products.map(product => (
-                            <div className="col-lg-4 col-md-6 mb-4">
-                                <Product key={product.id} product={product} />
-                            </div>
-                        ))}
-                    </div>
-                );
-            }
+        const {products} = this.props;
+        if (products.length === 0) {
+            return(
+                <div className="alert alert-warning text-center">
+                    Oops, no products complying with the given criteria have been found...
+                </div>)
         } else {
-            const categorizedProducts = this.state.products.filter(product =>
-                product.category.includes(this.state.category));
-
-            if (categorizedProducts.length === 0) {
-                return(
-                    <div className="alert alert-warning text-center">
-                        Oops, no products complying with the given criteria have been found...
-                    </div>)
-            } else {
-                return(
-                    <div className="row">
-                        {this.state.products.filter(product =>
-                        product.category.includes(this.state.category)).map(product => (
-                            <div className="col-lg-4 col-md-6 mb-4">
-                                <Product key={product.id} product={product} />
-                            </div>
-                        ))}
-                    </div>
-                );
-            }
+            return(
+                <div className="row">
+                    {products.map(product => (
+                        <div className="col-lg-4 col-md-6 mb-4">
+                            <Product key={product.id} product={product} />
+                        </div>
+                    ))}
+                </div>
+            );
         }
     }
 
@@ -183,8 +144,7 @@ class Products extends Component {
 Products.propTypes = {
     products: PropTypes.object.isRequired,
     pagination: PropTypes.object.isRequired,
-    getProducts: PropTypes.func.isRequired,
-    getProductsByCategory: PropTypes.func.isRequired
+    getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -198,5 +158,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getProducts, getProductsByCategory }
+    { getProducts }
 )(Products);
