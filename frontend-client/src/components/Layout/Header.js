@@ -5,57 +5,76 @@ import { connect } from "react-redux";
 import logo_bigger from "../../assets/images/logo_bigger.png";
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 import Logout from "../Security/Logout";
+import {getProducts} from "../../actions/productActions";
+import {withRouter} from "react-router-dom";
 
 class Header extends Component {
 
-    state = {
-        links: [
-            {
-                id: 1,
-                name: "HOME",
-                to: "/welcome",
-                className: "nav-link"
-            },
-            {
-                id: 2,
-                name: "PRODUCTS",
-                to: "/products",
-                className: "nav-link"
-            },
-            {
-                id: 3,
-                name: "CONTACT",
-                to: "/contact",
-                className: "nav-link"
-            },
-            {
-                id: 4,
-                name: "FAQ",
-                to: "/faq",
-                className: "nav-link"
-            },
-            {
-                id: 5,
-                name: "ABOUT",
-                to: "/about",
-                className: "nav-link"
-            }
-        ],
-        activeLink: 1
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            links: [
+                {
+                    id: 1,
+                    name: "HOME",
+                    to: "/welcome",
+                    className: "nav-link"
+                },
+                {
+                    id: 2,
+                    name: "PRODUCTS",
+                    to: "/products",
+                    className: "nav-link"
+                },
+                {
+                    id: 3,
+                    name: "CONTACT",
+                    to: "/contact",
+                    className: "nav-link"
+                },
+                {
+                    id: 4,
+                    name: "FAQ",
+                    to: "/faq",
+                    className: "nav-link"
+                },
+                {
+                    id: 5,
+                    name: "ABOUT",
+                    to: "/about",
+                    className: "nav-link"
+                }
+            ],
+            activeLink: 1,
+            searchQuery: ""
+        };
+
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
 
     changeActiveLink = id => {
-        this.setState({ activeLink: id })
+        this.setState({ activeLink: id });
     };
+
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
 
     onSubmit(e) {
         e.preventDefault();
-        // TODO Search function
+        const searchQuery = this.state.searchQuery;
+        this.props.getProducts(null, searchQuery, 1, 10);
+        this.props.history.push({
+            pathname: "/products",
+            state: {searchQuery: searchQuery}
+        });
     }
 
     logout() {
         this.props.logout();
-        window.location.href = "/welcome";
+        this.props.history.push("/welcome");
     }
 
     render() {
@@ -163,14 +182,16 @@ class Header extends Component {
                               onSubmit={this.onSubmit}>
                             <div className="input-group input-group-sm">
                                 <input type="text"
-                                       name="keyword"
+                                       name="searchQuery"
                                        className="form-control"
                                        aria-label="Search"
                                        aria-describedby="inputGroup-sizing-sm"
-                                       placeholder="Search for..." />
+                                       placeholder="Search for..."
+                                       value={this.state.searchQuery}
+                                       onChange={this.onChange} />
                                 <div className="input-group-append">
                                     <button type="submit"
-                                            className="btn btn-secondary btn-number">
+                                           className="btn btn-secondary btn-number">
                                         <i className="fa fa-search"/>
                                     </button>
                                 </div>
@@ -201,7 +222,8 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    security: PropTypes.object.isRequired
+    security: PropTypes.object.isRequired,
+    getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -209,5 +231,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-    mapStateToProps
-)(Header);
+    mapStateToProps,
+    { getProducts }
+)(withRouter(Header));

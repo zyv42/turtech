@@ -7,10 +7,10 @@ import {
 export const getProducts = (category, textInput, page, size) => async dispatch => {
     let url;
     if (category === null || category === "All") {
-        if (textInput !== null) {
+        if (textInput != null) {
             url = `http://localhost:8112/?name=${textInput}` +
-                `&manufacturer=${textInput}` +
-                `&description=${textInput}` +
+ //               `&manufacturer=${textInput}` +
+ //               `&description=${textInput}` +
                 `&page=${page}` +
                 `&size=${size}`;
         } else {
@@ -18,7 +18,7 @@ export const getProducts = (category, textInput, page, size) => async dispatch =
                 `&size=${size}`;
         }
     } else {
-        if (textInput !== null) {
+        if (textInput != null) {
             url = `http://localhost:8112/?category=${category}` +
                 `&name=${textInput}` +
                 `&manufacturer=${textInput}` +
@@ -51,19 +51,5 @@ export const getProduct = (productId, history) => async dispatch => {
         });
     } catch (error) {
         history.push("/products");
-    }
-};
-
-export const getProductsByTextInput = input => async dispatch => {
-    try {
-        const res = await axios.get(`http://localhost:8112/?name=${input}
-                                                               &manufacturer=${input}
-                                                               &description=${input}`);
-        dispatch({
-            type: GET_PRODUCTS,
-            payload: res.data
-        })
-    } catch (error) {
-
     }
 };

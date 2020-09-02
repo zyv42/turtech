@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Product from "./Product";
 import classnames from "classnames";
+import {withRouter} from "react-router-dom";
 
 class Products extends Component {
 
@@ -20,14 +21,14 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        this.props.getProducts(null, null, this.state.activePage, 10);
+        if (typeof this.props.location.state === "undefined") {
+            this.props.getProducts(null, null, this.state.activePage, 10);
+        }
     }
 
     handlePageChange = pageNumber => {
         this.setState({ activePage: pageNumber });
         this.props.getProducts(this.state.category, null, pageNumber, 10);
-        console.log(this.state.activePage);
-        console.log(this.state.category);
     };
 
     handleCategoryChange = category => {
@@ -159,4 +160,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { getProducts }
-)(Products);
+)(withRouter(Products));

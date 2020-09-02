@@ -28,7 +28,7 @@ class App extends Component {
                             // Public Routes
                         }
                         <Route exact
-                               path="/welcome"
+                               path={"/welcome"}
                                component={Landing} />
                         <Redirect from="/"
                                   to="/welcome" />
