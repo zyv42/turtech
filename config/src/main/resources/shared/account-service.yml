@@ -2,19 +2,22 @@ security:
   oauth2:
     client:
       clientId: account-service
-      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
-      accessTokenUri: http://auth-service:8103/uaa/oauth/token
+      #clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
+      #accessTokenUri: http://auth-service:8103/uaa/oauth/token
       grant-type: client_credentials
       scope: server
+      accessTokenUri: http://localhost:8103/uaa/oauth/token
+      clientSecret:
 
 spring:
   data:
     mongodb:
-      host: account-mongodb
-      username: user
-      password: ${MONGODB_PASSWORD}
+      #host: account-mongodb
+      #username: user
+      #password: ${MONGODB_PASSWORD}
       database: turtech
       port: 27017
+      host: localhost
 
 server:
   servlet:

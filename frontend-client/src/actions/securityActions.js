@@ -25,7 +25,7 @@ export const createNewUser = (newUser, history) => async dispatch => {
 export const login = LoginRequest => async dispatch => {
     try {
         // post => Login Request
-        const res = await axios.post("/uaa/oauth/token", {
+        const res = await axios.post("http://localhost:8103/uaa/oauth/token", {
             scope: "ui",
             username: LoginRequest.username,
             password: LoginRequest.password,

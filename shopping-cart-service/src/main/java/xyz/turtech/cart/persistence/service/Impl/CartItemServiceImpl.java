@@ -20,7 +20,7 @@ public class CartItemServiceImpl implements CartItemService {
     private final ProductServiceClient productServiceClient;
 
     public CartItemServiceImpl(CartItemRepository cartItemRepository,
-                               @Qualifier("product-service") ProductServiceClient productServiceClient) {
+                               ProductServiceClient productServiceClient) {
         this.cartItemRepository = cartItemRepository;
         this.productServiceClient = productServiceClient;
     }

@@ -2,7 +2,7 @@ import axios from "axios";
 import {GET_CART, ADD_TO_CART, GET_ERRORS} from "./types";
 
 export const getShoppingCart = () => async dispatch => {
-    const res = await axios.get(`http://localhost:8112/cart`);
+    const res = await axios.get(`http://localhost:8113/cart`);
     dispatch({
         type: GET_CART,
         payload: res.data
@@ -11,7 +11,7 @@ export const getShoppingCart = () => async dispatch => {
 
 export const addToCart = (productId, qty) => async dispatch => {
     try {
-        await axios.get(`http://localhost:8112/addCartItem?productId=${productId}&qty=${qty}`);
+        await axios.get(`http://localhost:8113/addCartItem?productId=${productId}&qty=${qty}`);
         dispatch({
             type: ADD_TO_CART,
             payload: {}

@@ -23,7 +23,7 @@ class ProductDetails extends Component {
     }
 
     onAddToCartClick = productId => {
-        this.props.addToCart(productId);
+        this.props.addToCart(productId, 1);
         //TODO if response is "success" then change "addedToCart" to true;
     };
 

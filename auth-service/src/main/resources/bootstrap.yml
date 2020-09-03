@@ -3,12 +3,15 @@ spring:
     name: auth-service
   cloud:
     config:
-      uri: http://config:8101
+      #uri: http://config:8101
       fail-fast: true
-      password: ${CONFIG_SERVICE_PASSWORD}
+      #password: ${CONFIG_SERVICE_PASSWORD}
       username: user
       #retry:
         #max-attempts: 20
         #initial-interval: 3000
         #multiplier: 1.3
         #max-interval: 5000
+      # Values for local testing:
+      uri: http://localhost:8101
+      password: sesame

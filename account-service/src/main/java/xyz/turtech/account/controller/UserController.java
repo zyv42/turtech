@@ -19,7 +19,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("#oauth2.hasScope('server')")
+//    @PreAuthorize("#oauth2.hasScope('server')")
+    @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
         User user = userService.findByUsername(username).get();

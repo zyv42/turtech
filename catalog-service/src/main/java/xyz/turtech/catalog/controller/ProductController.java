@@ -7,7 +7,6 @@ import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import xyz.turtech.catalog.persistence.domain.Product;
 import xyz.turtech.catalog.persistence.service.ProductService;

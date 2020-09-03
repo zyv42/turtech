@@ -2,6 +2,7 @@ spring:
   data:
     mongodb:
       host: localhost
+      #host:catalog-mongodb
       #username: user
       #password: ${MONGODB_PASSWORD}
       database: turtech
