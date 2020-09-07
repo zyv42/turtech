@@ -17,7 +17,7 @@ public class UserBillingServiceImpl implements UserBillingService {
     }
 
     @Override
-    public Optional<UserBilling> findByUserPaymentId(String userPaymentId) {
+    public Optional<UserBilling> findByUserPaymentId(Long userPaymentId) {
         return userBillingRepository.findByUserPaymentId(userPaymentId);
     }
 }

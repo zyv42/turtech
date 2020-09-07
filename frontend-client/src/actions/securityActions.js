@@ -54,6 +54,33 @@ export const login = LoginRequest => async dispatch => {
         });
     }
 };
+/*
+export const login = LoginRequest => async dispatch => {
+    try {
+        // post => Login Request
+        const res = await axios.post("http://localhost:8103/user/login", LoginRequest);
+        // extract token from response data
+        const { token } = res.data;
+        // store the token in the localStorage
+        localStorage.setItem("jwtToken", token);
+        // set our token in the header
+        setJWTToken(token);
+        // decode token on React
+        const decodedToken = jwt_decode(token);
+        // dispatch to our securityReducer
+        dispatch({
+            type: SET_CURRENT_USER,
+            payload: decodedToken
+        });
+    } catch (error) {
+        console.log(error);
+        dispatch({
+            type: GET_ERRORS,
+            payload: error.response.data
+        });
+    }
+};
+*/
 
 export const logout = () => dispatch => {
     localStorage.removeItem("jwtToken");

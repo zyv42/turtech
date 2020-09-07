@@ -23,7 +23,7 @@ public class ProductController {
     @GetMapping("/{productId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getProduct(@PathVariable String productId) {
+    public ResponseEntity<?> getProduct(@PathVariable long productId) {
         Product product = productService.findOne(productId);
 
         return new ResponseEntity<>(product, HttpStatus.OK);

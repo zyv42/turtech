@@ -4,9 +4,9 @@ import xyz.turtech.account.persistence.domain.UserPayment;
 
 public interface UserPaymentService {
 
-    Iterable<UserPayment> findByUserId(String userId);
+    Iterable<UserPayment> findByUserId(Long userId);
     UserPayment addNewUserPayment(UserPayment newUserPayment);
     UserPayment updateUserPayment(UserPayment userPayment);
-    void setDefaultUserPayment(String userPaymentId);
-    String removeUserPayment(String userPaymentId);
+    void setDefaultUserPayment(Long userPaymentId);
+    Long removeUserPayment(Long userPaymentId);
 }

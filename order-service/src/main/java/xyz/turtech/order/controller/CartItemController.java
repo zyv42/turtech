@@ -22,7 +22,7 @@ public class CartItemController {
     @GetMapping("/cartItemsByOrderId/{orderId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getCartItemsByOrderId(@PathVariable String orderId) {
+    public ResponseEntity<?> getCartItemsByOrderId(@PathVariable Long orderId) {
         Iterable<CartItem> cartItems = cartItemService.findByOrderId(orderId);
 
         return new ResponseEntity<>(cartItems, HttpStatus.OK);

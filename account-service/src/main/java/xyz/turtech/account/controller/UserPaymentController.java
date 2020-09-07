@@ -31,7 +31,7 @@ public class UserPaymentController {
     @GetMapping("/userPayment/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getUserPaymentsByUserId(@PathVariable String userId) {
+    public ResponseEntity<?> getUserPaymentsByUserId(@PathVariable long userId) {
         Iterable<UserPayment> userPayments = userPaymentService.findByUserId(userId);
 
         return new ResponseEntity<>(userPayments, HttpStatus.OK);
@@ -40,7 +40,7 @@ public class UserPaymentController {
     @GetMapping("/setDefaultUserPayment/{paymentId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> setDefaultUserPayment(@PathVariable String paymentId) {
+    public ResponseEntity<?> setDefaultUserPayment(@PathVariable long paymentId) {
         userPaymentService.setDefaultUserPayment(paymentId);
         return new ResponseEntity<>(paymentId, HttpStatus.OK);
     }
@@ -72,7 +72,7 @@ public class UserPaymentController {
     @DeleteMapping("/removeUserPayment/{paymentId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> removeUserPayment(@PathVariable String paymentId) {
+    public ResponseEntity<?> removeUserPayment(@PathVariable long paymentId) {
 
         userPaymentService.removeUserPayment(paymentId);
         return new ResponseEntity<>(paymentId, HttpStatus.OK);

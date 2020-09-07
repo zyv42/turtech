@@ -22,7 +22,7 @@ public class UserBillingController {
     @GetMapping("/userBilling/{userPaymentId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getUserBillingAddressesByUserPaymentId(@PathVariable String userPaymentId) {
+    public ResponseEntity<?> getUserBillingAddressesByUserPaymentId(@PathVariable long userPaymentId) {
         UserBilling userBillingAddresses = userBillingService.findByUserPaymentId(userPaymentId).get();
 
         return new ResponseEntity<>(userBillingAddresses, HttpStatus.OK);

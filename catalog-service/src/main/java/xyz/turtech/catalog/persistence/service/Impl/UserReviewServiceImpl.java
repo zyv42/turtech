@@ -19,12 +19,12 @@ public class UserReviewServiceImpl implements UserReviewService {
     }
 
     @Override
-    public Page<UserReview> findUserReviewsByProductId(String productId, PageRequest pageRequest) {
+    public Page<UserReview> findUserReviewsByProductId(Long productId, PageRequest pageRequest) {
         return userReviewRepository.findUserReviewsByProductId(productId, pageRequest);
     }
 
     @Override
-    public Page<UserReview> findUserReviewsByUserId(String userId, PageRequest pageRequest) {
+    public Page<UserReview> findUserReviewsByUserId(Long userId, PageRequest pageRequest) {
         return userReviewRepository.findUserReviewsByUserId(userId, pageRequest);
     }
 

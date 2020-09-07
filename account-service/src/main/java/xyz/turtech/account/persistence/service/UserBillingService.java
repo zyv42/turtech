@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface UserBillingService {
 
-    Optional<UserBilling> findByUserPaymentId(String userPaymentId);
+    Optional<UserBilling> findByUserPaymentId(Long userPaymentId);
 }

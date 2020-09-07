@@ -2,9 +2,8 @@ package xyz.turtech.catalog.persistence.repository;
 
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
-import org.springframework.data.querydsl.binding.MultiValueBinding;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.querydsl.binding.SingleValueBinding;
@@ -13,7 +12,7 @@ import xyz.turtech.catalog.persistence.domain.Product;
 import xyz.turtech.catalog.persistence.domain.QProduct;
 
 @Repository
-public interface ProductRepository extends MongoRepository<Product, String>,
+public interface ProductRepository extends JpaRepository<Product, Long>,
         QuerydslPredicateExecutor<Product>,
         QuerydslBinderCustomizer<QProduct> {
 

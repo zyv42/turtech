@@ -15,7 +15,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Iterable<Order> findByUserId(String userId) {
+    public Iterable<Order> findByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
 }

@@ -1,31 +1,46 @@
 package xyz.turtech.account.persistence.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
+@Entity
+@Table(name = "user_billings", schema = "turtech")
 public class UserBilling implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
-    private String userBillingName;
-    private String userBillingStreet1;
-    private String userBillingStreet2;
-    private String userBillingCity;
-    private String userBillingCountry;
-    private String userBillingZipcode;
-    private String userPaymentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
 
-    public String getId() {
+    @Column(name = "user_billing_name")
+    private String userBillingName;
+
+    @Column(name = "user_billing_street1")
+    private String userBillingStreet1;
+
+    @Column(name = "user_billing_street2")
+    private String userBillingStreet2;
+
+    @Column(name = "user_billing_city")
+    private String userBillingCity;
+
+    @Column(name = "user_billing_country")
+    private String userBillingCountry;
+
+    @Column(name = "user_billing_zipcode")
+    private String userBillingZipcode;
+
+    @Column(name = "user_payment_id")
+    private Long userPaymentId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,11 +92,11 @@ public class UserBilling implements Serializable {
         this.userBillingZipcode = userBillingZipcode;
     }
 
-    public String getUserPaymentId() {
+    public Long getUserPaymentId() {
         return userPaymentId;
     }
 
-    public void setUserPaymentId(String userPaymentId) {
+    public void setUserPaymentId(Long userPaymentId) {
         this.userPaymentId = userPaymentId;
     }
 

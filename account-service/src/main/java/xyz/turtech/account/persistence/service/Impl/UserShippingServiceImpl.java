@@ -15,7 +15,7 @@ public class UserShippingServiceImpl implements UserShippingService {
     }
 
     @Override
-    public Iterable<UserShipping> findByUserId(String userId) {
+    public Iterable<UserShipping> findByUserId(Long userId) {
         return userShippingRepository.findByUserId(userId);
     }
 
@@ -30,14 +30,14 @@ public class UserShippingServiceImpl implements UserShippingService {
     }
 
     @Override
-    public void setDefaultUserShippingAddress(String userShippingAddressId) {
+    public void setDefaultUserShippingAddress(Long userShippingAddressId) {
         UserShipping userShipping = userShippingRepository.findById(userShippingAddressId).get();
         userShipping.setDefaultUserShipping(true);
         userShippingRepository.save(userShipping);
     }
 
     @Override
-    public String removeUserShippingAddress(String userShippingAddressId) {
+    public Long removeUserShippingAddress(Long userShippingAddressId) {
         UserShipping userShipping = userShippingRepository.findById(userShippingAddressId).get();
         userShippingRepository.delete(userShipping);
         return userShippingAddressId;

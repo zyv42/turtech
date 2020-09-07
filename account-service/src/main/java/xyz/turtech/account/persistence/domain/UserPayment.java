@@ -1,34 +1,55 @@
 package xyz.turtech.account.persistence.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
+@Entity
+@Table(name = "user_payment", schema = "turtech")
 public class UserPayment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
-    private String type;
-    private String cardName;
-    private String cardNumber;
-    private int expiryMonth;
-    private int expiryYear;
-    private int cvc;
-    private String holderName;
-    private boolean defaultPayment;
-    private String userId;
-    private String userBillingId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
 
-    public String getId() {
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "card_name")
+    private String cardName;
+
+    @Column(name = "card_number")
+    private String cardNumber;
+
+    @Column(name = "expiry_month")
+    private int expiryMonth;
+
+    @Column(name = "expiry_year")
+    private int expiryYear;
+
+    @Column(name = "cvc")
+    private int cvc;
+
+    @Column(name = "holder_name")
+    private String holderName;
+
+    @Column(name = "default_payment")
+    private boolean defaultPayment;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "user_billing_id")
+    private Long userBillingId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -96,19 +117,19 @@ public class UserPayment implements Serializable {
         this.defaultPayment = defaultPayment;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getUserBillingId() {
+    public Long getUserBillingId() {
         return userBillingId;
     }
 
-    public void setUserBillingId(String userBillingId) {
+    public void setUserBillingId(Long userBillingId) {
         this.userBillingId = userBillingId;
     }
 

@@ -1,29 +1,38 @@
 package xyz.turtech.order.persistence.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Document
+@Entity
+@Table(name = "cart_items", schema = "turtech")
 public class CartItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
-    private int qty;
-    private BigDecimal subtotal;
-    private String productId;
-    private String orderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public String getId() {
+    @Column(name = "qty")
+    private int qty;
+
+    @Column(name = "subtotal")
+    private BigDecimal subtotal;
+
+    @Column(name = "product_id")
+    private Long productId;
+
+    @Column(name = "order_id")
+    private Long orderId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,19 +52,19 @@ public class CartItem implements Serializable {
         this.subtotal = subtotal;
     }
 
-    public String getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 

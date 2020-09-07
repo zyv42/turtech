@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product findOne(String id) {
+    public Product findOne(Long id) {
         return productRepository.findById(id).orElse(null);
     }
 

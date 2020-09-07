@@ -15,7 +15,7 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public Iterable<CartItem> findByOrderId(String orderId) {
+    public Iterable<CartItem> findByOrderId(Long orderId) {
         return cartItemRepository.findByOrderId(orderId);
     }
 }

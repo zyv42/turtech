@@ -7,6 +7,6 @@ import xyz.turtech.catalog.persistence.domain.Product;
 
 public interface ProductService {
 
-    Product findOne(String id);
+    Product findOne(Long productId);
     Page<Product> findAll(Predicate predicate, PageRequest pageRequest);
 }

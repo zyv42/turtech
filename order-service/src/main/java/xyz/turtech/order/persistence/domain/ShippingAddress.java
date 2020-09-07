@@ -1,31 +1,46 @@
 package xyz.turtech.order.persistence.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
+@Entity
+@Table(name = "shipping_addresses", schema = "turtech")
 public class ShippingAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
-    private String shippingAddressName;
-    private String shippingAddressStreet1;
-    private String shippingAddressStreet2;
-    private String shippingAddressCity;
-    private String shippingAddressCountry;
-    private String shippingAddressZipcode;
-    private String orderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public String getId() {
+    @Column(name = "shipping_address_name")
+    private String shippingAddressName;
+
+    @Column(name = "shipping_address_street1")
+    private String shippingAddressStreet1;
+
+    @Column(name = "shipping_address_street2")
+    private String shippingAddressStreet2;
+
+    @Column(name = "shipping_address_city")
+    private String shippingAddressCity;
+
+    @Column(name = "shipping_address_country")
+    private String shippingAddressCountry;
+
+    @Column(name = "shipping_address_zipcode")
+    private String shippingAddressZipcode;
+
+    @Column(name = "order_id")
+    private Long orderId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,11 +92,11 @@ public class ShippingAddress implements Serializable {
         this.shippingAddressZipcode = shippingAddressZipcode;
     }
 
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 

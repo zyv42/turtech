@@ -19,7 +19,7 @@ public class UserShippingController {
     @GetMapping("/userShipping/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getUserShippingAddressesByUserId(@PathVariable String userId) {
+    public ResponseEntity<?> getUserShippingAddressesByUserId(@PathVariable long userId) {
         Iterable<UserShipping> userShippingAddresses = userShippingService.findByUserId(userId);
 
         return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
@@ -44,13 +44,13 @@ public class UserShippingController {
     @PutMapping("/setDefaultUserShippingAddress/{userShippingAddressId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> setDefaultUserShippingAddress(@PathVariable String userShippingAddressId) {
+    public ResponseEntity<?> setDefaultUserShippingAddress(@PathVariable long userShippingAddressId) {
         userShippingService.setDefaultUserShippingAddress(userShippingAddressId);
         return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
     }
 
     @DeleteMapping("/removeUserShippingAddress/{userShippingAddressId}")
-    public ResponseEntity<?> removeUserShippingAddress(@PathVariable String userShippingAddressId) {
+    public ResponseEntity<?> removeUserShippingAddress(@PathVariable long userShippingAddressId) {
         userShippingService.removeUserShippingAddress(userShippingAddressId);
         return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
     }

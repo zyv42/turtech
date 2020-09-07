@@ -1,32 +1,49 @@
 package xyz.turtech.account.persistence.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
+@Entity
+@Table(name = "user_shippings", schema = "turtech")
 public class UserShipping implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
-    private String userShippingName;
-    private String userShippingStreet1;
-    private String userShippingStreet2;
-    private String userShippingCity;
-    private String userShippingCountry;
-    private String userShippingZipcode;
-    private boolean defaultUserShipping;
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
 
-    public String getId() {
+    @Column(name = "user_shipping_name")
+    private String userShippingName;
+
+    @Column(name = "user_shipping_street1")
+    private String userShippingStreet1;
+
+    @Column(name = "user_shipping_street2")
+    private String userShippingStreet2;
+
+    @Column(name = "user_shipping_city")
+    private String userShippingCity;
+
+    @Column(name = "user_shipping_country")
+    private String userShippingCountry;
+
+    @Column(name = "user_shipping_zipcode")
+    private String userShippingZipcode;
+
+    @Column(name = "default_user_shipping")
+    private boolean defaultUserShipping;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,11 +103,11 @@ public class UserShipping implements Serializable {
         this.defaultUserShipping = defaultUserShipping;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

@@ -1,33 +1,52 @@
 package xyz.turtech.order.persistence.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
+@Entity
+@Table(name = "payments", schema = "turtech")
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
-    private String type;
-    private String cardName;
-    private String cardNumber;
-    private int expiryMonth;
-    private int expiryYear;
-    private int cvc;
-    private String holderName;
-    private String orderId;
-    private String BillingAddressId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public String getId() {
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "card_name")
+    private String cardName;
+
+    @Column(name = "card_number")
+    private String cardNumber;
+
+    @Column(name = "expiry_month")
+    private int expiryMonth;
+
+    @Column(name = "expiry_year")
+    private int expiryYear;
+
+    @Column(name = "cvc")
+    private int cvc;
+
+    @Column(name = "holder_name")
+    private String holderName;
+
+    @Column(name = "order_id")
+    private Long orderId;
+
+    @Column(name = "billing_address_id")
+    private Long BillingAddressId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -87,19 +106,19 @@ public class Payment implements Serializable {
         this.holderName = holderName;
     }
 
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
-    public String getBillingAddressId() {
+    public Long getBillingAddressId() {
         return BillingAddressId;
     }
 
-    public void setBillingAddressId(String billingAddressId) {
+    public void setBillingAddressId(Long billingAddressId) {
         BillingAddressId = billingAddressId;
     }
 

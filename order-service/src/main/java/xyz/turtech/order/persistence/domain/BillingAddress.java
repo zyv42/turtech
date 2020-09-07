@@ -1,31 +1,46 @@
 package xyz.turtech.order.persistence.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
+@Entity
+@Table(name = "billing_addresses", schema = "turtech")
 public class BillingAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
-    private String billingAddressName;
-    private String billingAddressStreet1;
-    private String billingAddressStreet2;
-    private String billingAddressCity;
-    private String billingAddressCountry;
-    private String billingAddressZipcode;
-    private String orderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public String getId() {
+    @Column(name = "billing_address_name")
+    private String billingAddressName;
+
+    @Column(name = "billing_address_street1")
+    private String billingAddressStreet1;
+
+    @Column(name = "billing_address_street2")
+    private String billingAddressStreet2;
+
+    @Column(name = "billing_address_city")
+    private String billingAddressCity;
+
+    @Column(name = "billing_address_country")
+    private String billingAddressCountry;
+
+    @Column(name = "billing_address_zipcode")
+    private String billingAddressZipcode;
+
+    @Column(name = "order_id")
+    private Long orderId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,11 +92,11 @@ public class BillingAddress implements Serializable {
         this.billingAddressZipcode = billingAddressZipcode;
     }
 
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 

@@ -2,33 +2,59 @@ package xyz.turtech.catalog.persistence.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.querydsl.core.annotations.QueryEntity;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @QueryEntity
-@Document(collection = "products")
+@Entity
+@Table(name = "products", schema = "turtech")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "manufacturer")
     private String manufacturer;
+
+    @Column(name = "manufacture_date")
     private LocalDate manufactureDate;
+
+    @Column(name = "category")
     private String category;
+
+    @Column(name = "condition")
     private String condition;
+
+    @Column(name = "shipping_weight")
     private double shippingWeight;
+
+    @Column(name = "list_price")
     private double listPrice;
+
+    @Column(name = "our_price")
     private double ourPrice;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "specifications")
     private String specifications;
+
+    @Column(name = "in_stock_number")
     private int inStockNumber;
+
+    @Column(name = "discontinued")
     private boolean discontinued = false;
 
     /*
@@ -37,11 +63,11 @@ public class Product implements Serializable {
 
     public Product() {}
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

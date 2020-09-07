@@ -10,14 +10,30 @@ security:
       clientSecret:
 
 spring:
-  data:
-    mongodb:
-      #host: account-mongodb
-      #username: user
-      #password: ${MONGODB_PASSWORD}
-      database: turtech
-      port: 27017
-      host: localhost
+  # DATASOURCE PROPERTIES
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    #url: jdbc:postgresql://postgres:5432/turtech
+    url: jdbc:postgresql://localhost:5432/turtech
+    username: turtech
+    #password: ${POSTGRES_PASSWORD}
+    password: password
+    # Keep the connection alive if idle for a long time (needed in production)
+    tomcat:
+      test-while-idle: true
+      validation-query: SELECT 1
+  # JPA / HIBERNATE
+  jpa:
+    # Show or not log for each sql query
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        # Changing default schema for hibernate
+        default_schema: turtech
+        # Allows Hibernate to generate SQL optimized for a particular DBMS
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   servlet:

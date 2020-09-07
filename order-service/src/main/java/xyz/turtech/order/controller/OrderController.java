@@ -22,7 +22,7 @@ public class OrderController {
     @GetMapping("/userOrders/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getOrdersByUserId(@PathVariable String userId) {
+    public ResponseEntity<?> getOrdersByUserId(@PathVariable Long userId) {
         Iterable<Order> orders = orderService.findByUserId(userId);
 
         return new ResponseEntity<>(orders, HttpStatus.OK);

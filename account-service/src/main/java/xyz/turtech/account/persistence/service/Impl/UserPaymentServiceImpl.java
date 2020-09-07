@@ -15,7 +15,7 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
-    public Iterable<UserPayment> findByUserId(String userId) {
+    public Iterable<UserPayment> findByUserId(Long userId) {
         return userPaymentRepository.findByUserId(userId);
     }
 
@@ -30,14 +30,14 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
-    public void setDefaultUserPayment(String userPaymentId) {
+    public void setDefaultUserPayment(Long userPaymentId) {
         UserPayment userPayment = userPaymentRepository.findById(userPaymentId).get();
         userPayment.setDefaultPayment(true);
         userPaymentRepository.save(userPayment);
     }
 
     @Override
-    public String removeUserPayment(String userPaymentId) {
+    public Long removeUserPayment(Long userPaymentId) {
         UserPayment userPayment = userPaymentRepository.findById(userPaymentId).get();
         userPaymentRepository.delete(userPayment);
         return userPaymentId;

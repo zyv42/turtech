@@ -4,5 +4,5 @@ import xyz.turtech.order.persistence.domain.Order;
 
 public interface OrderService {
 
-    Iterable<Order> findByUserId(String userId);
+    Iterable<Order> findByUserId(Long userId);
 }

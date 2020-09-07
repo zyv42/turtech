@@ -1,39 +1,46 @@
 package xyz.turtech.catalog.persistence.domain;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Document(collection = "userReviews")
+@Entity
+@Table(name = "user_reviews", schema = "turtech")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserReview implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
 
+    @Column(name = "text")
     private String text;
 
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
+    @Column(name = "author_name")
     private String authorName;
 
-    private String userId;
+    @Column(name = "user_id")
+    private Long userId;
 
-    private String productId;
+    @Column(name = "product_id")
+    private Long productId;
 
     public UserReview() {}
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,19 +68,19 @@ public class UserReview implements Serializable {
         this.authorName = authorName;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 
