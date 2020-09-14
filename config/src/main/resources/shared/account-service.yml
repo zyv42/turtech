@@ -1,13 +1,9 @@
-security:
-  oauth2:
-    client:
-      clientId: account-service
-      #clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
-      #accessTokenUri: http://auth-service:8103/uaa/oauth/token
-      grant-type: client_credentials
-      scope: server
-      accessTokenUri: http://localhost:8103/uaa/oauth/token
-      clientSecret:
+keycloak:
+  auth-server-url: http://localhost:8103/auth
+  realm: turtech
+  resource: turtech-login
+  public-client: true
+  principal-attribute: preffered_username
 
 spring:
   # DATASOURCE PROPERTIES

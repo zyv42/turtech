@@ -20,7 +20,7 @@ public class UserController {
     }
 
 //    @PreAuthorize("#oauth2.hasScope('server')")
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {

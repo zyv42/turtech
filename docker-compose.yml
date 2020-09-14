@@ -23,6 +23,8 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: $KEYCLOAK_PASSWORD
     restart: always
+    depends_on:
+      - postgres
     ports:
       - 8103:8080
     logging:

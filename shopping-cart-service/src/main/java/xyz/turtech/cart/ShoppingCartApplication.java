@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableOAuth2Client
 @EnableFeignClients
 @EnableCircuitBreaker
 @EnableGlobalMethodSecurity(prePostEnabled = true)

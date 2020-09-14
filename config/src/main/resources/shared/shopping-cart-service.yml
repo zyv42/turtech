@@ -1,3 +1,10 @@
+keycloak:
+  auth-server-url: http://localhost:8103/auth
+  realm: turtech
+  resource: turtech-login
+  public-client: true
+  principal-attribute: preffered_username
+
 spring:
   redis:
     host: localhost
