@@ -27,14 +27,6 @@ class ProductDetails extends Component {
         //TODO if response is "success" then change "addedToCart" to true;
     };
 
-    onPlusClick = () => {
-        document.getElementById("qty").value++;
-    };
-
-    onMinusClick = () => {
-        document.getElementById("qty").value--;
-    };
-
     render() {
         const { product } = this.props;
         const { errors } = this.state;
@@ -42,7 +34,7 @@ class ProductDetails extends Component {
         function ProductAvailability(props) {
             if (product.inStockNumber >= 10) {
                 return <div className="alert alert-success">In Stock</div>;
-            } else if (product.inStockNumber < 10 && props.product.inStockNumber > 0) {
+            } else if (product.inStockNumber < 10 && product.inStockNumber > 0) {
                 return <div className="alert alert-warning">Only {product.inStockNumber} In Stock</div>;
             } else if (product.inStockNumber === 0) {
                 return <div className="alert alert-danger">Unavailable</div>;
@@ -82,6 +74,17 @@ class ProductDetails extends Component {
             )
         }
 
+        function onPlusClick() {
+            if (document.getElementById("qty").value < product.inStockNumber) {
+                document.getElementById("qty").value++;
+            }
+        }
+
+        function onMinusClick() {
+            if (document.getElementById("qty").value > 1) {
+                document.getElementById("qty").value--;
+            }
+        }
 
         function NotEnoughStock(errors) {
             if (errors.notEnoughStock) {
@@ -153,15 +156,15 @@ class ProductDetails extends Component {
                                     <h4>
                                         Our Price:&nbsp;
                                         <span style={{color: '#db3208'}}>
-                                            ${product.ourPrice}
+                                            ${(product.ourPrice + 0).toFixed(2)}
                                         </span>
                                     </h4>
                                     <p>
                                         List Price:&nbsp;
                                         <span style={{textDecoration: 'line-through'}}>
-                                            ${product.listPrice}</span>&nbsp;
+                                            ${(product.listPrice + 0).toFixed(2)}</span>&nbsp;
                                         <span>| You save:
-                                            ${product.listPrice - product.ourPrice}</span>
+                                            ${(product.listPrice - product.ourPrice).toFixed(2)}</span>
                                     </p>
                                     <div className="col-xs-5">
                                         <p>
@@ -200,7 +203,7 @@ class ProductDetails extends Component {
                                             <div className="input-group-prepend">
                                                 <button type="button"
                                                         className="quantity-left-minus btn btn-danger btn-number"
-                                                        onClick={this.onMinusClick}>
+                                                        onClick={onMinusClick}>
                                                     <i className="fa fa-minus" />
                                                 </button>
                                             </div>
@@ -214,7 +217,7 @@ class ProductDetails extends Component {
                                             <div className="input-group-append">
                                                 <button type="button"
                                                         className="quantity-right-plus btn btn-success btn-number"
-                                                        onClick={this.onPlusClick}>
+                                                        onClick={onPlusClick}>
                                                     <i className="fa fa-plus" />
                                                 </button>
                                             </div>

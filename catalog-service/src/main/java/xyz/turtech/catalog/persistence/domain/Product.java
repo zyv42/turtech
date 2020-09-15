@@ -2,16 +2,22 @@ package xyz.turtech.catalog.persistence.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-@QueryEntity
 @Entity
 @Table(name = "products", schema = "turtech")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@EntityListeners(AuditingEntityListener.class)
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,8 +64,40 @@ public class Product implements Serializable {
     private boolean discontinued = false;
 
     /*
-    private MultipartFile product Image;
+    private MultipartFile productImage;
      */
+
+    /**
+     * An auditing field, which specifies the date on which the product was added.
+     * It's filled automatically.
+     */
+    @Column(name = "created_date", nullable = false, updatable = false)
+    @CreatedDate
+    private LocalDateTime createdDate;
+
+    /**
+     * An auditing field, which specifies the person responsible for adding the product.
+     * It's filled automatically
+     */
+    @Column(name = "created_by", nullable = false, updatable = false)
+    @CreatedBy
+    private String createdBy;
+
+    /**
+     * An auditing field, which specified the date on which the product was last modified.
+     * It's filled automatically
+     */
+    @Column(name = "last_modified_date", nullable = false)
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+
+    /**
+     * An auditing field, which specified the person responsible for the last changes
+     * to the product information. It's filled automatically.
+     */
+    @Column(name = "last_modified_by", nullable = false)
+    @LastModifiedBy
+    private String lastModifiedBy;
 
     public Product() {}
 
@@ -165,6 +203,38 @@ public class Product implements Serializable {
 
     public void setDiscontinued(boolean discontinued) {
         this.discontinued = discontinued;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
     }
 
     @Override

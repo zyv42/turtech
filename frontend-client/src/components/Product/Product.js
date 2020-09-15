@@ -11,7 +11,7 @@ class Product extends Component {
     };
 
     truncate = str => {
-        return str.length > 100 ? str.substring(0, 7) + "..." : str;
+        return str.length > 100 ? str.substring(0, 50) + "..." : str;
     };
 
     render() {
@@ -39,11 +39,8 @@ class Product extends Component {
                 <div className="card-footer">
                     <div className="col align-bottom">
                         <h5>
-                            {
-                                //TODO consider price styling
-                            }
-                            <span style={{fontSize: "x-large", color: "#db3208"}}>{product.ourPrice}</span>&nbsp;
-                            <span style={{textDecoration: "line-through"}}>{product.listPrice}</span>
+                            <span style={{fontSize: "x-large", color: "#db3208"}}>${product.ourPrice.toFixed(2)}</span>&nbsp;
+                            <span style={{textDecoration: "line-through"}}>${product.listPrice.toFixed(2)}</span>
                         </h5>
                     </div>
                     <div className="col align-bottom">

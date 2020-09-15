@@ -87,7 +87,7 @@ facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi
 perspiciatis molestias iure, ducimus!', 'Lorem ipsum dolor sit amet, consectetur
 adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta.
 Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis
-molestias iure, ducimus!', 5, 300.00, 259.00, '2018-10-24', 10.00, 'Meizy M2
+molestias iure, ducimus!', 5, 300.00, 259.00, '2018-10-24', 10.00, 'Meizu M2
 Note', '2018-10-24', 'admin', '2018-10-24', 'admin'),
 	(false, 'Apple', 'Tablets', 'New', 'Lorem ipsum dolor sit amet,
 consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque

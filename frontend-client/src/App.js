@@ -16,6 +16,7 @@ import Products from "./components/Product/Products";
 import ProductDetails from "./components/Product/ProductDetails";
 import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
 import MyAccount from "./components/Account/MyAccount";
+import SecuredRoute from "./securityUtils/SecuredRoute";
 
 class App extends Component {
     render() {
@@ -59,7 +60,7 @@ class App extends Component {
                         {
                             // Private Routes
                         }
-                        <Route exact
+                        <SecuredRoute exact
                                path={"/myAccount"}
                                component={MyAccount} />
                         <Footer />

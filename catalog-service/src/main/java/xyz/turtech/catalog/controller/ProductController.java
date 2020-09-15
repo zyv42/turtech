@@ -29,7 +29,7 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/")
+    @GetMapping("/listProducts")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getProducts(@QuerydslPredicate(root = Product.class) Predicate predicate,

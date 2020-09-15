@@ -1,6 +1,6 @@
 package xyz.turtech.catalog.persistence.domain;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
