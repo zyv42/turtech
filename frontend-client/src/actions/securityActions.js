@@ -24,63 +24,36 @@ export const createNewUser = (newUser, history) => async dispatch => {
 
 export const login = LoginRequest => async dispatch => {
     try {
-        // post => Login Request
-        const res = await axios.post("http://localhost:8103/uaa/oauth/token", {
-            scope: "ui",
-            username: LoginRequest.username,
-            password: LoginRequest.password,
-            grant_type: "password"
-        }, {
-            headers: {'Authorization': 'Basic YnJvd3Nlcjo=',
-                        'Content-Type': 'application/json'}
-        });
-        // extract token from response data
-        const { token } = res.data;
+        // As it is said in axios wiki, by default, axios serializes JavaScript objects to JSON.
+        // So to send data in the application/x-www-form-urlencoded you need to use params
+        var params = new URLSearchParams();
+
+        params.append('grant_type', 'password');
+        params.append('client_id', 'turtech-browser-client');
+        params.append('username', 'demo_user');
+        params.append('password', 'password');
+        const res = await axios.post(
+            "http://localhost:8103/auth/realms/turtech/protocol/openid-connect/token",
+                params);
         // store the token in the localStorage
-        localStorage.setItem("jwtToken", token);
+        localStorage.setItem("jwtToken", res.data.access_token);
         // set out token in the header
-        setJWTToken(token);
+        setJWTToken(res.data.access_token);
         // decode token on React
-        const decodedToken = jwt_decode(token);
+        const decodedToken = jwt_decode(res.data.access_token);
+        console.log(decodedToken);
         // dispatch to out securityReducer
         dispatch({
             type: SET_CURRENT_USER,
             payload: decodedToken
         });
     } catch (error) {
-        dispatch({
-            type: GET_ERRORS,
-            payload: error.response.data
-        });
+  //      dispatch({
+ //           type: GET_ERRORS,
+  //          payload: error.response.data
+  //      });
     }
 };
-/*
-export const login = LoginRequest => async dispatch => {
-    try {
-        // post => Login Request
-        const res = await axios.post("http://localhost:8103/user/login", LoginRequest);
-        // extract token from response data
-        const { token } = res.data;
-        // store the token in the localStorage
-        localStorage.setItem("jwtToken", token);
-        // set our token in the header
-        setJWTToken(token);
-        // decode token on React
-        const decodedToken = jwt_decode(token);
-        // dispatch to our securityReducer
-        dispatch({
-            type: SET_CURRENT_USER,
-            payload: decodedToken
-        });
-    } catch (error) {
-        console.log(error);
-        dispatch({
-            type: GET_ERRORS,
-            payload: error.response.data
-        });
-    }
-};
-*/
 
 export const logout = () => dispatch => {
     localStorage.removeItem("jwtToken");

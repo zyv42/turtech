@@ -7,6 +7,7 @@ import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 import Logout from "../Security/Logout";
 import {getProducts} from "../../actions/productActions";
 import {withRouter} from "react-router-dom";
+import {logout} from "../../actions/securityActions";
 
 class Header extends Component {
 
@@ -72,21 +73,22 @@ class Header extends Component {
         });
     }
 
-    logout() {
-        this.props.logout();
-        this.props.history.push("/welcome");
+    logoutHandle() {
+        logout();
+        //this.props.history.push("/welcome");
     }
 
     render() {
         const { links, activeLink } = this.state;
         const { validToken, user } = this.props.security;
+
         const userIsAuthenticated = (
             <Dropdown as={ButtonGroup}
                       className="ml-2">
                 <Link to="/MyAccount">
                     <Button variant="primary"
                             size="sm">
-                        <i className="fa fa-user-circle fa-fw" /> Welcome, {user.username}!
+                        <i className="fa fa-user-circle fa-fw" /> Welcome, {user.preferred_username}!
                     </Button>
                 </Link>
 
@@ -98,11 +100,7 @@ class Header extends Component {
                         <Link to="/myAccount"><i className="fa fa-address-card-o fa-fw"/> My Account</Link>
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item>
-                        <Link to="/logout"
-                              onClick={() => this.show = true}>
-                            <i className="fa fa-sign-out"/> Sign out</Link>
-                    </Dropdown.Item>
+                    <Logout logoutHandle={this.logoutHandle()} />
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -210,12 +208,6 @@ class Header extends Component {
                         {userLinks}
                     </div>
                 </div>
-
-                {
-                    // Logout Modal
-                }
-                <Logout show={false}
-                        onHide={() => this.show = false} />
             </nav>
         );
     }

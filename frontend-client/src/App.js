@@ -17,6 +17,27 @@ import ProductDetails from "./components/Product/ProductDetails";
 import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
 import MyAccount from "./components/Account/MyAccount";
 import SecuredRoute from "./securityUtils/SecuredRoute";
+import setJWTToken from "./securityUtils/setJWTToken";
+import {SET_CURRENT_USER} from "./actions/types";
+import {logout} from "./actions/securityActions";
+import jwt_decode from "jwt-decode";
+
+const jwtToken = localStorage.jwtToken;
+
+if (jwtToken) {
+    setJWTToken(jwtToken);
+    const decodedToken = jwt_decode(jwtToken);
+    store.dispatch({
+        type: SET_CURRENT_USER,
+        payload: decodedToken
+    });
+
+    const currentTime = Date.now() / 1000;
+    if (decodedToken.exp < currentTime) {
+        store.dispatch(logout());
+        window.location.href = "/";
+    }
+}
 
 class App extends Component {
     render() {

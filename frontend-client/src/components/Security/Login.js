@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { login } from "../../actions/securityActions";
+import {withRouter} from "react-router-dom";
 
 class Login extends Component {
 
@@ -136,4 +137,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     {login}
-)(Login);
+)(withRouter(Login));

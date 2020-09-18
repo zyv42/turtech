@@ -1,11 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import {Modal, Button} from "react-bootstrap";
+import {Modal, Button, Dropdown} from "react-bootstrap";
+import {withRouter} from "react-router-dom";
 
-function Logout() {
+function Logout(props) {
+    const [ show,setShow ] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const {logoutHandle} = props;
 
     return (
-        <Modal>
+        <>
+        <Dropdown.Item>
+            <Link to="/logout"
+                  onClick={handleShow}>
+                <i className="fa fa-sign-out"/> Sign out</Link>
+        </Dropdown.Item>
+        <Modal size="lg"
+               show={show}
+               onHide={handleClose}
+               centered>
             <Modal.Header closeButton>
                 <Modal.Title>
                     Ready to leave?
@@ -17,12 +31,13 @@ function Logout() {
             <Modal.Footer>
                 <Button variant="secondary">Cancel</Button>
                 <Link to="/logout"
-                      onClick={() => this.logout.bind(this)}>
+                      onClick={logoutHandle}>
                     <Button variant="primary">Logout</Button>
                 </Link>
             </Modal.Footer>
         </Modal>
+        </>
     );
 }
 
-export default Logout;
+export default (withRouter(Logout));
