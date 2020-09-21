@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import logo_bigger from "../../assets/images/logo_bigger.png";
-import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
-import Logout from "../Security/Logout";
+import {Dropdown, Button, ButtonGroup, Modal} from "react-bootstrap";
 import {getProducts} from "../../actions/productActions";
 import {withRouter} from "react-router-dom";
 import {logout} from "../../actions/securityActions";
+import Logout from "../Security/Logout";
 
 class Header extends Component {
 
@@ -73,11 +73,6 @@ class Header extends Component {
         });
     }
 
-    logoutHandle() {
-        logout();
-        //this.props.history.push("/welcome");
-    }
-
     render() {
         const { links, activeLink } = this.state;
         const { validToken, user } = this.props.security;
@@ -100,7 +95,7 @@ class Header extends Component {
                         <Link to="/myAccount"><i className="fa fa-address-card-o fa-fw"/> My Account</Link>
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Logout logoutHandle={this.logoutHandle()} />
+                    <Logout onConfirm={logout()}/>
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -215,7 +210,8 @@ class Header extends Component {
 
 Header.propTypes = {
     security: PropTypes.object.isRequired,
-    getProducts: PropTypes.func.isRequired
+    getProducts: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -224,5 +220,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getProducts }
+    { getProducts, logout }
 )(withRouter(Header));

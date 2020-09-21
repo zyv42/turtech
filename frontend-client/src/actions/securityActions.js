@@ -26,7 +26,7 @@ export const login = LoginRequest => async dispatch => {
     try {
         // As it is said in axios wiki, by default, axios serializes JavaScript objects to JSON.
         // So to send data in the application/x-www-form-urlencoded you need to use params
-        var params = new URLSearchParams();
+        const params = new URLSearchParams();
 
         params.append('grant_type', 'password');
         params.append('client_id', 'turtech-browser-client');
@@ -41,7 +41,6 @@ export const login = LoginRequest => async dispatch => {
         setJWTToken(res.data.access_token);
         // decode token on React
         const decodedToken = jwt_decode(res.data.access_token);
-        console.log(decodedToken);
         // dispatch to out securityReducer
         dispatch({
             type: SET_CURRENT_USER,
@@ -58,8 +57,9 @@ export const login = LoginRequest => async dispatch => {
 export const logout = () => dispatch => {
     localStorage.removeItem("jwtToken");
     setJWTToken(false);
-    dispatch({
-        type: SET_CURRENT_USER,
-        payload: {}
-    });
+    //dispatch({
+    //    type: SET_CURRENT_USER,
+    //    payload: {}
+    //});
+    window.location.href= "/";
 };
