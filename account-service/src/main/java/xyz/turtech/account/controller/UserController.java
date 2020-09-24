@@ -1,22 +1,26 @@
 package xyz.turtech.account.controller;
 
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import xyz.turtech.account.persistence.domain.User;
-import xyz.turtech.account.persistence.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import xyz.turtech.account.persistence.domain.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
+import javax.ws.rs.core.Response;
+import java.util.Arrays;
 
 @RestController
 public class UserController {
 
-    private final UserService userService;
+    private final Keycloak keycloak;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(Keycloak keycloak) {
+        this.keycloak = keycloak;
     }
 
 //    @PreAuthorize("#oauth2.hasScope('server')")
@@ -24,25 +28,54 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
-        User user = userService.findByUsername(username).get();
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/current")
-    public ResponseEntity<?> getCurrentUser(Principal principal) {
-        User user = userService.findByUsername(principal.getName()).get();
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    @GetMapping(path = "/test")
+    public String test() {
+        return "Test";
     }
 
-    @PutMapping(path = "/current")
-    public void updateCurrentUser(@Valid @RequestBody User user,
-                                  Principal principal) {
-        userService.updateUser(principal.getName(), user);
-    }
+    /**
+     * By default KeyCloak REST API doesn't allow to create account with credential type is PASSWORD,
+     * it means after created account, need an extra step to make it works, it's RESET PASSWORD
+     * @param newUser - a new user to be created
+     * @return
+     */
+ //   @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path = "/newUser")
+    public ResponseEntity<?> newUser(@Valid @RequestBody User newUser) {
+        CredentialRepresentation credential = new CredentialRepresentation();
+        credential.setType(CredentialRepresentation.PASSWORD);
+        credential.setValue(newUser.getPassword());
 
-    @PostMapping(path = "/")
-    public ResponseEntity<?> createNewUser(@Valid @RequestBody User newUser) {
-        User user = userService.createUser(newUser);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        UserRepresentation user = new UserRepresentation();
+        user.setUsername(newUser.getUsername());
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setEmail(newUser.getEmail());
+        user.setEnabled(true);
+        user.singleAttribute("phone", newUser.getPhone());
+        user.setCredentials(Arrays.asList(credential));
+
+        Response response = keycloak.realm("turtech")
+                .users().create(user);
+        if (response.getStatus() != HttpStatus.CREATED.value()) {
+            return new ResponseEntity<>(null, HttpStatus.valueOf(response.getStatus()));
+        }
+        String path = response.getLocation().getPath();
+        final String createdId = path.substring(path.lastIndexOf('/') + 1);
+
+        //ResetPassword
+        CredentialRepresentation newCredential = new CredentialRepresentation();
+        UserResource userResource = keycloak.realm("turtech")
+                .users().get(createdId);
+        newCredential.setType(CredentialRepresentation.PASSWORD);
+        newCredential.setValue(newUser.getPassword());
+        newCredential.setTemporary(false);
+        userResource.resetPassword(newCredential);
+
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 }

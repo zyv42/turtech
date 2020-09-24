@@ -3,11 +3,12 @@ import { createNewUser } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import {withRouter} from "react-router-dom";
 
 class Register extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             username: "",
@@ -36,10 +37,15 @@ class Register extends Component {
         const newUser = {
             username: this.state.username,
             password: this.state.password,
-            confirmPassword: this.state.confirmPassword
+            confirmPassword: this.state.confirmPassword,
+            email: "email",
+            firstName: "firstName",
+            lastName: "lastName",
+            phone: 123456789
         };
 
         this.props.createNewUser(newUser, this.props.history);
+        this.props.history.push("/login");
     }
 
     onChange(e) {
@@ -62,14 +68,15 @@ class Register extends Component {
                 }
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label htmlFor="registerUsername">* Username:</label>
+                        <label htmlFor="username">* Username:</label>
                         <div className="input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"><i className="fa fa-user fa-fw" /></span>
                             </div>
-                            <input value={this.state.username}
+                            <input name="username"
+                                   value={this.state.username}
                                    onChange={this.onChange}
-                                   id="registerUsername"
+                                   id="username"
                                    className={classnames("form-control", {
                                        "is-invalid": errors.username
                                    })}
@@ -230,4 +237,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { createNewUser }
-)(Register);
+)(withRouter(Register));

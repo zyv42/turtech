@@ -1,9 +1,16 @@
 package xyz.turtech.account.config;
 
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.keycloak.OAuth2Constants;
+import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,7 +37,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
+    public KeycloakConfigResolver KeycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
     }
 
@@ -46,6 +53,26 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         super.configure(http);
         http.authorizeRequests()
                 .anyRequest()
-                .authenticated();
+                // csrf should disabled for POST requests
+                .permitAll().and().csrf().disable();
+                //.authenticated();
+    }
+
+    @Bean
+    public Keycloak keycloak(KeycloakSpringBootProperties props) {
+        Keycloak keycloak = KeycloakBuilder.builder()
+                .serverUrl(props.getAuthServerUrl())
+                .realm(props.getRealm())
+                .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
+                .clientId(props.getResource())
+                .clientSecret((String) props.getCredentials().get("secret"))
+                .resteasyClient(new ResteasyClientBuilder()
+                    .connectionPoolSize(10).build())
+                .build();
+
+        keycloak.tokenManager().getAccessToken();
+        RealmResource realmResource = keycloak.realm("turtech");
+
+        return keycloak;
     }
 }

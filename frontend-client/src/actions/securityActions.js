@@ -5,11 +5,7 @@ import jwt_decode from "jwt-decode";
 
 export const createNewUser = (newUser, history) => async dispatch => {
     try {
-        await axios.post("/accounts/", JSON.stringify({
-            username: newUser.username,
-            password: newUser.password
-        }));
-        history.push("/login");
+        await axios.post("http://localhost:8111/newUser", newUser);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -30,8 +26,8 @@ export const login = LoginRequest => async dispatch => {
 
         params.append('grant_type', 'password');
         params.append('client_id', 'turtech-browser-client');
-        params.append('username', 'demo_user');
-        params.append('password', 'password');
+        params.append('username', LoginRequest.username);
+        params.append('password', LoginRequest.password);
         const res = await axios.post(
             "http://localhost:8103/auth/realms/turtech/protocol/openid-connect/token",
                 params);
