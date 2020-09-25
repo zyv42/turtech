@@ -50,9 +50,19 @@ class MyProfile extends Component {
     }
 
     componentDidMount() {
-        const { id } = this.props.match.params;
-        this.props.getUserProfile(id, this.props.history);
-        this.setState({infoUpdated: false})
+        //const { id } = this.props.match.params;
+        //this.props.getUserProfile(id, this.props.history);
+        //this.setState({infoUpdated: false})
+        if (this.props.security.validToken) {
+            this.setState({
+                id: this.props.security.user.id,
+                username: this.props.security.user.preferred_username,
+                firstName: this.props.security.user.firstName,
+                lastName: this.props.security.user.lastName,
+                email: this.props.security.user.email,
+                phone: this.props.security.user.phone
+            })
+        }
     }
 
     onChange(e) {
@@ -354,6 +364,7 @@ class MyProfile extends Component {
 }
 
 MyProfile.propTypes = {
+    security: PropTypes.object.isRequired,
     getUserProfile: PropTypes.func.isRequired,
     updateUserProfile: PropTypes.func.isRequired,
     userProfile: PropTypes.object.isRequired,
@@ -362,7 +373,8 @@ MyProfile.propTypes = {
 
 const mapStateToProps = state => ({
     userProfile: state.userProfile,
-    errors: state.errors
+    errors: state.errors,
+    security: state.security
 });
 
 export default connect(

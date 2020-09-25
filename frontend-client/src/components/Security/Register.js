@@ -38,6 +38,7 @@ class Register extends Component {
             username: this.state.username,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
+            //lower four are temporary values just for debugging purposes
             email: "email",
             firstName: "firstName",
             lastName: "lastName",
