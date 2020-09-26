@@ -4,6 +4,7 @@ import {
     GET_USER_PAYMENT,
     GET_USER_SHIPPING,
     GET_USER_ORDERS,
+    GET_USER_ORDER,
     GET_ERRORS,
     GET_CART_ITEM_LIST_BY_ORDER_ID
 } from "./types";
@@ -145,6 +146,17 @@ export const getUserOrders = userId => async dispatch => {
         const res = await axios.get(`/api/userOrders/${userId}`);
         dispatch({
             type: GET_USER_ORDERS,
+            payload: res.data
+        });
+    } catch (error) {
+    }
+};
+
+export const getUserOrder = userOrderId => async dispatch => {
+    try {
+        const res = await axios.get(`/api/userOrders/${userOrderId}`);
+        dispatch({
+            type: GET_USER_ORDER,
             payload: res.data
         });
     } catch (error) {

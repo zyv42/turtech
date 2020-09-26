@@ -372,7 +372,7 @@ MyProfile.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    userProfile: state.userProfile,
+    userProfile: state.userProfile.userProfile,
     errors: state.errors,
     security: state.security
 });

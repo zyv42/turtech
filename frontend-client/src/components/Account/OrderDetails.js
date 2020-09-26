@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import { getCartItemListByOrderId } from "../../actions/userProfileActions";
+import { getUserOrder, getCartItemListByOrderId } from "../../actions/userProfileActions";
 import PropTypes from "prop-types";
 
 class OrderDetails extends Component {
 
     componentDidMount() {
-        this.props.getCartItemListByOrderId(this.props.userOrder.id);
+        const { userOrderId } = this.props.match.params;
+        this.props.getUserOrder(userOrderId);
+        this.props.getCartItemListByOrderId(userOrderId);
     }
 
     render() {
 
-        const userOrder = this.props.userOrder;
-        const cartItems = this.props.cartItems;
+        const { userOrder } = this.props;
+        const { cartItems } = this.props;
 
         return (
             <div>
@@ -131,11 +133,14 @@ class OrderDetails extends Component {
 
 OrderDetails.propTypes = {
     cartItems: PropTypes.object.isRequired,
-    getCartItemListByOrderId: PropTypes.func.isRequired
+    getCartItemListByOrderId: PropTypes.func.isRequired,
+    getUserOrder: PropTypes.func.isRequired,
+    userOrder: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    cartItems: state.cartItems
+    userOrder: state.userProfile.userOrder,
+    cartItems: state.userProfile.cartItems
 });
 
 export default connect(

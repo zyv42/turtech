@@ -1,6 +1,7 @@
 import {
     GET_USER_PAYMENT,
     GET_USER_ORDERS,
+    GET_USER_ORDER,
     GET_USER_PROFILE,
     GET_USER_SHIPPING,
     GET_CART_ITEM_LIST_BY_ORDER_ID
@@ -11,6 +12,7 @@ const initialState = {
     userPayment: [],
     userShipping: [],
     userOrders: [],
+    userOrder: {},
     cartItems: []
 };
 
@@ -38,6 +40,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 userOrders: action.payload
+            };
+
+        case GET_USER_ORDER:
+            return {
+                ...state,
+                userOrder: action.payload
             };
 
         case GET_CART_ITEM_LIST_BY_ORDER_ID:

@@ -8,6 +8,12 @@ import {Button} from "react-bootstrap";
 
 class MyBilling extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
     onSubmit(e) {
         e.preventDefault();
         this.props.setDefaultUserPayment(this.state.userPayment.id);
@@ -41,7 +47,7 @@ class MyBilling extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <div>
-                                <form onSubmit={this.onSubmit()}>
+                                <form onSubmit={this.onSubmit}>
                                     <table className="table">
                                         <thead>
                                         <tr>
@@ -101,7 +107,7 @@ MyBilling.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    userPayment: state.userPayment
+    userPayment: state.userProfile.userPayment
 });
 
 export default connect(

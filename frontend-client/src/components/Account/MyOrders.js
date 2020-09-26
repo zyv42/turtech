@@ -11,52 +11,47 @@ class MyOrders extends Component {
         this.props.getUserOrders();
     }
 
-    render() {
+    renderUserOrders() {
+        const {userOrders} = this.props;
 
-        const { userOrders } = this.props.userOrders;
-
-        let OrdersContent;
-
-        const ordersAlgorithm = userOrders => {
-            if (userOrders.isEmpty) {
-                return (
-                    <div className="alert alert-info">No orders yet.</div>
-                );
-            } else {
-                return (
-                    <div>
-                        <table className="table table-sm table-inverse">
-                            <thead>
+        if (userOrders.isEmpty) {
+            return (
+                <div className="alert alert-info">No orders yet.</div>
+            );
+        } else {
+            return (
+                <div>
+                    <table className="table table-sm table-inverse">
+                        <thead>
+                        <tr>
+                            <th>Order Date</th>
+                            <th>Order Number</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {userOrders.map(userOrder => (
                             <tr>
-                                <th>Order Date</th>
-                                <th>Order Number</th>
-                                <th>Total</th>
-                                <th>Status</th>
+                                <td><Link key={userOrder.id}
+                                          to={`/userOrders/${userOrder.id}`}
+                                          userOrder={userOrder}>
+                                    {userOrder.orderDate.toLocaleDateString()}</Link></td>
+                                <td>{userOrder.id}</td>
+                                <td>{userOrder.orderTotal}</td>
+                                <td>{userOrder.orderStatus}</td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {userOrders.map(userOrder => (
-                                <tr>
-                                    <td><Link key={userOrder.id}
-                                              to={`/userOrders/${userOrder.id}`}
-                                              userOrder={userOrder}>
-                                        {userOrder.orderDate.toLocaleDateString()}</Link></td>
-                                    <td>{userOrder.id}</td>
-                                    <td>{userOrder.orderTotal}</td>
-                                    <td>{userOrder.orderStatus}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                        ))}
+                        </tbody>
+                    </table>
 
-                        <OrderDetails />
-                    </div>
-                );
-            }
-        };
+                    <OrderDetails />
+                </div>
+            );
+        }
+    }
 
-        OrdersContent = ordersAlgorithm(userOrders);
-
+    render() {
         return (
             <div className="card">
                 <div className="card-body">
@@ -67,7 +62,7 @@ class MyOrders extends Component {
                         </div>
                     </div>
 
-                    <OrdersContent />
+                    {this.renderUserOrders()}
                 </div>
             </div>
         );
@@ -80,7 +75,7 @@ MyOrders.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    userOrders: state.userOrders
+    userOrders: state.userProfile.userOrders
 });
 
 export default connect(

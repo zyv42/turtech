@@ -100,7 +100,7 @@ MyShipping.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    userShipping: state.userShipping
+    userShipping: state.userProfile.userShipping
 });
 
 export default connect(
