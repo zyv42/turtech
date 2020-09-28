@@ -33,9 +33,7 @@ class MyOrders extends Component {
                         <tbody>
                         {userOrders.map(userOrder => (
                             <tr>
-                                <td><Link key={userOrder.id}
-                                          to={`/userOrders/${userOrder.id}`}
-                                          userOrder={userOrder}>
+                                <td><Link to={`/userOrders/${userOrder.id}`}>
                                     {userOrder.orderDate.toLocaleDateString()}</Link></td>
                                 <td>{userOrder.id}</td>
                                 <td>{userOrder.orderTotal}</td>
@@ -44,8 +42,10 @@ class MyOrders extends Component {
                         ))}
                         </tbody>
                     </table>
-
-                    <OrderDetails />
+                    {
+                        //TODO fix Order Details display
+                        // <OrderDetails />
+                    }
                 </div>
             );
         }

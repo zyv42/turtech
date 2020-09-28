@@ -228,7 +228,7 @@ class AddNewPayment extends Component {
                                             name="expiryMonth"
                                             required="required"
                                             value={this.state.expiryMonth}
-                                            style="width: 45%">
+                                            style={{width: "45%"}}>
                                         <option disabled="disabled">-- Month --</option>
                                         <option value="01">Jan (01)</option>
                                         <option value="02">Feb (02)</option>
@@ -243,11 +243,11 @@ class AddNewPayment extends Component {
                                         <option value="11">Nov (11)</option>
                                         <option value="12">Dec (12)</option>
                                     </select> <span
-                                    style="width: 10%; text-align: center"> / </span>
+                                    style={{width: "10%", textAlign: "center"}}> / </span>
                                     <select className="form-control"
                                             name="expiryYear"
                                             value={this.state.expiryYear}
-                                            style="width: 45%">
+                                            style={{width: "45%"}}>
                                         <option disabled="disabled">-- Year --</option>
                                         <option value="19">2019</option>
                                         <option value="20">2020</option>

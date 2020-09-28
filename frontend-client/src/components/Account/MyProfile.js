@@ -263,7 +263,7 @@ class MyProfile extends Component {
                                     // New password
                                 }
                                 <div id="checkPasswordEdit"
-                                     style="display: none;"
+                                     style={{display: "none"}}
                                      className="alert alert-danger">Passwords do not match!
                                 </div>
                                 <div className="form-group row">

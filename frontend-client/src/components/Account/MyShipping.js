@@ -23,6 +23,62 @@ class MyShipping extends Component {
         this.props.removeUserShippingAddress(userShippingId);
     }
 
+    renderUserShippingAddressesDisplay() {
+        const { userShippingAddresses } = this.props.userShipping;
+
+        if (userShippingAddresses && userShippingAddresses.length > 0) {
+            return (
+                <div>
+                    <form onSubmit={this.onSubmit}>
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th>Default</th>
+                                <th>Shipping Address</th>
+                                <th>Operations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {userShippingAddresses.map(userShippingAddress => (
+                                <tr>
+                                    <td>
+                                        <input type="radio"
+                                               name="defaultShippingAddressId"
+                                               value={userShippingAddress.id}
+                                               checked={userShippingAddress.userShippingDefault}/>
+                                        <span>default</span>
+                                    </td>
+                                    <td>{userShippingAddress.userShippingStreet1},
+                                        {userShippingAddress.userShippingCity}</td>
+                                    <td>
+                                        {
+                                            // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
+                                        }
+                                        <Button className="fa fa-pencil">
+                                            <Link to="/updateUserShipping"/>
+                                        </Button>
+                                        &nbsp;&nbsp;
+                                        <Button className="fa fa-times"
+                                                onClick={this.removeUserShipping(userShippingAddress.id)}/>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        <button className="btn btn-primary"
+                                type="submit">Save</button>
+                    </form>
+                </div>
+            )
+        } else {
+            return (
+                <div className="alert alert-info text-center">
+                    No User Shipping Addresses were specified yet...
+                </div>
+            )
+        }
+    }
+
     render() {
 
         const { userShippingAddresses } = this.props.userShipping;
@@ -36,52 +92,13 @@ class MyShipping extends Component {
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item active">
                                     <Link to="@{/listOfShippingAddresses}"
-                                          style="color:grey">
+                                          style={{color:"grey"}}>
                                         List of Shipping Addresses</Link></li>
                             </ol>
                             <hr/>
                         </div>
                     </div>
-                    <div>
-                        <form onSubmit={this.onSubmit} >
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th>Default</th>
-                                    <th>Shipping Address</th>
-                                    <th>Operations</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {userShippingAddresses.map(userShippingAddress => (
-                                    <tr>
-                                       <td>
-                                           <input type="radio"
-                                                  name="defaultShippingAddressId"
-                                                  value={userShippingAddress.id}
-                                                  checked={userShippingAddress.userShippingDefault} />
-                                                  <span>default</span>
-                                       </td>
-                                        <td>{userShippingAddress.userShippingStreet1},
-                                            {userShippingAddress.userShippingCity}</td>
-                                        <td>
-                                            {
-                                                // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
-                                            }
-                                            <Button className="fa fa-pencil">
-                                                <Link to="/updateUserShipping" />
-                                            </Button>
-                                            &nbsp;&nbsp;
-                                            <Button className="fa fa-times"
-                                                    onClick={this.removeUserShipping(userShippingAddress.id)} />
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                            <button className="btn btn-primary" type="submit">Save</button>
-                        </form>
-                    </div>
+                    {this.renderUserShippingAddressesDisplay()}
 
                     <AddNewShippingAddress />
                 </div>

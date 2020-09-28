@@ -23,9 +23,66 @@ class MyBilling extends Component {
         this.props.getUserPayment();
     }
 
-    render() {
-
+    renderUserPaymentsDisplay() {
         const { userPayments } = this.props.userPayment;
+
+        if (userPayments && userPayments.length > 0) {
+            return (
+                <div>
+                    <form onSubmit={this.onSubmit}>
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th>Default</th>
+                                <th>Credit Card</th>
+                                <th>Operations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {userPayments.map(userPayment => (
+                                <tr>
+                                    <td>
+                                        <input type="radio"
+                                               name="defaultUserPaymentId"
+                                               value={userPayment.id}
+                                               checked={userPayment.defaultPayment}/>
+                                    </td>
+                                    <td>
+                                        {userPayment.cardName}
+                                    </td>
+                                    <td>
+                                        {
+                                            // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
+                                        }
+                                        <Button className="fa fa-pencil"
+                                            //onClick={}
+                                        >
+                                        </Button>&nbsp;&nbsp;
+                                        <Button className="fa fa-times"
+                                            //onClick={}
+                                        >
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        <button className="btn btn-primary"
+                                type="submit">Save
+                        </button>
+                    </form>
+                </div>
+            )
+        } else {
+            return (
+                <div className="alert alert-info text-center">
+                    No User Payment methods were specified yet...
+                </div>
+            )
+        }
+    }
+
+    render() {
 
         return (
             <div className="card">
@@ -46,50 +103,7 @@ class MyBilling extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <div>
-                                <form onSubmit={this.onSubmit}>
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Default</th>
-                                            <th>Credit Card</th>
-                                            <th>Operations</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {userPayments.map(userPayment => (
-                                            <tr>
-                                                <td>
-                                                    <input type="radio"
-                                                           name="defaultUserPaymentId"
-                                                           value={userPayment.id}
-                                                           checked={userPayment.defaultPayment} />
-                                                </td>
-                                                <td>
-                                                    {userPayment.cardName}
-                                                </td>
-                                                <td>
-                                                    {
-                                                        // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
-                                                    }
-                                                    <Button className="fa fa-pencil"
-                                                        //onClick={}
-                                                    >
-                                                    </Button>&nbsp;&nbsp;
-                                                    <Button className="fa fa-times"
-                                                        //onClick={}
-                                                    >
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                    <button className="btn btn-primary"
-                                            type="submit">Save
-                                    </button>
-                                </form>
-                            </div>
+                            {this.renderUserPaymentsDisplay()}
 
                             <AddNewPayment />
                         </div>

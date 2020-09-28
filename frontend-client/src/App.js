@@ -21,6 +21,7 @@ import setJWTToken from "./securityUtils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
 import {logout} from "./actions/securityActions";
 import jwt_decode from "jwt-decode";
+import OrderDetails from "./components/Account/OrderDetails";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -82,8 +83,11 @@ class App extends Component {
                             // Private Routes
                         }
                         <SecuredRoute exact
-                               path={"/myAccount"}
-                               component={MyAccount} />
+                                      path={"/myAccount"}
+                                      component={MyAccount} />
+                        <SecuredRoute exact
+                                      path={"/userOrders/:userOrderId"}
+                                      component={OrderDetails} />
                         <Footer />
                     </div>
                 </Router>

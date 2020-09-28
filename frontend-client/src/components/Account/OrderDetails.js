@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 
 class OrderDetails extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         const { userOrderId } = this.props.match.params;
         this.props.getUserOrder(userOrderId);
@@ -13,8 +17,7 @@ class OrderDetails extends Component {
 
     render() {
 
-        const { userOrder } = this.props;
-        const { cartItems } = this.props;
+        const { userOrder, cartItems } = this.props;
 
         return (
             <div>
@@ -22,7 +25,7 @@ class OrderDetails extends Component {
                     <div className="col-12">
                         <div className="text-center">
                             <h4>
-                                Order Details for Purchase #{userOrder.id}
+                                Order Details for Purchase #{userOrder && userOrder.id}
                             </h4>
                         </div>
                         <hr />
@@ -34,11 +37,11 @@ class OrderDetails extends Component {
                                         <strong>Billing Details</strong>
                                     </div>
                                     <div className="panel-body">
-                                        {userOrder.billingAddress.billingAddressName} <br />
-                                        {userOrder.billingAddress.billingAddressStreet1}
-                                        {userOrder.billingAddress.billingAddressStreet2} <br />
-                                        {userOrder.billingAddress.billingAddressCity} <br />
-                                        {userOrder.billingAddress.billingAddressZipcode} <br />
+                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressName} <br />
+                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressStreet1}
+                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressStreet2} <br />
+                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressCity} <br />
+                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressZipcode} <br />
                                     </div>
                                 </div>
                             </div>
@@ -48,9 +51,9 @@ class OrderDetails extends Component {
                                         <strong>Payment Information</strong>
                                     </div>
                                     <div className="panel-body">
-                                        {userOrder.payment.holderName} <br />
-                                        {userOrder.payment.cardNumber} <br />
-                                        Exp Date: {userOrder.payment.expiryMonth} / {userOrder.payment.expiryYear} <br />
+                                        {userOrder && userOrder.payment && userOrder.payment.holderName} <br />
+                                        {userOrder && userOrder.payment && userOrder.payment.cardNumber} <br />
+                                        Exp Date: {userOrder && userOrder.payment && userOrder.payment.expiryMonth} / {userOrder && userOrder.payment && userOrder.payment.expiryYear} <br />
                                     </div>
                                 </div>
                             </div>
@@ -60,11 +63,11 @@ class OrderDetails extends Component {
                                         <strong>Billing Details</strong>
                                     </div>
                                     <div className="panel-body">
-                                        {userOrder.shippingAddress.shippingAddressName} <br />
-                                        {userOrder.shippingAddress.shippingAddressStreet1}
-                                        {userOrder.shippingAddress.shippingAddressStreet2} <br />
-                                        {userOrder.shippingAddress.shippingAddressCity} <br />
-                                        {userOrder.shippingAddress.shippingAddressZipcode} <br />
+                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressName} <br />
+                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressStreet1}
+                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressStreet2} <br />
+                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressCity} <br />
+                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressZipcode} <br />
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +107,7 @@ class OrderDetails extends Component {
                                         <td className="highrow" />
                                         <td className="highrow text-right"><strong>Subtotal</strong></td>
                                         <td className="highrow text-right">
-                                            ${(userOrder.orderTotal).toFixed(2)}</td>
+                                            ${(userOrder.orderTotal + 0).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td className="emptyrow" />
@@ -118,7 +121,7 @@ class OrderDetails extends Component {
                                         <td className="emptyrow" />
                                         <td className="emptyrow text-right"><strong>Total</strong></td>
                                         <td className="emptyrow text-right">
-                                            ${(userOrder.orderTotal + userOrder.order * 0.06).toFixed(2)}</td>
+                                            ${(userOrder.orderTotal + userOrder.orderTotal * 0.06).toFixed(2)}</td>
                                     </tr>
                                     </tbody>
                                 </table>
