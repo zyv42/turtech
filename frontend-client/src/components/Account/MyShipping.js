@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import AddNewShippingAddress from "./AddNewShippingAddress";
 import {Button} from "react-bootstrap";
+import SecuredRoute from "../../securityUtils/SecuredRoute";
+import {Switch} from "react-router";
+import {Route} from "react-router-dom";
 
 class MyShipping extends Component {
 
@@ -23,7 +26,7 @@ class MyShipping extends Component {
         this.props.removeUserShippingAddress(userShippingId);
     }
 
-    renderUserShippingAddressesDisplay() {
+    ListShippingAddresses = () => {
         const { userShippingAddresses } = this.props.userShipping;
 
         if (userShippingAddresses && userShippingAddresses.length > 0) {
@@ -91,16 +94,22 @@ class MyShipping extends Component {
                             <h4>Shipping</h4>
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item active">
-                                    <Link to="@{/listOfShippingAddresses}"
-                                          style={{color:"grey"}}>
+                                    <Link to="/myAccount/listOfShippingAddresses">
                                         List of Shipping Addresses</Link></li>
+                                <li className="breadcrumb-item">
+                                    <Link to="/myAccount/addNewShippingAddress">
+                                        Add(Update) Shipping Address</Link></li>
                             </ol>
                             <hr/>
                         </div>
                     </div>
-                    {this.renderUserShippingAddressesDisplay()}
-
-                    <AddNewShippingAddress />
+                    {
+                        //TODO change this.renderUserShippingAddressesDisplay() to a component
+                    }
+                        <SecuredRoute exact path="/myAccount/listOfShippingAddresses"
+                                      component={this.ListShippingAddresses} />
+                        <SecuredRoute exact path="/myAccount/addNewShippingAddress"
+                                      component={AddNewShippingAddress} />
                 </div>
             </div>
         );

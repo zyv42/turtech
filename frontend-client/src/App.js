@@ -50,6 +50,8 @@ class App extends Component {
                         {
                             // Public Routes
                         }
+                        <div className="container-fluid"
+                             style={{minHeight: "600px"}}>
                         <Route exact
                                path={"/welcome"}
                                component={Landing} />
@@ -82,12 +84,9 @@ class App extends Component {
                         {
                             // Private Routes
                         }
-                        <SecuredRoute exact
-                                      path={"/myAccount"}
+                        <SecuredRoute path={"/myAccount"}
                                       component={MyAccount} />
-                        <SecuredRoute exact
-                                      path={"/userOrders/:userOrderId"}
-                                      component={OrderDetails} />
+                        </div>
                         <Footer />
                     </div>
                 </Router>

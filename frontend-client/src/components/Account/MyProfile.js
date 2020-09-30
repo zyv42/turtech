@@ -146,7 +146,7 @@ class MyProfile extends Component {
                                                    type="text"
                                                    value={this.state.username}
                                                    onChange={this.onChange}
-                                                   className={classnames("form-control form-control-lg", {
+                                                   className={classnames("form-control", {
                                                        "is-invalid": errors.username
                                                    })} />
                                         </div>
@@ -169,7 +169,7 @@ class MyProfile extends Component {
                                                type="text"
                                                value={this.state.firstName}
                                                onChange={this.onChange}
-                                               className={classnames("form-control form-control-lg", {
+                                               className={classnames("form-control", {
                                                    "is-invalid": errors.firstName
                                                })} />
                                     </div>
@@ -191,7 +191,7 @@ class MyProfile extends Component {
                                                type="text"
                                                value={this.state.lastName}
                                                onChange={this.onChange}
-                                               className={classnames("form-control form-control-lg", {
+                                               className={classnames("form-control", {
                                                    "is-invalid": errors.lastName
                                                })} />
                                     </div>
@@ -222,7 +222,7 @@ class MyProfile extends Component {
                                                    type="email"
                                                    value={this.state.email}
                                                    onChange={this.onChange}
-                                                   className={classnames("form-control form-control-lg", {
+                                                   className={classnames("form-control", {
                                                        "is-invalid": errors.email
                                                    })} />
                                         </div>
@@ -289,7 +289,7 @@ class MyProfile extends Component {
                                                    placeholder="New Password"
                                                    type="password"
                                                    onChange={this.onChange}
-                                                   className={classnames("form-control form-control-lg", {
+                                                   className={classnames("form-control", {
                                                        "is-invalid": errors.incorrectPattern || errors.samePassword
                                                    })} />
                                         </div>
@@ -337,7 +337,7 @@ class MyProfile extends Component {
                                                    name="password"
                                                    placeholder="Current Password"
                                                    type="password"
-                                                   className={classnames("form-control form-control-lg", {
+                                                   className={classnames("form-control", {
                                                        "is-invalid": errors.incorrectPassword
                                                    })} />
                                         </div>

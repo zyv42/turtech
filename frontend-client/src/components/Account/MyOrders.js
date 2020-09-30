@@ -4,6 +4,7 @@ import { getUserOrders } from "../../actions/userProfileActions";
 import PropTypes from "prop-types";
 import OrderDetails from "./OrderDetails";
 import {Link} from "react-router-dom";
+import SecuredRoute from "../../securityUtils/SecuredRoute";
 
 class MyOrders extends Component {
 
@@ -14,7 +15,7 @@ class MyOrders extends Component {
     renderUserOrders() {
         const {userOrders} = this.props;
 
-        if (userOrders.isEmpty) {
+        if (userOrders.length === 0) {
             return (
                 <div className="alert alert-info">No orders yet.</div>
             );
@@ -42,10 +43,10 @@ class MyOrders extends Component {
                         ))}
                         </tbody>
                     </table>
-                    {
-                        //TODO fix Order Details display
-                        // <OrderDetails />
-                    }
+
+                    <SecuredRoute exact
+                                  path={"/userOrders/:userOrderId"}
+                                  component={OrderDetails} />
                 </div>
             );
         }

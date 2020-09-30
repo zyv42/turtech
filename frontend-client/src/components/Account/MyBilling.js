@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import AddNewPayment from "./AddNewPayment";
 import {Button} from "react-bootstrap";
+import SecuredRoute from "../../securityUtils/SecuredRoute";
 
 class MyBilling extends Component {
 
@@ -23,7 +24,7 @@ class MyBilling extends Component {
         this.props.getUserPayment();
     }
 
-    renderUserPaymentsDisplay() {
+    ListOfPayments = () => {
         const { userPayments } = this.props.userPayment;
 
         if (userPayments && userPayments.length > 0) {
@@ -92,10 +93,10 @@ class MyBilling extends Component {
                             <h4>Billing</h4>
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <Link to="@{/listOfCreditCards}">
+                                    <Link to="/myAccount/listOfCreditCards">
                                         List of Credit Cards</Link></li>
                                 <li className="breadcrumb-item">
-                                    <Link to="@{/addNewCreditCard}">
+                                    <Link to="/myAccount/addNewPayment">
                                         Add(Update) Credit Card</Link></li>
                             </ol>
                             <hr/>
@@ -103,9 +104,11 @@ class MyBilling extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            {this.renderUserPaymentsDisplay()}
+                            <SecuredRoute exact path="/myAccount/listOfCreditCards"
+                                          component={this.ListOfPayments} />
 
-                            <AddNewPayment />
+                            <SecuredRoute exact path="/myAccount/addNewPayment"
+                                          component={AddNewPayment} />
                         </div>
                     </div>
                 </div>
