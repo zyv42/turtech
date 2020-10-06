@@ -12,9 +12,11 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +24,11 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -51,12 +58,33 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http.authorizeRequests()
-                .anyRequest()
-                // csrf should disabled for POST requests
-                .permitAll().and().csrf().disable();
-                //.authenticated();
+        http
+                // csrf should be disabled for POST requests;
+                // if we use Spring Security, we must take an extra step to make
+                // sure it plays well with CORS, because CORS must be processed first.
+                // For Spring Security not to reject the request before it reaches Spring MVC
+                // we need to add cors();
+                .cors().and()
+                .csrf().disable()
+                .authorizeRequests()
+                    .antMatchers("/newProfile").permitAll()
+                    .antMatchers("/updateProfile").hasRole("user")
+   //             .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("USER")
+                .anyRequest().permitAll();
     }
+
+    @Bean
+    protected CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList(HttpMethod.GET.toString(), HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.OPTIONS.toString()));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+
+
 
     @Bean
     public Keycloak keycloak(KeycloakSpringBootProperties props) {
@@ -65,13 +93,14 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .realm(props.getRealm())
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .clientId(props.getResource())
-                .clientSecret((String) props.getCredentials().get("secret"))
+                //.clientSecret((String) props.getCredentials().get("secret"))
+                .clientSecret("1e15bb3d-c1c7-4ced-8721-56ad236ffa89")
                 .resteasyClient(new ResteasyClientBuilder()
                     .connectionPoolSize(10).build())
                 .build();
 
         keycloak.tokenManager().getAccessToken();
-        RealmResource realmResource = keycloak.realm("turtech");
+        //RealmResource realmResource = keycloak.realm("turtech");
 
         return keycloak;
     }

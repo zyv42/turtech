@@ -38,6 +38,7 @@ export const login = LoginRequest => async dispatch => {
         // decode token on React
         const decodedToken = jwt_decode(res.data.access_token);
         // dispatch to out securityReducer
+        console.log(res.data.access_token);
         dispatch({
             type: SET_CURRENT_USER,
             payload: decodedToken

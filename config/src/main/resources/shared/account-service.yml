@@ -1,9 +1,10 @@
 keycloak:
+  cors: true
   auth-server-url: http://localhost:8103/auth
   realm: turtech
   resource: turtech-account-client
-  credentials:
-    secret: 1e15bb3d-c1c7-4ced-8721-56ad236ffa89
+    #credentials:
+    #secret: 1e15bb3d-c1c7-4ced-8721-56ad236ffa89
 
 spring:
   # DATASOURCE PROPERTIES

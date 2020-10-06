@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-    GET_USER_PROFILE,
     GET_USER_PAYMENT,
     GET_USER_SHIPPING,
     GET_USER_ORDERS,
@@ -9,21 +8,9 @@ import {
     GET_CART_ITEM_LIST_BY_ORDER_ID
 } from "./types";
 
-export const getUserProfile = history => async dispatch => {
-    try {
-        const res = await axios.get("/api/userProfile/current");
-        dispatch({
-            type: GET_USER_PROFILE,
-            payload: res.data
-        });
-    } catch (error) {
-        history.push("/welcome");
-    }
-};
-
 export const updateUserProfile = userProfile => async dispatch => {
     try {
-        const res = await axios.post("/api/userProfile/current", userProfile);
+        const res = await axios.post("http://localhost:8111/updateProfile", userProfile);
         if (res.status === 200) {
             this.status.infoUpdated = true;
         }
@@ -32,6 +19,7 @@ export const updateUserProfile = userProfile => async dispatch => {
             payload: {}
         });
     } catch (error) {
+        console.log(error);
         dispatch({
             type: GET_ERRORS,
             payload: error.response.data

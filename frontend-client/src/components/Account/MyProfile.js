@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import  classnames from "classnames";
-import {getUserProfile, updateUserProfile} from "../../actions/userProfileActions";
+import {updateUserProfile} from "../../actions/userProfileActions";
 
 class MyProfile extends Component {
 
@@ -56,11 +56,11 @@ class MyProfile extends Component {
         if (this.props.security.validToken) {
             this.setState({
                 id: this.props.security.user.id,
-                username: this.props.security.user.preferred_username,
-                firstName: this.props.security.user.firstName,
-                lastName: this.props.security.user.lastName,
-                email: this.props.security.user.email,
-                phone: this.props.security.user.phone
+                username: this.props.userProfile.preferred_username,
+                firstName: this.props.userProfile.given_name,
+                lastName: this.props.userProfile.family_name,
+                email: this.props.userProfile.email,
+                phone: this.props.userProfile.phone
             })
         }
     }
@@ -73,15 +73,14 @@ class MyProfile extends Component {
         e.preventDefault();
 
         const updatedUserProfile = {
-            id: this.state.id,
+            //id: this.state.id,
             username: this.state.username,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
             phone: this.state.phone,
-            newPassword: this.state.newPassword
+            //newPassword: this.state.newPassword
         };
-
         this.props.updateUserProfile(updatedUserProfile);
     }
 
@@ -320,6 +319,7 @@ class MyProfile extends Component {
                                 {
                                     // Current password to authorize
                                 }
+                                {/*
                                 <div className="form-group row">
                                     <label htmlFor="currentPassword"
                                            className="col-4 col-form-label">Current
@@ -345,14 +345,12 @@ class MyProfile extends Component {
                                             change password for the account.</small>
                                     </div>
                                 </div>
-                                <div className="form-group row">
-                                    <div className="offset-4 col-8">
-                                        <button name="submit"
-                                                type="submit"
-                                                className="btn btn-primary">
-                                            Update My Profile
-                                        </button>
-                                    </div>
+                                    */}
+                                <div className="form-group row offset-4 col-4">
+                                        <input name="submit"
+                                               type="submit"
+                                               className="btn btn-primary btn-block"
+                                               value="Update Profile"/>
                                 </div>
                             </form>
                         </div>
@@ -365,19 +363,18 @@ class MyProfile extends Component {
 
 MyProfile.propTypes = {
     security: PropTypes.object.isRequired,
-    getUserProfile: PropTypes.func.isRequired,
     updateUserProfile: PropTypes.func.isRequired,
     userProfile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    userProfile: state.userProfile.userProfile,
     errors: state.errors,
-    security: state.security
+    security: state.security,
+    userProfile: state.security.user
 });
 
 export default connect(
     mapStateToProps,
-    { getUserProfile, updateUserProfile}
+    {updateUserProfile}
 )(MyProfile);

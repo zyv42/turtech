@@ -22,7 +22,7 @@ class LoginManagement extends Component {
                 <Card.Body>
                     <Tabs defaultActiveKey={tab}
                           id="user-management"
-                            onSelect={(k) => window.history.replaceState("","","/" + (k))}>
+                          onSelect={(k) => window.history.replaceState("","","/" + (k))}>
                         {
                             // Login tabpanel
                         }

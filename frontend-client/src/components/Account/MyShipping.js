@@ -2,12 +2,9 @@ import React, {Component} from 'react';
 import { getUserShippingAddresses, addUserShippingAddress, updateUserShippingAddress, removeUserShippingAddress, setDefaultUserShippingAddress} from "../../actions/userProfileActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import AddNewShippingAddress from "./AddNewShippingAddress";
 import {Button} from "react-bootstrap";
-import SecuredRoute from "../../securityUtils/SecuredRoute";
-import {Switch} from "react-router";
-import {Route} from "react-router-dom";
 
 class MyShipping extends Component {
 
@@ -76,7 +73,7 @@ class MyShipping extends Component {
         } else {
             return (
                 <div className="alert alert-info text-center">
-                    No User Shipping Addresses were specified yet...
+                    No User Shipping Addresses were specified yet.
                 </div>
             )
         }
@@ -94,7 +91,7 @@ class MyShipping extends Component {
                             <h4>Shipping</h4>
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item active">
-                                    <Link to="/myAccount/listOfShippingAddresses">
+                                    <Link to="/myAccount">
                                         List of Shipping Addresses</Link></li>
                                 <li className="breadcrumb-item">
                                     <Link to="/myAccount/addNewShippingAddress">
@@ -106,10 +103,12 @@ class MyShipping extends Component {
                     {
                         //TODO change this.renderUserShippingAddressesDisplay() to a component
                     }
-                        <SecuredRoute exact path="/myAccount/listOfShippingAddresses"
+                    <Switch>
+                        <Route exact path="/myAccount"
                                       component={this.ListShippingAddresses} />
-                        <SecuredRoute exact path="/myAccount/addNewShippingAddress"
+                        <Route exact path="/myAccount/addNewShippingAddress"
                                       component={AddNewShippingAddress} />
+                    </Switch>
                 </div>
             </div>
         );

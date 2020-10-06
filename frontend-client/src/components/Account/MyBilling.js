@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import { getUserPayment } from "../../actions/userProfileActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import AddNewPayment from "./AddNewPayment";
 import {Button} from "react-bootstrap";
-import SecuredRoute from "../../securityUtils/SecuredRoute";
 
 class MyBilling extends Component {
 
@@ -77,7 +76,7 @@ class MyBilling extends Component {
         } else {
             return (
                 <div className="alert alert-info text-center">
-                    No User Payment methods were specified yet...
+                    No User Payment methods were specified yet.
                 </div>
             )
         }
@@ -93,7 +92,7 @@ class MyBilling extends Component {
                             <h4>Billing</h4>
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <Link to="/myAccount/listOfCreditCards">
+                                    <Link to="/myAccount">
                                         List of Credit Cards</Link></li>
                                 <li className="breadcrumb-item">
                                     <Link to="/myAccount/addNewPayment">
@@ -104,11 +103,13 @@ class MyBilling extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <SecuredRoute exact path="/myAccount/listOfCreditCards"
-                                          component={this.ListOfPayments} />
+                            <Switch>
+                                <Route exact path="/myAccount"
+                                       component={this.ListOfPayments} />
 
-                            <SecuredRoute exact path="/myAccount/addNewPayment"
-                                          component={AddNewPayment} />
+                                <Route exact path="/myAccount/addNewPayment"
+                                       component={AddNewPayment} />
+                            </Switch>
                         </div>
                     </div>
                 </div>

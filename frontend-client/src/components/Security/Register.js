@@ -39,7 +39,7 @@ class Register extends Component {
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
             //lower four are temporary values just for debugging purposes
-            email: "email",
+            email: "email@gmail.com",
             firstName: "firstName",
             lastName: "lastName",
             phone: 123456789

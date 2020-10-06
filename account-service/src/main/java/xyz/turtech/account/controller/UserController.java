@@ -1,20 +1,25 @@
 package xyz.turtech.account.controller;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.server.ResponseStatusException;
 import xyz.turtech.account.persistence.domain.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
+import java.util.*;
 
 @RestController
+//@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class UserController {
 
     private final Keycloak keycloak;
@@ -25,15 +30,10 @@ public class UserController {
 
 //    @PreAuthorize("#oauth2.hasScope('server')")
 //    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
+        System.out.println("get endpoint hit");
         return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/test")
-    public String test() {
-        return "Test";
     }
 
     /**
@@ -42,8 +42,6 @@ public class UserController {
      * @param newUser - a new user to be created
      * @return
      */
- //   @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path = "/newUser")
     public ResponseEntity<?> newUser(@Valid @RequestBody User newUser) {
         CredentialRepresentation credential = new CredentialRepresentation();
@@ -58,24 +56,37 @@ public class UserController {
         user.setEnabled(true);
         user.singleAttribute("phone", newUser.getPhone());
         user.setCredentials(Arrays.asList(credential));
+        user.setRealmRoles(Arrays.asList("user"));
 
         Response response = keycloak.realm("turtech")
                 .users().create(user);
         if (response.getStatus() != HttpStatus.CREATED.value()) {
             return new ResponseEntity<>(null, HttpStatus.valueOf(response.getStatus()));
         }
-        String path = response.getLocation().getPath();
-        final String createdId = path.substring(path.lastIndexOf('/') + 1);
-
-        //ResetPassword
-        CredentialRepresentation newCredential = new CredentialRepresentation();
-        UserResource userResource = keycloak.realm("turtech")
-                .users().get(createdId);
-        newCredential.setType(CredentialRepresentation.PASSWORD);
-        newCredential.setValue(newUser.getPassword());
-        newCredential.setTemporary(false);
-        userResource.resetPassword(newCredential);
 
         return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/updateProfile")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody User updatedUser) {
+
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        UserResource userResource = keycloak.realm("turtech").users().get(token.getName());
+        UserRepresentation userRepresentation = userResource.toRepresentation();
+
+        userRepresentation.setFirstName(updatedUser.getFirstName());
+        userRepresentation.setLastName(updatedUser.getLastName());
+        userRepresentation.setEmail(updatedUser.getEmail());
+
+        Map<String, List<String>> customAttributes = new HashMap<>();
+        List<String> phones = new ArrayList<>();
+        phones.add(updatedUser.getPhone());
+        customAttributes.put("Phone", phones);
+
+        userRepresentation.setAttributes(customAttributes);
+
+        userResource.update(userRepresentation);
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
