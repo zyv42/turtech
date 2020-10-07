@@ -19,24 +19,36 @@ import MyAccount from "./components/Account/MyAccount";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 import setJWTToken from "./securityUtils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
-import {logout} from "./actions/securityActions";
+import {logout, refreshTokenAction} from "./actions/securityActions";
 import jwt_decode from "jwt-decode";
-import OrderDetails from "./components/Account/OrderDetails";
 
 const jwtToken = localStorage.jwtToken;
+const refreshToken = localStorage.refreshToken;
+
 
 if (jwtToken) {
+    const current_user = {
+        token: {},
+        userInfo: []
+    }
+    current_user.token = jwtToken;
+    current_user.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setJWTToken(jwtToken);
     const decodedToken = jwt_decode(jwtToken);
     store.dispatch({
         type: SET_CURRENT_USER,
-        payload: decodedToken
+        payload: current_user
     });
 
     const currentTime = Date.now() / 1000;
     if (decodedToken.exp < currentTime) {
-        store.dispatch(logout());
-        window.location.href = "/";
+        if (refreshToken) {
+            refreshTokenAction(refreshToken);
+            console.log("succesfully refreshed token");
+        } else {
+            store.dispatch(logout());
+            window.location.replace("/");
+        }
     }
 }
 

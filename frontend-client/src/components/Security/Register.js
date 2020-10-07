@@ -46,7 +46,6 @@ class Register extends Component {
         };
 
         this.props.createNewUser(newUser, this.props.history);
-        this.props.history.push("/login");
     }
 
     onChange(e) {

@@ -55,7 +55,7 @@ class MyProfile extends Component {
         //this.setState({infoUpdated: false})
         if (this.props.security.validToken) {
             this.setState({
-                id: this.props.security.user.id,
+                id: this.props.userProfile.sub,
                 username: this.props.userProfile.preferred_username,
                 firstName: this.props.userProfile.given_name,
                 lastName: this.props.userProfile.family_name,
@@ -371,7 +371,7 @@ MyProfile.propTypes = {
 const mapStateToProps = state => ({
     errors: state.errors,
     security: state.security,
-    userProfile: state.security.user
+    userProfile: state.security.userInfo
 });
 
 export default connect(

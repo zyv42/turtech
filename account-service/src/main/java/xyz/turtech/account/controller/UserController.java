@@ -1,7 +1,9 @@
 package xyz.turtech.account.controller;
 
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -44,10 +46,18 @@ public class UserController {
      */
     @PostMapping(path = "/newUser")
     public ResponseEntity<?> newUser(@Valid @RequestBody User newUser) {
+
+        RealmResource realmResource = keycloak.realm("turtech");
+
+        // Create password
         CredentialRepresentation credential = new CredentialRepresentation();
         credential.setType(CredentialRepresentation.PASSWORD);
         credential.setValue(newUser.getPassword());
+        // Get realm role
+        RoleRepresentation userRealmRole = realmResource.roles()
+                .get("user").toRepresentation();
 
+        // Create user
         UserRepresentation user = new UserRepresentation();
         user.setUsername(newUser.getUsername());
         user.setFirstName(newUser.getFirstName());
@@ -55,14 +65,19 @@ public class UserController {
         user.setEmail(newUser.getEmail());
         user.setEnabled(true);
         user.singleAttribute("phone", newUser.getPhone());
-        user.setCredentials(Arrays.asList(credential));
-        user.setRealmRoles(Arrays.asList("user"));
 
-        Response response = keycloak.realm("turtech")
-                .users().create(user);
+        // Assign password to the user
+        user.setCredentials(Arrays.asList(credential));
+
+        Response response = realmResource.users().create(user);
+
         if (response.getStatus() != HttpStatus.CREATED.value()) {
             return new ResponseEntity<>(null, HttpStatus.valueOf(response.getStatus()));
         }
+
+        String userId = CreatedResponseUtil.getCreatedId(response);
+        //Assign user role to the user
+        realmResource.users().get(userId).roles().realmLevel().add(Arrays.asList(userRealmRole));
 
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }

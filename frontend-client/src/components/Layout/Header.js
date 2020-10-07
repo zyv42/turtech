@@ -75,7 +75,7 @@ class Header extends Component {
 
     render() {
         const { links, activeLink } = this.state;
-        const { validToken, user } = this.props.security;
+        const { validToken, userInfo } = this.props.security;
 
         const userIsAuthenticated = (
             <Dropdown as={ButtonGroup}
@@ -83,7 +83,7 @@ class Header extends Component {
                 <Link to="/MyAccount">
                     <Button variant="primary"
                             size="sm">
-                        <i className="fa fa-user-circle fa-fw" /> Welcome, {user.preferred_username}!
+                        <i className="fa fa-user-circle fa-fw" /> Welcome, {userInfo && userInfo.preferred_username}!
                     </Button>
                 </Link>
 
@@ -126,7 +126,7 @@ class Header extends Component {
         );
 
         let userLinks;
-        if (validToken && user) {
+        if (validToken && userInfo) {
             userLinks = userIsAuthenticated;
         } else {
             userLinks = userIsNotAuthenticated;

@@ -20,7 +20,7 @@ class Login extends Component {
 
     componentDidMount() {
         if (this.props.security.validToken) {
-            this.props.history.push("/products");
+            this.props.history.push("/myAccount");
         }
     }
 
