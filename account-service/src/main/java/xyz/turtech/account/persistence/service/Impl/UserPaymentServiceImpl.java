@@ -15,7 +15,7 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
-    public Iterable<UserPayment> findByUserId(Long userId) {
+    public Iterable<UserPayment> findByUserId(String userId) {
         return userPaymentRepository.findByUserId(userId);
     }
 

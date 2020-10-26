@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_billings", schema = "turtech")
+@Table(name = "billing_addresses", schema = "turtech")
 public class UserBilling implements Serializable {
 
     private static final long serialVersionUID = 1L;

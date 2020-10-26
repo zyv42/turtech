@@ -30,7 +30,7 @@ public class UserReviewController {
     @GetMapping("/reviewsByUser")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public Page<UserReview> getReviewsByUser(@RequestParam long userId,
+    public Page<UserReview> getReviewsByUser(@RequestParam String userId,
                                              @RequestParam int page,
                                              @RequestParam int size) {
         return userReviewService.findUserReviewsByUserId(userId, PageRequest.of(page, size));

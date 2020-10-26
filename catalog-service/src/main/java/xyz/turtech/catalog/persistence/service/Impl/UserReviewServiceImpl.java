@@ -1,7 +1,7 @@
 package xyz.turtech.catalog.persistence.service.Impl;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.turtech.catalog.persistence.domain.UserReview;
@@ -19,13 +19,13 @@ public class UserReviewServiceImpl implements UserReviewService {
     }
 
     @Override
-    public Page<UserReview> findUserReviewsByProductId(Long productId, PageRequest pageRequest) {
-        return userReviewRepository.findUserReviewsByProductId(productId, pageRequest);
+    public Page<UserReview> findUserReviewsByProductId(Long productId, Pageable pageable) {
+        return userReviewRepository.findUserReviewsByProductId(productId, pageable);
     }
 
     @Override
-    public Page<UserReview> findUserReviewsByUserId(Long userId, PageRequest pageRequest) {
-        return userReviewRepository.findUserReviewsByUserId(userId, pageRequest);
+    public Page<UserReview> findUserReviewsByUserId(String userId, Pageable pageable) {
+        return userReviewRepository.findUserReviewsByUserId(userId, pageable);
     }
 
     @Override

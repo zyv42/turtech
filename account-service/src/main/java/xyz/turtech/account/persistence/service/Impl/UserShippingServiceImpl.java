@@ -15,7 +15,7 @@ public class UserShippingServiceImpl implements UserShippingService {
     }
 
     @Override
-    public Iterable<UserShipping> findByUserId(Long userId) {
+    public Iterable<UserShipping> findByUserId(String userId) {
         return userShippingRepository.findByUserId(userId);
     }
 

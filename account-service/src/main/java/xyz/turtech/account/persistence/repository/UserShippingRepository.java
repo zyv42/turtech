@@ -7,5 +7,5 @@ import xyz.turtech.account.persistence.domain.UserShipping;
 @Repository
 public interface UserShippingRepository extends JpaRepository<UserShipping, Long> {
 
-    Iterable<UserShipping> findByUserId(Long userId);
+    Iterable<UserShipping> findByUserId(String userId);
 }

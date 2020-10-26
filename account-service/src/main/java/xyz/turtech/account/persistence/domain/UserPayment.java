@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_payment", schema = "turtech")
+@Table(name = "payment_options", schema = "turtech")
 public class UserPayment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class UserPayment implements Serializable {
     private boolean defaultPayment;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @Column(name = "user_billing_id")
     private Long userBillingId;
@@ -117,11 +117,11 @@ public class UserPayment implements Serializable {
         this.defaultPayment = defaultPayment;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -6,12 +6,12 @@ class UserReview extends Component {
         return (
             <div>
                 <i className="fa fa-calendar" aria-hidden="true" />
-                <span>{review.timestamp.toLocaleDateString()} {review.timestamp.toLocaleTimeString()}</span>
+                <span>{new Date(review.timestamp).toLocaleDateString()} {new Date(review.timestamp).toLocaleTimeString()}</span>&nbsp;
                 <span className="fa fa-star" />
                 <span className="fa fa-star" />
                 <span className="fa fa-star" />
                 <span className="fa fa-star" />
-                <span className="fa fa-star" /> by
+                <span className="fa fa-star" /> by&nbsp;
                 <span>{review.authorName}</span>
                 <p className="blockquote">
                     <p className="mb-0">{review.text}</p>

@@ -1,6 +1,6 @@
 keycloak:
-  cors: true
   auth-server-url: http://localhost:8103/auth
+  cors: true
   realm: turtech
   resource: turtech-account-client
     #credentials:

@@ -44,7 +44,6 @@ if (jwtToken) {
     if (decodedToken.exp < currentTime) {
         if (refreshToken) {
             refreshTokenAction(refreshToken);
-            console.log("succesfully refreshed token");
         } else {
             store.dispatch(logout());
             window.location.replace("/");

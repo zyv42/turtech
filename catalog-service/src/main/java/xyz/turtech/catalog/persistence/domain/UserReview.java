@@ -29,7 +29,7 @@ public class UserReview implements Serializable {
     private String authorName;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @Column(name = "product_id")
     private Long productId;
@@ -68,11 +68,11 @@ public class UserReview implements Serializable {
         this.authorName = authorName;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

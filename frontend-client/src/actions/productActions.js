@@ -8,25 +8,25 @@ export const getProducts = (category, textInput, page, size) => async dispatch =
     let url;
     if (category === null || category === "All") {
         if (textInput != null) {
-            url = `http://localhost:8112/?name=${textInput}` +
+            url = `http://localhost:8112/listProducts?name=${textInput}` +
  //               `&manufacturer=${textInput}` +
  //               `&description=${textInput}` +
                 `&page=${page}` +
                 `&size=${size}`;
         } else {
-            url = `http://localhost:8112/?page=${page}` +
+            url = `http://localhost:8112/listProducts?page=${page}` +
                 `&size=${size}`;
         }
     } else {
         if (textInput != null) {
-            url = `http://localhost:8112/?category=${category}` +
+            url = `http://localhost:8112/listProducts?category=${category}` +
                 `&name=${textInput}` +
                 `&manufacturer=${textInput}` +
                 `&description=${textInput}` +
                 `&page=${page}` +
                 `&size=${size}`;
         } else {
-            url = `http://localhost:8112/?category=${category}` +
+            url = `http://localhost:8112/listProducts?category=${category}` +
                 `&page=${page}` +
                 `&size=${size}`;
         }

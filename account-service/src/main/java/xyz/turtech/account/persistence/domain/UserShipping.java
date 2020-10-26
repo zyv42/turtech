@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_shippings", schema = "turtech")
+@Table(name = "shipping_addresses", schema = "turtech")
 public class UserShipping implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class UserShipping implements Serializable {
     private boolean defaultUserShipping;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     public Long getId() {
         return id;
@@ -103,11 +103,11 @@ public class UserShipping implements Serializable {
         this.defaultUserShipping = defaultUserShipping;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -1,3 +1,3 @@
 FROM postgres:latest
 
-COPY turtech.sql /docker-entrypoint-initdb.d/
+COPY turtech-legacy.sql /docker-entrypoint-initdb.d/

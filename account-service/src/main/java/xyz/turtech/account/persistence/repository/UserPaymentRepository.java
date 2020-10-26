@@ -7,5 +7,5 @@ import xyz.turtech.account.persistence.domain.UserPayment;
 @Repository
 public interface UserPaymentRepository extends JpaRepository<UserPayment, Long> {
 
-    Iterable<UserPayment> findByUserId(Long userId);
+    Iterable<UserPayment> findByUserId(String userId);
 }
