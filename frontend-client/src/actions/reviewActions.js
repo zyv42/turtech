@@ -3,8 +3,7 @@ import { GET_REVIEWS, LEAVE_REVIEW, GET_ERRORS } from "./types";
 
 export const leaveReview = (review, history) => async dispatch => {
   try {
-      await axios.post(`http://localhost:8112/leaveReview`, review);
-      history.push("/products#reviews");
+      await axios.post(`http://localhost:8112/leaveUserReview`, review);
       dispatch({
          type: GET_ERRORS,
          payload: {}

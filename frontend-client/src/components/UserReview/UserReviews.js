@@ -18,7 +18,6 @@ class UserReviews extends Component {
             newReviewDate: "",
             newReviewAuthorName: "",
             newReviewAuthorId: "",
-            productId: this.props.productId
         };
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -27,7 +26,7 @@ class UserReviews extends Component {
     }
 
     componentDidMount() {
-        this.props.getReviewsByProduct(this.state.productId, this.state.activePage);
+        this.props.getReviewsByProduct(this.props.productId, this.state.activePage);
         this.setState({totalPages: this.props.totalPages});
         this.setState({totalElements: this.props.totalElements});
         this.setState({itemsCountPerPage: this.props.itemsCountPerPage});
@@ -36,7 +35,7 @@ class UserReviews extends Component {
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
-        this.props.getReviewsByProduct(this.state.productId, pageNumber);
+        this.props.getReviewsByProduct(this.props.productId, pageNumber);
     }
 
     onChange(e) {
@@ -46,11 +45,11 @@ class UserReviews extends Component {
     onSubmit(e) {
         e.preventDefault();
         const newReview = {
-            newReviewText: this.state.newReviewText,
-            newReviewDate: Date.now(),
-            newReviewAuthorName: "",
-            newReviewAuthorId: "",
-            newReviewProductId: this.state.productId
+            text: this.state.newReviewText,
+            timestamp: new Date().toISOString(),
+            authorName: "demo_user",
+            userId: "1234567890",
+            productId: this.props.productId
         };
 
         this.props.leaveReview(newReview, this.props.history);
