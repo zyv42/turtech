@@ -4,23 +4,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import xyz.turtech.account.persistence.domain.UserShipping;
-import xyz.turtech.account.persistence.service.UserShippingService;
+import xyz.turtech.account.persistence.domain.UserShippingAddress;
+import xyz.turtech.account.persistence.service.UserShippingAddressService;
 
 @RestController
 public class UserShippingController {
 
-    private final UserShippingService userShippingService;
+    private final UserShippingAddressService userShippingAddressService;
 
-    public UserShippingController(UserShippingService userShippingService) {
-        this.userShippingService = userShippingService;
+    public UserShippingController(UserShippingAddressService userShippingAddressService) {
+        this.userShippingAddressService = userShippingAddressService;
     }
 
     @GetMapping("/userShipping/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getUserShippingAddressesByUserId(@PathVariable long userId) {
-        Iterable<UserShipping> userShippingAddresses = userShippingService.findByUserId(userId);
+    public ResponseEntity<?> getUserShippingAddressesByUserId(@PathVariable String userId) {
+        Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(userId);
 
         return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
     }
@@ -28,30 +28,30 @@ public class UserShippingController {
     @PostMapping("/addNewUserShippingAddress")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> addNewUserShippingAddress(@RequestBody UserShipping newUserShippingAddress) {
-        UserShipping userShipping = userShippingService.addNewUserShippingAddress(newUserShippingAddress);
-        return new ResponseEntity<>(userShipping, HttpStatus.CREATED);
+    public ResponseEntity<?> addNewUserShippingAddress(@RequestBody UserShippingAddress newUserShippingAddressAddress) {
+        UserShippingAddress userShippingAddress = userShippingAddressService.addNewUserShippingAddress(newUserShippingAddressAddress);
+        return new ResponseEntity<>(userShippingAddress, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateUserShippingAddress")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> updateUserShippingAddress(@RequestBody UserShipping updatedUserShipping) {
-        UserShipping userShipping = userShippingService.updateUserShippingAddress(updatedUserShipping);
-        return new ResponseEntity<>(userShipping, HttpStatus.OK);
+    public ResponseEntity<?> updateUserShippingAddress(@RequestBody UserShippingAddress updatedUserShippingAddress) {
+        UserShippingAddress userShippingAddress = userShippingAddressService.updateUserShippingAddress(updatedUserShippingAddress);
+        return new ResponseEntity<>(userShippingAddress, HttpStatus.OK);
     }
 
     @PutMapping("/setDefaultUserShippingAddress/{userShippingAddressId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> setDefaultUserShippingAddress(@PathVariable long userShippingAddressId) {
-        userShippingService.setDefaultUserShippingAddress(userShippingAddressId);
+        userShippingAddressService.setDefaultUserShippingAddress(userShippingAddressId);
         return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
     }
 
     @DeleteMapping("/removeUserShippingAddress/{userShippingAddressId}")
     public ResponseEntity<?> removeUserShippingAddress(@PathVariable long userShippingAddressId) {
-        userShippingService.removeUserShippingAddress(userShippingAddressId);
+        userShippingAddressService.removeUserShippingAddress(userShippingAddressId);
         return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
     }
 }

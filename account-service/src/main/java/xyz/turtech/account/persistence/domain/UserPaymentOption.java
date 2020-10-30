@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "payment_options", schema = "turtech")
-public class UserPayment implements Serializable {
+@Table(name = "user_payment_options", schema = "turtech")
+public class UserPaymentOption implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,14 +36,14 @@ public class UserPayment implements Serializable {
     @Column(name = "holder_name")
     private String holderName;
 
-    @Column(name = "default_payment")
-    private boolean defaultPayment;
+    @Column(name = "default_payment_option")
+    private boolean defaultPaymentOption;
 
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "user_billing_id")
-    private Long userBillingId;
+    @Column(name = "billing_address_id")
+    private Long billingAddressId;
 
     public Long getId() {
         return id;
@@ -109,12 +109,12 @@ public class UserPayment implements Serializable {
         this.holderName = holderName;
     }
 
-    public boolean isDefaultPayment() {
-        return defaultPayment;
+    public boolean isDefaultPaymentOption() {
+        return defaultPaymentOption;
     }
 
-    public void setDefaultPayment(boolean defaultPayment) {
-        this.defaultPayment = defaultPayment;
+    public void setDefaultPaymentOption(boolean defaultPaymentOption) {
+        this.defaultPaymentOption = defaultPaymentOption;
     }
 
     public String getUserId() {
@@ -125,19 +125,19 @@ public class UserPayment implements Serializable {
         this.userId = userId;
     }
 
-    public Long getUserBillingId() {
-        return userBillingId;
+    public Long getBillingAddressId() {
+        return billingAddressId;
     }
 
-    public void setUserBillingId(Long userBillingId) {
-        this.userBillingId = userBillingId;
+    public void setBillingAddressId(Long billingAddressId) {
+        this.billingAddressId = billingAddressId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserPayment that = (UserPayment) o;
+        UserPaymentOption that = (UserPaymentOption) o;
         return id.equals(that.id);
     }
 
@@ -157,9 +157,9 @@ public class UserPayment implements Serializable {
                 ", expiryYear=" + expiryYear +
                 ", cvc=" + cvc +
                 ", holderName='" + holderName + '\'' +
-                ", defaultPayment=" + defaultPayment +
+                ", defaultPaymentOption=" + defaultPaymentOption +
                 ", userId='" + userId + '\'' +
-                ", userBillingId='" + userBillingId + '\'' +
+                ", billingAddressId='" + billingAddressId + '\'' +
                 '}';
     }
 }

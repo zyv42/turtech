@@ -1,18 +1,18 @@
-package xyz.turtech.order.persistence.domain;
+package xyz.turtech.account.persistence.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_billing_addresses", schema = "turtech")
-public class BillingAddress implements Serializable {
+@Table(name = "user_billing_addresses", schema = "turtech")
+public class UserBillingAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Column(name = "billing_address_name")
@@ -93,7 +93,7 @@ public class BillingAddress implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BillingAddress that = (BillingAddress) o;
+        UserBillingAddress that = (UserBillingAddress) o;
         return id.equals(that.id);
     }
 
@@ -104,7 +104,7 @@ public class BillingAddress implements Serializable {
 
     @Override
     public String toString() {
-        return "BillingAddress{" +
+        return "UserBillingAddress{" +
                 "id='" + id + '\'' +
                 ", billingAddressName='" + billingAddressName + '\'' +
                 ", billingAddressStreet1='" + billingAddressStreet1 + '\'' +

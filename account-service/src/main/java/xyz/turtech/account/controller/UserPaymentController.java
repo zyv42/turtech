@@ -4,71 +4,69 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import xyz.turtech.account.persistence.domain.UserBilling;
-import xyz.turtech.account.persistence.domain.UserPayment;
-import xyz.turtech.account.persistence.service.UserBillingService;
-import xyz.turtech.account.persistence.service.UserPaymentService;
-
-import java.security.Principal;
+import xyz.turtech.account.persistence.domain.UserBillingAddress;
+import xyz.turtech.account.persistence.domain.UserPaymentOption;
+import xyz.turtech.account.persistence.service.UserBillingAddressService;
+import xyz.turtech.account.persistence.service.UserPaymentOptionService;
 
 @RestController
 public class UserPaymentController {
 
-    private final UserPaymentService userPaymentService;
-    private final UserBillingService userBillingService;
+    private final UserPaymentOptionService userPaymentOptionService;
+    private final UserBillingAddressService userBillingAddressService;
 
-    public UserPaymentController(UserPaymentService userPaymentService,
-                                 UserBillingService userBillingService) {
-        this.userPaymentService = userPaymentService;
-        this.userBillingService = userBillingService;
+    public UserPaymentController(UserPaymentOptionService userPaymentOptionService,
+                                 UserBillingAddressService userBillingAddressService) {
+        this.userPaymentOptionService = userPaymentOptionService;
+        this.userBillingAddressService = userBillingAddressService;
     }
 
-    @GetMapping("/userPayment/{userId}")
+    @GetMapping("/userPaymentOptions/{userId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getUserPaymentsByUserId(@PathVariable long userId) {
-        Iterable<UserPayment> userPayments = userPaymentService.findByUserId(userId);
+    public ResponseEntity<?> getUserPaymentOptionsByUserId(@PathVariable String userId) {
+        Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(userId);
 
-        return new ResponseEntity<>(userPayments, HttpStatus.OK);
+        return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
     }
 
-    @GetMapping("/setDefaultUserPayment/{paymentId}")
+    @GetMapping("/setDefaultUserPaymentOption/{paymentOptionId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> setDefaultUserPayment(@PathVariable long paymentId) {
-        userPaymentService.setDefaultUserPayment(paymentId);
-        return new ResponseEntity<>(paymentId, HttpStatus.OK);
+    public ResponseEntity<?> setDefaultUserPaymentOption(@PathVariable long paymentOptionId) {
+
+        userPaymentOptionService.setDefaultUserPaymentOption(paymentOptionId);
+        return new ResponseEntity<>(paymentOptionId, HttpStatus.OK);
     }
 
-    @PostMapping("/addNewUserPayment")
+    @PostMapping("/addNewUserPaymentOption")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> addNewUserPayment(@RequestBody UserPayment newCreditCard,
-                                               @RequestBody UserBilling newUserBillingAddress,
-                                               Principal principal) {
+    public ResponseEntity<?> addNewUserPaymentOption(@RequestBody UserPaymentOption newPaymentOption,
+                                                     @RequestBody UserBillingAddress newUserBillingAddressAddress) {
+        //TODO consider implementing this on frontend-client level
+        //newPaymentOption.setUserBillingAddressId(newUserBillingAddressAddress.getId());
 
-        newUserBillingAddress.setUserPaymentId(newCreditCard.getId());
-        newCreditCard.setUserBillingId(newUserBillingAddress.getId());
-
-        UserPayment userPayment = userPaymentService.addNewUserPayment(newCreditCard);
-        return new ResponseEntity<>(userPayment, HttpStatus.OK);
+        // TODO add newUserBilling address with userBillingAddressService
+        UserPaymentOption userPaymentOption = userPaymentOptionService.addNewUserPaymentOption(newPaymentOption);
+        return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
     }
 
-    @PutMapping("/updateUserPayment")
+    @PutMapping("/updateUserPaymentOption")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> updateUserPayment(@RequestBody UserPayment updatedCreditCard) {
+    public ResponseEntity<?> updateUserPaymentOption(@RequestBody UserPaymentOption updatedPaymentOption) {
 
-        userPaymentService.updateUserPayment(updatedCreditCard);
-        return new ResponseEntity<>(updatedCreditCard.getId(), HttpStatus.OK);
+        userPaymentOptionService.updateUserPaymentOption(updatedPaymentOption);
+        return new ResponseEntity<>(updatedPaymentOption.getId(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/removeUserPayment/{paymentId}")
+    @DeleteMapping("/removeUserPaymentOption/{paymentOptionId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> removeUserPayment(@PathVariable long paymentId) {
+    public ResponseEntity<?> removeUserPaymentOption(@PathVariable long paymentOptionId) {
 
-        userPaymentService.removeUserPayment(paymentId);
-        return new ResponseEntity<>(paymentId, HttpStatus.OK);
+        userPaymentOptionService.removeUserPaymentOption(paymentOptionId);
+        return new ResponseEntity<>(paymentOptionId, HttpStatus.OK);
     }
 }

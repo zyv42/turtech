@@ -1,18 +1,18 @@
-package xyz.turtech.order.persistence.domain;
+package xyz.turtech.account.persistence.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_shipping_addresses", schema = "turtech")
-public class ShippingAddress implements Serializable {
+@Table(name = "user_shipping_addresses", schema = "turtech")
+public class UserShippingAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Column(name = "shipping_address_name")
@@ -32,6 +32,12 @@ public class ShippingAddress implements Serializable {
 
     @Column(name = "shipping_address_zipcode")
     private String shippingAddressZipcode;
+
+    @Column(name = "default_shipping_address")
+    private boolean defaultShippingAddress;
+
+    @Column(name = "user_id")
+    private String userId;
 
     public Long getId() {
         return id;
@@ -89,12 +95,28 @@ public class ShippingAddress implements Serializable {
         this.shippingAddressZipcode = shippingAddressZipcode;
     }
 
+    public boolean isDefaultShippingAddress() {
+        return defaultShippingAddress;
+    }
+
+    public void setDefaultShippingAddress(boolean defaultShippingAddress) {
+        this.defaultShippingAddress = defaultShippingAddress;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ShippingAddress payment = (ShippingAddress) o;
-        return id.equals(payment.id);
+        UserShippingAddress that = (UserShippingAddress) o;
+        return id.equals(that.id);
     }
 
     @Override
@@ -104,7 +126,7 @@ public class ShippingAddress implements Serializable {
 
     @Override
     public String toString() {
-        return "ShippingAddress{" +
+        return "UserShippingAddress{" +
                 "id='" + id + '\'' +
                 ", shippingAddressName='" + shippingAddressName + '\'' +
                 ", shippingAddressStreet1='" + shippingAddressStreet1 + '\'' +
@@ -112,6 +134,8 @@ public class ShippingAddress implements Serializable {
                 ", shippingAddressCity='" + shippingAddressCity + '\'' +
                 ", shippingAddressCountry='" + shippingAddressCountry + '\'' +
                 ", shippingAddressZipcode='" + shippingAddressZipcode + '\'' +
+                ", defaultShippingAddress=" + defaultShippingAddress +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

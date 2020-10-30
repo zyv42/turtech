@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "orders", schema = "turtech")
+@Table(name = "user_orders", schema = "turtech")
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,17 +32,17 @@ public class Order implements Serializable {
     @Column(name = "order_total")
     private BigDecimal orderTotal;
 
-    @Column(name = "shipping_address")
-    private ShippingAddress shippingAddress;
+    @Column(name = "shipping_address_id")
+    private Long shippingAddressId;
 
-    @Column(name = "billing_address")
-    private BillingAddress billingAddress;
+    @Column(name = "billing_address_id")
+    private Long billingAddressId;
 
-    @Column(name = "payment")
-    private Payment payment;
+    @Column(name = "payment_option_id")
+    private Long paymentOptionId;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     public Long getId() {
         return id;
@@ -92,35 +92,35 @@ public class Order implements Serializable {
         this.orderTotal = orderTotal;
     }
 
-    public ShippingAddress getShippingAddress() {
-        return shippingAddress;
+    public Long getShippingAddressId() {
+        return shippingAddressId;
     }
 
-    public void setShippingAddress(ShippingAddress shippingAddress) {
-        this.shippingAddress = shippingAddress;
+    public void setShippingAddressId(Long shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
     }
 
-    public BillingAddress getBillingAddress() {
-        return billingAddress;
+    public Long getBillingAddressId() {
+        return billingAddressId;
     }
 
-    public void setBillingAddress(BillingAddress billingAddress) {
-        this.billingAddress = billingAddress;
+    public void setBillingAddressId(Long billingAddressId) {
+        this.billingAddressId = billingAddressId;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public Long getPaymentOptionId() {
+        return paymentOptionId;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setPaymentOptionId(Long paymentOptionId) {
+        this.paymentOptionId = paymentOptionId;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -147,9 +147,9 @@ public class Order implements Serializable {
                 ", shippingMethod='" + shippingMethod + '\'' +
                 ", orderStatus='" + orderStatus + '\'' +
                 ", orderTotal=" + orderTotal +
-                ", shippingAddress='" + shippingAddress + '\'' +
-                ", billingAddress='" + billingAddress + '\'' +
-                ", payment='" + payment + '\'' +
+                ", shippingAddressId='" + shippingAddressId + '\'' +
+                ", billingAddressId='" + billingAddressId + '\'' +
+                ", paymentOptionId='" + paymentOptionId + '\'' +
                 ", userId='" + userId + '\'' +
                 '}';
     }

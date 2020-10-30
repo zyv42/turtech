@@ -9,6 +9,8 @@ import xyz.turtech.catalog.persistence.domain.Product;
 import xyz.turtech.catalog.persistence.repository.ProductRepository;
 import xyz.turtech.catalog.persistence.service.ProductService;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
@@ -19,8 +21,8 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product findOne(Long id) {
-        return productRepository.findById(id).orElse(null);
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
     }
 
     public Page<Product> findAll(Predicate predicate, Pageable pageable) {

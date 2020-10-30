@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.turtech.catalog.persistence.domain.Product;
 import xyz.turtech.catalog.persistence.service.ProductService;
@@ -21,17 +20,13 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getProduct(@PathVariable long productId) {
-        Product product = productService.findOne(productId);
+        Product product = productService.findById(productId).get();
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @GetMapping("/listProducts")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getProducts(@QuerydslPredicate(root = Product.class) Predicate predicate,
                                           @RequestParam(defaultValue = "1") int page,
                                           @RequestParam(defaultValue = "10") int size) {

@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "payments", schema = "turtech")
-public class Payment implements Serializable {
+@Table(name = "order_payment_options", schema = "turtech")
+public class PaymentOption implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,12 +35,6 @@ public class Payment implements Serializable {
 
     @Column(name = "holder_name")
     private String holderName;
-
-    @Column(name = "order_id")
-    private Long orderId;
-
-    @Column(name = "billing_address_id")
-    private Long BillingAddressId;
 
     public Long getId() {
         return id;
@@ -106,28 +100,12 @@ public class Payment implements Serializable {
         this.holderName = holderName;
     }
 
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Long getBillingAddressId() {
-        return BillingAddressId;
-    }
-
-    public void setBillingAddressId(Long billingAddressId) {
-        BillingAddressId = billingAddressId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Payment payment = (Payment) o;
-        return id.equals(payment.id);
+        PaymentOption paymentOption = (PaymentOption) o;
+        return id.equals(paymentOption.id);
     }
 
     @Override
@@ -137,7 +115,7 @@ public class Payment implements Serializable {
 
     @Override
     public String toString() {
-        return "Payment{" +
+        return "PaymentOption{" +
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
                 ", cardName='" + cardName + '\'' +
@@ -146,8 +124,6 @@ public class Payment implements Serializable {
                 ", expiryYear=" + expiryYear +
                 ", cvc=" + cvc +
                 ", holderName='" + holderName + '\'' +
-                ", orderId='" + orderId + '\'' +
-                ", BillingAddressId='" + BillingAddressId + '\'' +
                 '}';
     }
 }

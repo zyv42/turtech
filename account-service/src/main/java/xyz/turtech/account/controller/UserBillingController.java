@@ -7,24 +7,24 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.turtech.account.persistence.domain.UserBilling;
-import xyz.turtech.account.persistence.service.UserBillingService;
+import xyz.turtech.account.persistence.domain.UserBillingAddress;
+import xyz.turtech.account.persistence.service.UserBillingAddressService;
 
 @RestController
 public class UserBillingController {
 
-    private final UserBillingService userBillingService;
+    private final UserBillingAddressService userBillingAddressService;
 
-    public UserBillingController(UserBillingService userBillingService) {
-        this.userBillingService = userBillingService;
+    public UserBillingController(UserBillingAddressService userBillingAddressService) {
+        this.userBillingAddressService = userBillingAddressService;
     }
 
     @GetMapping("/userBilling/{userPaymentId}")
     @PreAuthorize("permitAll()")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getUserBillingAddressesByUserPaymentId(@PathVariable long userPaymentId) {
-        UserBilling userBillingAddresses = userBillingService.findByUserPaymentId(userPaymentId).get();
+        UserBillingAddress userBillingAddressAddresses = userBillingAddressService.findByUserPaymentId(userPaymentId).get();
 
-        return new ResponseEntity<>(userBillingAddresses, HttpStatus.OK);
+        return new ResponseEntity<>(userBillingAddressAddresses, HttpStatus.OK);
     }
 }

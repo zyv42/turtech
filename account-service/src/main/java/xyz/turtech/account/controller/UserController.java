@@ -5,20 +5,18 @@ import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
-import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.server.ResponseStatusException;
 import xyz.turtech.account.persistence.domain.User;
 import org.springframework.web.bind.annotation.*;
-import xyz.turtech.account.persistence.domain.UserPayment;
-import xyz.turtech.account.persistence.domain.UserShipping;
-import xyz.turtech.account.persistence.service.UserPaymentService;
-import xyz.turtech.account.persistence.service.UserShippingService;
+import xyz.turtech.account.persistence.domain.UserPaymentOption;
+import xyz.turtech.account.persistence.domain.UserShippingAddress;
+import xyz.turtech.account.persistence.service.UserPaymentOptionService;
+import xyz.turtech.account.persistence.service.UserShippingAddressService;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
@@ -29,15 +27,15 @@ import java.util.*;
 public class UserController {
 
     private final Keycloak keycloak;
-    private final UserPaymentService userPaymentService;
-    private final UserShippingService userShippingService;
+    private final UserPaymentOptionService userPaymentOptionService;
+    private final UserShippingAddressService userShippingAddressService;
 
     public UserController(Keycloak keycloak,
-                          UserPaymentService userPaymentService,
-                          UserShippingService userShippingService) {
+                          UserPaymentOptionService userPaymentOptionService,
+                          UserShippingAddressService userShippingAddressService) {
         this.keycloak = keycloak;
-        this.userPaymentService = userPaymentService;
-        this.userShippingService = userShippingService;
+        this.userPaymentOptionService = userPaymentOptionService;
+        this.userShippingAddressService = userShippingAddressService;
     }
 
 //    @PreAuthorize("#oauth2.hasScope('server')")
@@ -124,7 +122,7 @@ public class UserController {
     public ResponseEntity<?> getUserPaymentOptions() {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Iterable<UserPayment> userPaymentOptions = userPaymentService.findByUserId(token.getName());
+        Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(token.getName());
 
         return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
     }
@@ -133,7 +131,7 @@ public class UserController {
     public ResponseEntity<?> getUserShippingAddresses() {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Iterable<UserShipping> userShippingAddresses = userShippingService.findByUserId(token.getName());
+        Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(token.getName());
 
         return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
     }
