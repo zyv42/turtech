@@ -1,5 +1,6 @@
 keycloak:
   auth-server-url: http://localhost:8103/auth
+  cors: true
   realm: turtech
   resource: turtech-login
   public-client: true
@@ -32,5 +33,4 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 811*
-  ###CHANGE PORT NUMBER TO AN APPROPRIATE ONE
+  port: 8114

@@ -139,6 +139,18 @@ CREATE TABLE turtech.order_billing_addresses
     billing_address_zipcode VARCHAR(255) DEFAULT NULL
 );
 
+DROP TABLE IF EXISTS turtech.order_cart_items;
+
+CREATE TABLE turtech.order_cart_items
+(
+    id SERIAL PRIMARY KEY,
+    qty INT NOT NULL,
+    subtotal DECIMAL(19,2) DEFAULT NULL,
+    product_name VARCHAR(255) DEFAULT NULL,
+    product_id BIGINT DEFAULT NULL,
+    order_id BIGINT DEFAULT NULL
+);
+
 /*
  DATA
  */
@@ -270,20 +282,27 @@ VALUES
 
 INSERT INTO turtech.order_shipping_addresses
 (shipping_address_city, shipping_address_country, shipping_address_name,
- shipping_address_street1, shipping_address_street2, shipping_address_zipcode, order_id)
+ shipping_address_street1, shipping_address_street2, shipping_address_zipcode)
 VALUES
 ('default_city', 'default_country', 'default_name', 'default_street1', 'default_street2',
- 'default_zipcode', 1);
+ 'default_zipcode');
 
 INSERT INTO turtech.order_payment_options
 (card_name, card_number, cvc, default_payment_option, expiry_month, expiry_year,
- holder_name, type, order_id, billing_address_id)
+ holder_name, type)
 VALUES
-('VISA', '1234567890', '700', true, 10, 2025, 'ivan ivanov', 'credit card', 1, 1);
+('VISA', '1234567890', '700', true, 10, 2025, 'ivan ivanov', 'credit card');
 
 INSERT INTO turtech.order_billing_addresses
 (billing_address_city, billing_address_country, billing_address_name,
- billing_address_street1, billing_address_street2, billing_address_zipcode, order_id)
+ billing_address_street1, billing_address_street2, billing_address_zipcode)
 VALUES
 ('default_city', 'default_country', 'default_name', 'default_street1', 'default_street2',
- 'default_zipcode', 1);
+ 'default_zipcode');
+
+INSERT INTO turtech.order_cart_items
+(qty, subtotal, product_name, product_id, order_id)
+VALUES
+(
+ 3, 120.00, 'Apple McBook', 1, 1
+)

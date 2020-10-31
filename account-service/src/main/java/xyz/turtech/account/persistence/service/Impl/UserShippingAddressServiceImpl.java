@@ -32,7 +32,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Override
     public void setDefaultUserShippingAddress(Long userShippingAddressId) {
         UserShippingAddress userShippingAddress = userShippingAddressRepository.findById(userShippingAddressId).get();
-        userShippingAddress.setDefaultUserShippingAddress(true);
+        userShippingAddress.setDefaultShippingAddress(true);
         userShippingAddressRepository.save(userShippingAddress);
     }
 

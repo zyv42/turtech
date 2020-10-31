@@ -56,11 +56,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/listProducts", "/{productId}", "/reviewsByProduct")
-                    .permitAll();
-        //      .antMatchers(private-matchers)
-        //          .hasRole("ROLE")
-        //          .anyRequest.authenticated();
+                    .antMatchers("/listProducts", "/{productId}", "/reviewsByProduct")
+                        .permitAll()
+                    .antMatchers("/leaveReview").hasRole("user")
+                .anyRequest().authenticated();
     }
 
     @Bean

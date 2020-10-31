@@ -5,16 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.turtech.order.persistence.domain.BillingAddress;
-import xyz.turtech.order.persistence.domain.Order;
-import xyz.turtech.order.persistence.domain.PaymentOption;
-import xyz.turtech.order.persistence.domain.ShippingAddress;
-import xyz.turtech.order.persistence.service.BillingAddressService;
-import xyz.turtech.order.persistence.service.OrderService;
-import xyz.turtech.order.persistence.service.PaymentOptionService;
-import xyz.turtech.order.persistence.service.ShippingAddressService;
+import xyz.turtech.order.persistence.domain.*;
+import xyz.turtech.order.persistence.service.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,15 +19,18 @@ public class OrderController {
     private final BillingAddressService billingAddressService;
     private final ShippingAddressService shippingAddressService;
     private final PaymentOptionService paymentOptionService;
+    private final CartItemService cartItemService;
 
     public OrderController(OrderService orderService,
                            BillingAddressService billingAddressService,
                            ShippingAddressService shippingAddressService,
-                           PaymentOptionService paymentOptionService) {
+                           PaymentOptionService paymentOptionService,
+                           CartItemService cartItemService) {
         this.orderService = orderService;
         this.billingAddressService = billingAddressService;
         this.shippingAddressService = shippingAddressService;
         this.paymentOptionService = paymentOptionService;
+        this.cartItemService = cartItemService;
     }
 
     @GetMapping("/userOrders/{userId}")
@@ -49,12 +47,14 @@ public class OrderController {
         BillingAddress billingAddress = billingAddressService.findById(currentOrder.getBillingAddressId()).get();
         ShippingAddress shippingAddress = shippingAddressService.findById(currentOrder.getShippingAddressId()).get();
         PaymentOption paymentOption = paymentOptionService.findById(currentOrder.getPaymentOptionId()).get();
+        Iterable<CartItem> cartItems = cartItemService.findByOrderId(orderId);
 
         Map<String, Object> orderDetails = new HashMap<>();
         orderDetails.put("order", currentOrder);
         orderDetails.put("billingAddress", billingAddress);
         orderDetails.put("shippingAddress", shippingAddress);
         orderDetails.put("paymentOption", paymentOption);
+        orderDetails.put("cartItems", cartItems);
 
         return new ResponseEntity<>(orderDetails, HttpStatus.OK);
     }

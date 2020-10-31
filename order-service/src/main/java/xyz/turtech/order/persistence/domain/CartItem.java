@@ -22,6 +22,9 @@ public class CartItem implements Serializable {
     @Column(name = "subtotal")
     private BigDecimal subtotal;
 
+    @Column(name = "product_name")
+    private String productName;
+
     @Column(name = "product_id")
     private Long productId;
 
@@ -50,6 +53,14 @@ public class CartItem implements Serializable {
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Long getProductId() {
@@ -85,8 +96,9 @@ public class CartItem implements Serializable {
     public String toString() {
         return "CartItem{" +
                 "id='" + id + '\'' +
-                ", qty=" + qty +
-                ", subtotal=" + subtotal +
+                ", qty=" + qty + '\'' +
+                ", subtotal=" + subtotal + '\'' +
+                ", productName=" + productName + '\'' +
                 ", productId='" + productId + '\'' +
                 ", orderId='" + orderId + '\'' +
                 '}';
