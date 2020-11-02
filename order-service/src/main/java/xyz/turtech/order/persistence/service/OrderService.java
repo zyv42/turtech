@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface OrderService {
 
     Optional<Order> findById(Long orderId);
-    Iterable<Order> findByUserId(Long userId);
+    Iterable<Order> findByUserId(String userId);
 }

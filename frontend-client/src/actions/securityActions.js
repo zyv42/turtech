@@ -92,7 +92,6 @@ export const logout = () => async dispatch => {
      //   type: SET_CURRENT_USER,
      //   payload: {}
     //});
-
     window.location.replace(`http://localhost:8103/auth/realms/turtech/protocol/openid-connect/logout?redirect_uri=
-        ${encodeURI("http://localhost:3000")}`);
+        ${encodeURI("http://localhost:3000/welcome")}`);
 };

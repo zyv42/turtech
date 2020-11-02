@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { addUserPayment } from "../../actions/userProfileActions";
+import { addUserPaymentOption } from "../../actions/userProfileActions";
 
 class AddNewPayment extends Component {
 
@@ -41,7 +41,7 @@ class AddNewPayment extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const newUserShipping = {
+        const newUserShippingAddress = {
             id: this.state.id,
             cardName: this.state.cardName,
             billingName: this.state.billingName,
@@ -58,7 +58,7 @@ class AddNewPayment extends Component {
             cvc: this.state.cvc
         };
 
-        this.props.updateUserShippingAddress(newUserShipping);
+        this.props.updateUserShippingAddress(newUserShippingAddress);
     }
 
     render() {
@@ -288,7 +288,7 @@ class AddNewPayment extends Component {
 }
 
 AddNewPayment.propTypes = {
-    addUserPayment: PropTypes.func.isRequired,
+    addUserPaymentOption: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 };
 
@@ -298,5 +298,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { addUserPayment }
+    { addUserPaymentOption }
 )(AddNewPayment);

@@ -1,7 +1,9 @@
 package xyz.turtech.order.controller;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +35,16 @@ public class OrderController {
         this.cartItemService = cartItemService;
     }
 
+    @GetMapping("/userOrders")
+    public ResponseEntity<?> getOrders() {
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        Iterable<Order> orders = orderService.findByUserId(token.getName());
+
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
     @GetMapping("/userOrders/{userId}")
-    public ResponseEntity<?> getOrdersByUserId(@PathVariable Long userId) {
+    public ResponseEntity<?> getOrdersByUserId(@PathVariable String userId) {
         Iterable<Order> orders = orderService.findByUserId(userId);
 
         return new ResponseEntity<>(orders, HttpStatus.OK);

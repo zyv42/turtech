@@ -16,15 +16,15 @@ class MyShipping extends Component {
     //TODO reimplement setting default user shipping address
     onSubmit(e) {
         e.preventDefault();
-        this.props.setDefaultUserShippingAddress(this.state.userShipping.id);
+        this.props.setDefaultUserShippingAddress(this.state.userShippingAddresses.id);
     }
 
     removeUserShipping(userShippingId) {
-        this.props.removeUserShippingAddress(userShippingId);
+        //this.props.removeUserShippingAddress(userShippingId);
     }
 
     ListShippingAddresses = () => {
-        const { userShippingAddresses } = this.props.userShipping;
+        const { userShippingAddresses } = this.props;
 
         if (userShippingAddresses && userShippingAddresses.length > 0) {
             return (
@@ -45,11 +45,10 @@ class MyShipping extends Component {
                                         <input type="radio"
                                                name="defaultShippingAddressId"
                                                value={userShippingAddress.id}
-                                               checked={userShippingAddress.userShippingDefault}/>
-                                        <span>default</span>
+                                               checked={userShippingAddress.defaultShippingAddress}/>
                                     </td>
-                                    <td>{userShippingAddress.userShippingStreet1},
-                                        {userShippingAddress.userShippingCity}</td>
+                                    <td>{userShippingAddress.shippingAddressStreet1},&nbsp;
+                                        {userShippingAddress.shippingAddressCity}</td>
                                     <td>
                                         {
                                             // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
@@ -81,7 +80,8 @@ class MyShipping extends Component {
 
     render() {
 
-        const { userShippingAddresses } = this.props.userShipping;
+        //const { userShippingAddresses } = this.props.userShippingAddresses;
+        //console.log(userShippingAddresses);
 
         return (
             <div className="card">
@@ -116,7 +116,7 @@ class MyShipping extends Component {
 }
 
 MyShipping.propTypes = {
-    userShipping: PropTypes.object.isRequired,
+    userShippingAddresses: PropTypes.object.isRequired,
     getUserShippingAddresses: PropTypes.func.isRequired,
     addUserShippingAddress: PropTypes.func.isRequired,
     updateUserShippingAddress: PropTypes.func.isRequired,
@@ -125,7 +125,7 @@ MyShipping.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    userShipping: state.userProfile.userShipping
+    userShippingAddresses: state.userProfile.userShippingAddresses
 });
 
 export default connect(

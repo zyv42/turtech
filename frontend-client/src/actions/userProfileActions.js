@@ -29,7 +29,7 @@ export const updateUserProfile = userProfile => async dispatch => {
 
 export const getUserPaymentOptions = () => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8114/userPaymentOptions");
+        const res = await axios.get("http://localhost:8111/userPaymentOptions");
         dispatch({
             type: GET_USER_PAYMENT_OPTIONS,
             payload: res.data
@@ -80,7 +80,7 @@ export const removeUserPaymentOption = userPaymentOptionId => async dispatch => 
 
 export const getUserShippingAddresses = () => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8114/userShippingAddresses");
+        const res = await axios.get("http://localhost:8111/userShippingAddresses");
         dispatch({
             type: GET_USER_SHIPPING_ADDRESSES,
             payload: res.data
@@ -129,9 +129,9 @@ export const removeUserShippingAddress = userShippingAddressId => async dispatch
     }
 };
 
-export const getUserOrders = userId => async dispatch => {
+export const getUserOrders = () => async dispatch => {
     try {
-        const res = await axios.get(`/api/userOrders/${userId}`);
+        const res = await axios.get('http://localhost:8114/userOrders');
         dispatch({
             type: GET_USER_ORDERS,
             payload: res.data

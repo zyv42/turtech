@@ -15,7 +15,7 @@ class MyOrders extends Component {
     renderUserOrders() {
         const {userOrders} = this.props;
 
-        if (userOrders.length === 0) {
+        if (userOrders && userOrders.length === 0) {
             return (
                 <div className="alert alert-info">No orders yet.</div>
             );
@@ -35,7 +35,7 @@ class MyOrders extends Component {
                         {userOrders.map(userOrder => (
                             <tr>
                                 <td><Link to={`/userOrders/${userOrder.id}`}>
-                                    {userOrder.orderDate.toLocaleDateString()}</Link></td>
+                                    {new Date(userOrder.orderDate).toLocaleDateString()}</Link></td>
                                 <td>{userOrder.id}</td>
                                 <td>{userOrder.orderTotal}</td>
                                 <td>{userOrder.orderStatus}</td>

@@ -65,6 +65,7 @@ CREATE TABLE turtech.user_shipping_addresses
     shipping_address_street1 VARCHAR(255) DEFAULT NULL,
     shipping_address_street2 VARCHAR(255) DEFAULT NULL,
     shipping_address_zipcode VARCHAR(255) DEFAULT NULL,
+    default_shipping_address BOOLEAN DEFAULT false,
     user_id VARCHAR(255) DEFAULT NULL
 );
 
@@ -106,7 +107,6 @@ CREATE TABLE turtech.order_payment_options
     card_name VARCHAR(255) DEFAULT NULL,
     card_number VARCHAR(255) DEFAULT NULL,
     cvc INT NOT NULL,
-    default_payment_option BOOLEAN DEFAULT false,
     expiry_month INT NOT NULL,
     expiry_year INT NOT NULL,
     holder_name VARCHAR(255) DEFAULT NULL,
@@ -254,10 +254,10 @@ VALUES
 
 INSERT INTO turtech.user_shipping_addresses
 (shipping_address_city, shipping_address_country, shipping_address_name,
- shipping_address_street1, shipping_address_street2, shipping_address_zipcode, user_id)
+ shipping_address_street1, shipping_address_street2, shipping_address_zipcode, user_id, default_shipping_address)
 VALUES
 ('default_city', 'default_country', 'default_name', 'default_street1', 'default_street2',
- 'default_zipcode', '43cf2dbc-845b-488e-b139-2c6ef80b0297');
+ 'default_zipcode', '43cf2dbc-845b-488e-b139-2c6ef80b0297', true);
 
 INSERT INTO turtech.user_payment_options
 (card_name, card_number, cvc, default_payment_option, expiry_month, expiry_year,
@@ -288,10 +288,10 @@ VALUES
  'default_zipcode');
 
 INSERT INTO turtech.order_payment_options
-(card_name, card_number, cvc, default_payment_option, expiry_month, expiry_year,
+(card_name, card_number, cvc, expiry_month, expiry_year,
  holder_name, type)
 VALUES
-('VISA', '1234567890', '700', true, 10, 2025, 'ivan ivanov', 'credit card');
+('VISA', '1234567890', '700', 10, 2025, 'ivan ivanov', 'credit card');
 
 INSERT INTO turtech.order_billing_addresses
 (billing_address_city, billing_address_country, billing_address_name,
@@ -303,6 +303,4 @@ VALUES
 INSERT INTO turtech.order_cart_items
 (qty, subtotal, product_name, product_id, order_id)
 VALUES
-(
- 3, 120.00, 'Apple McBook', 1, 1
-)
+(3, 120.00, 'Apple McBook', 1, 1);

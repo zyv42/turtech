@@ -122,7 +122,10 @@ public class UserController {
     public ResponseEntity<?> getUserPaymentOptions() {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(token);
+        System.out.println(token.getName());
         Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(token.getName());
+        System.out.println(userPaymentOptions);
 
         return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
     }

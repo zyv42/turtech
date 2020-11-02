@@ -7,5 +7,5 @@ import xyz.turtech.order.persistence.domain.Order;
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    Iterable<Order> findByUserId(Long userId);
+    Iterable<Order> findByUserId(String userId);
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { getUserPayment } from "../../actions/userProfileActions";
+import { getUserPaymentOptions } from "../../actions/userProfileActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
@@ -16,17 +16,17 @@ class MyBilling extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.setDefaultUserPayment(this.state.userPayment.id);
+        this.props.setDefaultUserPaymentOption(this.state.userPaymentOptions.id);
     }
 
     componentDidMount() {
-        this.props.getUserPayment();
+        this.props.getUserPaymentOptions();
     }
 
     ListOfPayments = () => {
-        const { userPayments } = this.props.userPayment;
+        const { userPaymentOptions } = this.props;
 
-        if (userPayments && userPayments.length > 0) {
+        if (userPaymentOptions && userPaymentOptions.length > 0) {
             return (
                 <div>
                     <form onSubmit={this.onSubmit}>
@@ -39,16 +39,16 @@ class MyBilling extends Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {userPayments.map(userPayment => (
+                            {userPaymentOptions.map(userPaymentOption => (
                                 <tr>
                                     <td>
                                         <input type="radio"
                                                name="defaultUserPaymentId"
-                                               value={userPayment.id}
-                                               checked={userPayment.defaultPayment}/>
+                                               value={userPaymentOption.id}
+                                               checked={userPaymentOption.defaultPaymentOption}/>
                                     </td>
                                     <td>
-                                        {userPayment.cardName}
+                                        {userPaymentOption.cardName}
                                     </td>
                                     <td>
                                         {
@@ -76,7 +76,7 @@ class MyBilling extends Component {
         } else {
             return (
                 <div className="alert alert-info text-center">
-                    No User Payment methods were specified yet.
+                    No User Payment Options were specified yet.
                 </div>
             )
         }
@@ -119,16 +119,16 @@ class MyBilling extends Component {
 }
 
 MyBilling.propTypes = {
-    userPayment: PropTypes.object.isRequired,
-    getUserPayment: PropTypes.func.isRequired,
-    setDefaultUserPayment: PropTypes.func.isRequired
+    userPaymentOptions: PropTypes.object.isRequired,
+    getUserPaymentOptions: PropTypes.func.isRequired,
+    setDefaultUserPaymentOption: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    userPayment: state.userProfile.userPayment
+    userPaymentOptions: state.userProfile.userPaymentOptions
 });
 
 export default connect(
     mapStateToProps,
-    { getUserPayment }
+    { getUserPaymentOptions }
 )(MyBilling);
