@@ -1,6 +1,7 @@
 package xyz.turtech.account.persistence.service.Impl;
 
 import org.springframework.stereotype.Service;
+import xyz.turtech.account.persistence.domain.UserBillingAddress;
 import xyz.turtech.account.persistence.repository.UserBillingAddressRepository;
 import xyz.turtech.account.persistence.service.UserBillingAddressService;
 
@@ -13,5 +14,10 @@ public class UserBillingAddressServiceImpl implements UserBillingAddressService 
 
     public UserBillingAddressServiceImpl(UserBillingAddressRepository userBillingAddressRepository) {
         this.userBillingAddressRepository = userBillingAddressRepository;
+    }
+
+    @Override
+    public Optional<UserBillingAddress> findById(Long userBillingAddressId) {
+        return userBillingAddressRepository.findById(userBillingAddressId);
     }
 }

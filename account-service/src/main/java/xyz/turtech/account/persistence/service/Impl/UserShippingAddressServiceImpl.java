@@ -5,6 +5,8 @@ import xyz.turtech.account.persistence.domain.UserShippingAddress;
 import xyz.turtech.account.persistence.repository.UserShippingAddressRepository;
 import xyz.turtech.account.persistence.service.UserShippingAddressService;
 
+import java.util.Optional;
+
 @Service
 public class UserShippingAddressServiceImpl implements UserShippingAddressService {
 
@@ -12,6 +14,11 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
 
     public UserShippingAddressServiceImpl(UserShippingAddressRepository userShippingAddressRepository) {
         this.userShippingAddressRepository = userShippingAddressRepository;
+    }
+
+    @Override
+    public Optional<UserShippingAddress> findById(Long userShippingAddress) {
+        return userShippingAddressRepository.findById(userShippingAddress);
     }
 
     @Override

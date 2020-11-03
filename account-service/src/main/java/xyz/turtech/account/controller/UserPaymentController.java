@@ -1,13 +1,16 @@
 package xyz.turtech.account.controller;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import xyz.turtech.account.persistence.domain.UserBillingAddress;
 import xyz.turtech.account.persistence.domain.UserPaymentOption;
 import xyz.turtech.account.persistence.service.UserBillingAddressService;
 import xyz.turtech.account.persistence.service.UserPaymentOptionService;
+
+import java.util.Optional;
 
 @RestController
 public class UserPaymentController {
@@ -21,9 +24,25 @@ public class UserPaymentController {
         this.userBillingAddressService = userBillingAddressService;
     }
 
+    @GetMapping(path = "/userPaymentOption/{userPaymentOptionId}")
+    public ResponseEntity<UserPaymentOption> getUserPaymentOptionById
+            (@PathVariable Long userPaymentOptionId) {
+
+        Optional<UserPaymentOption> userPaymentOption = userPaymentOptionService.findById(userPaymentOptionId);
+
+        return new ResponseEntity<>(userPaymentOption.get(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/userPaymentOptions")
+    public ResponseEntity<?> getUserPaymentOptions() {
+
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(token.getName());
+
+        return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
+    }
+
     @GetMapping("/userPaymentOptions/{userId}")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getUserPaymentOptionsByUserId(@PathVariable String userId) {
         Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(userId);
 
@@ -31,8 +50,6 @@ public class UserPaymentController {
     }
 
     @GetMapping("/setDefaultUserPaymentOption/{paymentOptionId}")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> setDefaultUserPaymentOption(@PathVariable long paymentOptionId) {
 
         userPaymentOptionService.setDefaultUserPaymentOption(paymentOptionId);
@@ -40,8 +57,6 @@ public class UserPaymentController {
     }
 
     @PostMapping("/addNewUserPaymentOption")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> addNewUserPaymentOption(@RequestBody UserPaymentOption newPaymentOption,
                                                      @RequestBody UserBillingAddress newUserBillingAddressAddress) {
         //TODO consider implementing this on frontend-client level
@@ -53,8 +68,6 @@ public class UserPaymentController {
     }
 
     @PutMapping("/updateUserPaymentOption")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> updateUserPaymentOption(@RequestBody UserPaymentOption updatedPaymentOption) {
 
         userPaymentOptionService.updateUserPaymentOption(updatedPaymentOption);
@@ -62,8 +75,6 @@ public class UserPaymentController {
     }
 
     @DeleteMapping("/removeUserPaymentOption/{paymentOptionId}")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> removeUserPaymentOption(@PathVariable long paymentOptionId) {
 
         userPaymentOptionService.removeUserPaymentOption(paymentOptionId);

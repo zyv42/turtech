@@ -5,6 +5,8 @@ import xyz.turtech.account.persistence.domain.UserPaymentOption;
 import xyz.turtech.account.persistence.repository.UserPaymentOptionsRepository;
 import xyz.turtech.account.persistence.service.UserPaymentOptionService;
 
+import java.util.Optional;
+
 @Service
 public class UserPaymentOptionServiceImpl implements UserPaymentOptionService {
 
@@ -12,6 +14,11 @@ public class UserPaymentOptionServiceImpl implements UserPaymentOptionService {
 
     public UserPaymentOptionServiceImpl(UserPaymentOptionsRepository userPaymentOptionsRepository) {
         this.userPaymentOptionsRepository = userPaymentOptionsRepository;
+    }
+
+    @Override
+    public Optional<UserPaymentOption> findById(Long userPaymentOptionId) {
+        return userPaymentOptionsRepository.findById(userPaymentOptionId);
     }
 
     @Override

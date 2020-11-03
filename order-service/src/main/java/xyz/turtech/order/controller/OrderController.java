@@ -51,7 +51,7 @@ public class OrderController {
     }
 
     @GetMapping("/userOrders/{orderId}")
-    public ResponseEntity<?> getOrderDetails(@PathVariable Long orderId) {
+    public ResponseEntity<?> getOrderDetailsById(@PathVariable Long orderId) {
 
         Order currentOrder = orderService.findById(orderId).get();
         BillingAddress billingAddress = billingAddressService.findById(currentOrder.getBillingAddressId()).get();

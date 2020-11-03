@@ -13,33 +13,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import xyz.turtech.account.persistence.domain.User;
 import org.springframework.web.bind.annotation.*;
-import xyz.turtech.account.persistence.domain.UserPaymentOption;
-import xyz.turtech.account.persistence.domain.UserShippingAddress;
-import xyz.turtech.account.persistence.service.UserPaymentOptionService;
-import xyz.turtech.account.persistence.service.UserShippingAddressService;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
 @RestController
-//@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class UserController {
 
     private final Keycloak keycloak;
-    private final UserPaymentOptionService userPaymentOptionService;
-    private final UserShippingAddressService userShippingAddressService;
 
-    public UserController(Keycloak keycloak,
-                          UserPaymentOptionService userPaymentOptionService,
-                          UserShippingAddressService userShippingAddressService) {
+    public UserController(Keycloak keycloak) {
         this.keycloak = keycloak;
-        this.userPaymentOptionService = userPaymentOptionService;
-        this.userShippingAddressService = userShippingAddressService;
     }
 
 //    @PreAuthorize("#oauth2.hasScope('server')")
-//    @PreAuthorize("permitAll()")
     @GetMapping(path = "/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
         System.out.println("get endpoint hit");
@@ -116,26 +104,5 @@ public class UserController {
     @GetMapping(path = "/forgotPassword")
     public ResponseEntity<?> forgotPassword(@RequestParam String email) {
         return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/userPaymentOptions")
-    public ResponseEntity<?> getUserPaymentOptions() {
-
-        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(token);
-        System.out.println(token.getName());
-        Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(token.getName());
-        System.out.println(userPaymentOptions);
-
-        return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/userShippingAddresses")
-    public ResponseEntity<?> getUserShippingAddresses() {
-
-        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(token.getName());
-
-        return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
     }
 }
