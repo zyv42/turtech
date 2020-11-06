@@ -1,13 +1,9 @@
 package xyz.turtech.cart.controller;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import xyz.turtech.cart.client.AccountServiceClient;
 import xyz.turtech.cart.client.ProductServiceClient;
@@ -39,9 +35,7 @@ public class ShoppingCartController {
         this.accountServiceClient = accountServiceClient;
     }
 
-    @GetMapping("/cart")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/shopping-carts")
     public ResponseEntity<?> shoppingCart(Principal principal) {
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Optional<User> user = accountServiceClient.getAccount(principal.getName());
@@ -52,9 +46,7 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
     }
 
-    @GetMapping("/addCartItem")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/shopping-carts/{cartId}/cart-items")
     public void addItem(@RequestParam("productId") String productId,
                         @RequestParam("qty") int qty,
                         Principal principal) {
@@ -78,9 +70,7 @@ public class ShoppingCartController {
         }
     }
 
-    @GetMapping("/updateCartItem")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/shopping-carts/{cartId}")
     public void updateShoppingCart(@RequestParam("cartItemId") String cartItemId,
                                    @RequestParam("qty")int qty) {
         CartItem cartItem = cartItemService.findById(cartItemId);
@@ -88,9 +78,7 @@ public class ShoppingCartController {
         cartItemService.updateCartItem(cartItem);
     }
 
-    @GetMapping("/removeCartItem")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/shopping-carts/{cartId}/cart-items/{itemId}")
     public void removeItem(@RequestParam("cartItemId") String cartItemId) {
         cartItemService.deleteCartItem(cartItemService.findById(cartItemId));
     }

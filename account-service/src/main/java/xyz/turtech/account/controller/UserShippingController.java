@@ -19,7 +19,7 @@ public class UserShippingController {
         this.userShippingAddressService = userShippingAddressService;
     }
 
-    @GetMapping(path = "/userShippingAddresses")
+    @GetMapping(path = "/shipping-addresses")
     public ResponseEntity<?> getUserShippingAddresses() {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -28,42 +28,45 @@ public class UserShippingController {
         return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{userShippingAddressId}")
-    public ResponseEntity<?> getUserShippingAddressById(@PathVariable Long userShippingAddressId) {
+    @GetMapping(path = "/shipping-addresses/{shippingAddressId}")
+    public ResponseEntity<?> getUserShippingAddressById(@PathVariable Long shippingAddressId) {
 
-        Optional<UserShippingAddress> userShippingAddress = userShippingAddressService.findById(userShippingAddressId);
+        Optional<UserShippingAddress> userShippingAddress = userShippingAddressService.findById(shippingAddressId);
 
         return new ResponseEntity<>(userShippingAddress.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserShippingAddressesByUserId(@PathVariable String userId) {
+    @GetMapping("/shipping-addresses")
+    public ResponseEntity<?> getUserShippingAddressesByUserId(@RequestParam String userId) {
         Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(userId);
 
         return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
     }
 
-    @PostMapping("/addNewUserShippingAddress")
+
+    @PostMapping("/shipping-addresses")
     public ResponseEntity<?> addNewUserShippingAddress(@RequestBody UserShippingAddress newUserShippingAddressAddress) {
         UserShippingAddress userShippingAddress = userShippingAddressService.addNewUserShippingAddress(newUserShippingAddressAddress);
         return new ResponseEntity<>(userShippingAddress, HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateUserShippingAddress")
-    public ResponseEntity<?> updateUserShippingAddress(@RequestBody UserShippingAddress updatedUserShippingAddress) {
+    @PutMapping("/shipping-addresses/{shippingAddressId}")
+    public ResponseEntity<?> updateUserShippingAddress(
+            @RequestBody UserShippingAddress updatedUserShippingAddress,
+            @PathVariable Long shippingAddressId) {
         UserShippingAddress userShippingAddress = userShippingAddressService.updateUserShippingAddress(updatedUserShippingAddress);
         return new ResponseEntity<>(userShippingAddress, HttpStatus.OK);
     }
 
-    @PutMapping("/setDefaultUserShippingAddress/{userShippingAddressId}")
-    public ResponseEntity<?> setDefaultUserShippingAddress(@PathVariable long userShippingAddressId) {
-        userShippingAddressService.setDefaultUserShippingAddress(userShippingAddressId);
-        return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
+    @PutMapping("/shipping-addresses/{shippingAddressId}/set-default")
+    public ResponseEntity<?> setDefaultUserShippingAddress(@PathVariable Long shippingAddressId) {
+        userShippingAddressService.setDefaultUserShippingAddress(shippingAddressId);
+        return new ResponseEntity<>(shippingAddressId, HttpStatus.OK);
     }
 
-    @DeleteMapping("/removeUserShippingAddress/{userShippingAddressId}")
-    public ResponseEntity<?> removeUserShippingAddress(@PathVariable long userShippingAddressId) {
-        userShippingAddressService.removeUserShippingAddress(userShippingAddressId);
-        return new ResponseEntity<>(userShippingAddressId, HttpStatus.OK);
+    @DeleteMapping("/shipping-addresses/{shippingAddressId}")
+    public ResponseEntity<?> removeUserShippingAddress(@PathVariable Long shippingAddressId) {
+        userShippingAddressService.removeUserShippingAddress(shippingAddressId);
+        return new ResponseEntity<>(shippingAddressId, HttpStatus.OK);
     }
 }

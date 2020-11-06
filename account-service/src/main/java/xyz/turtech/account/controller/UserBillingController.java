@@ -19,7 +19,7 @@ public class UserBillingController {
         this.userBillingAddressService = userBillingAddressService;
     }
 
-    @GetMapping("/userPaymentOption/{userBillingAddressId}")
+    @GetMapping("/billing-addresses/{userBillingAddressId}")
     public ResponseEntity<?> getUserBillingAddressById(@PathVariable Long userBillingAddressId) {
 
         Optional<UserBillingAddress> userBillingAddress = userBillingAddressService.findById(userBillingAddressId);
@@ -27,7 +27,7 @@ public class UserBillingController {
         return new ResponseEntity<>(userBillingAddress.get(), HttpStatus.OK);
     }
 /*
-    @GetMapping("/userPaymentOption/{userPaymentId}")
+    @GetMapping("/billing-addresses/{userPaymentId}")
     public ResponseEntity<?> getUserBillingAddressesByUserPaymentId(@PathVariable Long userPaymentOptionId) {
         UserBillingAddress userBillingAddressAddresses = userBillingAddressService.findById(userPaymentOptionId).get();
 

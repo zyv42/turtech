@@ -131,7 +131,7 @@ export const removeUserShippingAddress = userShippingAddressId => async dispatch
 
 export const getUserOrders = () => async dispatch => {
     try {
-        const res = await axios.get('http://localhost:8114/userOrders');
+        const res = await axios.get('http://localhost:8114/orders');
         dispatch({
             type: GET_USER_ORDERS,
             payload: res.data
@@ -142,7 +142,7 @@ export const getUserOrders = () => async dispatch => {
 
 export const getUserOrderDetails = userOrderId => async dispatch => {
     try {
-        const res = await axios.get(`/api/userOrders/${userOrderId}`);
+        const res = await axios.get(`http://localhost:8114/orders/${userOrderId}`);
         dispatch({
             type: GET_USER_ORDER_DETAILS,
             payload: res.data

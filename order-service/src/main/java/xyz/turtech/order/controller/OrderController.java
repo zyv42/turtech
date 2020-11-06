@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.turtech.order.persistence.domain.*;
 import xyz.turtech.order.persistence.service.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,7 +35,7 @@ public class OrderController {
         this.cartItemService = cartItemService;
     }
 
-    @GetMapping("/userOrders")
+    @GetMapping("/orders")
     public ResponseEntity<?> getOrders() {
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         Iterable<Order> orders = orderService.findByUserId(token.getName());
@@ -43,14 +43,14 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @GetMapping("/userOrders/{userId}")
-    public ResponseEntity<?> getOrdersByUserId(@PathVariable String userId) {
+    @GetMapping("/orders")
+    public ResponseEntity<?> getOrdersByUserId(@RequestParam String userId) {
         Iterable<Order> orders = orderService.findByUserId(userId);
 
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @GetMapping("/userOrders/{orderId}")
+    @GetMapping("/orders/{orderId}")
     public ResponseEntity<?> getOrderDetailsById(@PathVariable Long orderId) {
 
         Order currentOrder = orderService.findById(orderId).get();

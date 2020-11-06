@@ -28,9 +28,8 @@ public class UserController {
     }
 
 //    @PreAuthorize("#oauth2.hasScope('server')")
-    @GetMapping(path = "/{username}")
+    @GetMapping(path = "/users/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
-        System.out.println("get endpoint hit");
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
@@ -40,7 +39,7 @@ public class UserController {
      * @param newUser - a new user to be created
      * @return
      */
-    @PostMapping(path = "/newUser")
+    @PostMapping(path = "/users")
     public ResponseEntity<?> newUser(@Valid @RequestBody User newUser) {
 
         RealmResource realmResource = keycloak.realm("turtech");
@@ -78,8 +77,10 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/updateProfile")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody User updatedUser) {
+    @PutMapping(path = "/users/{userId}")
+    public ResponseEntity<?> updateUser(
+            @Valid @RequestBody User updatedUser,
+            @PathVariable String userId) {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserResource userResource = keycloak.realm("turtech").users().get(token.getName());
@@ -101,8 +102,10 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/forgotPassword")
-    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
+    @PostMapping(path = "/users/{userId}/reset-password")
+    public ResponseEntity<?> resetPassword(
+            @RequestParam String email,
+            @PathVariable String userId) {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

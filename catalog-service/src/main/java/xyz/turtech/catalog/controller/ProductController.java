@@ -19,14 +19,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/products/{productId}")
     public ResponseEntity<?> getProduct(@PathVariable long productId) {
         Product product = productService.findById(productId).get();
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/listProducts")
+    @GetMapping("/products")
     public ResponseEntity<?> getProducts(@QuerydslPredicate(root = Product.class) Predicate predicate,
                                           @RequestParam(defaultValue = "1") int page,
                                           @RequestParam(defaultValue = "10") int size) {

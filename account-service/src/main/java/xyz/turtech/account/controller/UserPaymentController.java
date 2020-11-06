@@ -24,7 +24,7 @@ public class UserPaymentController {
         this.userBillingAddressService = userBillingAddressService;
     }
 
-    @GetMapping(path = "/userPaymentOption/{userPaymentOptionId}")
+    @GetMapping(path = "/payment-options/{userPaymentOptionId}")
     public ResponseEntity<UserPaymentOption> getUserPaymentOptionById
             (@PathVariable Long userPaymentOptionId) {
 
@@ -33,7 +33,7 @@ public class UserPaymentController {
         return new ResponseEntity<>(userPaymentOption.get(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/userPaymentOptions")
+    @GetMapping(path = "/payment-options")
     public ResponseEntity<?> getUserPaymentOptions() {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -42,21 +42,23 @@ public class UserPaymentController {
         return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
     }
 
-    @GetMapping("/userPaymentOptions/{userId}")
-    public ResponseEntity<?> getUserPaymentOptionsByUserId(@PathVariable String userId) {
+    @GetMapping("/payment-options")
+    public ResponseEntity<?> getUserPaymentOptionsByUserId(@RequestParam String userId) {
         Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(userId);
 
         return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
     }
 
-    @GetMapping("/setDefaultUserPaymentOption/{paymentOptionId}")
-    public ResponseEntity<?> setDefaultUserPaymentOption(@PathVariable long paymentOptionId) {
+
+
+    @PostMapping("/payment-options/{paymentOptionId}/set-default")
+    public ResponseEntity<?> setDefaultUserPaymentOption(@PathVariable Long paymentOptionId) {
 
         userPaymentOptionService.setDefaultUserPaymentOption(paymentOptionId);
         return new ResponseEntity<>(paymentOptionId, HttpStatus.OK);
     }
 
-    @PostMapping("/addNewUserPaymentOption")
+    @PostMapping("/payment-options")
     public ResponseEntity<?> addNewUserPaymentOption(@RequestBody UserPaymentOption newPaymentOption,
                                                      @RequestBody UserBillingAddress newUserBillingAddressAddress) {
         //TODO consider implementing this on frontend-client level
@@ -67,14 +69,14 @@ public class UserPaymentController {
         return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
     }
 
-    @PutMapping("/updateUserPaymentOption")
+    @PutMapping("/payment-options")
     public ResponseEntity<?> updateUserPaymentOption(@RequestBody UserPaymentOption updatedPaymentOption) {
 
         userPaymentOptionService.updateUserPaymentOption(updatedPaymentOption);
         return new ResponseEntity<>(updatedPaymentOption.getId(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/removeUserPaymentOption/{paymentOptionId}")
+    @DeleteMapping("/payment-options/{paymentOptionId}")
     public ResponseEntity<?> removeUserPaymentOption(@PathVariable long paymentOptionId) {
 
         userPaymentOptionService.removeUserPaymentOption(paymentOptionId);
