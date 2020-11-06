@@ -6,5 +6,8 @@ import java.util.Optional;
 
 public interface UserBillingAddressService {
 
-    Optional<UserBillingAddress> findById(Long userBillingAddressId);
+    UserBillingAddress findById(Long userBillingAddressId);
+    UserBillingAddress addNewUserBillingAddress(UserBillingAddress newUserBillingAddress);
+    UserBillingAddress updateUserBillingAddress(UserBillingAddress userBillingAddress);
+    void removeUserBillingAddress(Long userBillingAddressId);
 }

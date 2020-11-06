@@ -21,8 +21,9 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public Product findById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product was not found - " + productId));
     }
 
     public Page<Product> findAll(Predicate predicate, Pageable pageable) {

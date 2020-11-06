@@ -5,8 +5,6 @@ import xyz.turtech.account.persistence.domain.UserBillingAddress;
 import xyz.turtech.account.persistence.repository.UserBillingAddressRepository;
 import xyz.turtech.account.persistence.service.UserBillingAddressService;
 
-import java.util.Optional;
-
 @Service
 public class UserBillingAddressServiceImpl implements UserBillingAddressService {
 
@@ -17,7 +15,25 @@ public class UserBillingAddressServiceImpl implements UserBillingAddressService 
     }
 
     @Override
-    public Optional<UserBillingAddress> findById(Long userBillingAddressId) {
-        return userBillingAddressRepository.findById(userBillingAddressId);
+    public UserBillingAddress findById(Long userBillingAddressId) {
+        return userBillingAddressRepository.findById(userBillingAddressId)
+                .orElseThrow(() -> new RuntimeException("User Billing Address not found - " + userBillingAddressId));
+    }
+
+    @Override
+    public UserBillingAddress addNewUserBillingAddress(UserBillingAddress newUserBillingAddress) {
+        return userBillingAddressRepository.save(newUserBillingAddress);
+    }
+
+    @Override
+    public UserBillingAddress updateUserBillingAddress(UserBillingAddress userBillingAddress) {
+        return userBillingAddressRepository.save(userBillingAddress);
+    }
+
+    @Override
+    public void removeUserBillingAddress(Long userBillingAddressId) {
+        UserBillingAddress userBillingAddress = userBillingAddressRepository.findById(userBillingAddressId).get();
+
+        userBillingAddressRepository.delete(userBillingAddress);
     }
 }

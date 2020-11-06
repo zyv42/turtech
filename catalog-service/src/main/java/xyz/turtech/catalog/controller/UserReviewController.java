@@ -17,22 +17,29 @@ public class UserReviewController {
         this.userReviewService = userReviewService;
     }
 
-    @GetMapping("/user-reviews")
-    public Page<UserReview> getReviewsByProduct(@RequestParam Long productId,
-                                                @RequestParam int page,
-                                                @RequestParam int size) {
+    @GetMapping("/products/{productId}/user-reviews")
+    public Page<UserReview> getReviewsByProduct(
+            @PathVariable Long productId,
+            @RequestParam int page,
+            @RequestParam int size) {
+
         return userReviewService.findUserReviewsByProductId(productId, PageRequest.of(page, size));
     }
 
     @GetMapping("/user-reviews")
-    public Page<UserReview> getReviewsByUser(@RequestParam String userId,
-                                             @RequestParam int page,
-                                             @RequestParam int size) {
+    public Page<UserReview> getReviewsByUser(
+            @RequestParam String userId,
+            @RequestParam int page,
+            @RequestParam int size) {
+
         return userReviewService.findUserReviewsByUserId(userId, PageRequest.of(page, size));
     }
 
-    @PostMapping("/user-reviews")
-    public ResponseEntity<?> createNewUserReview(@RequestBody UserReview userReview) {
+    @PostMapping("/products/{productId}/user-reviews")
+    public ResponseEntity<?> createNewUserReview(
+            @PathVariable Long productId,
+            @RequestBody UserReview userReview) {
+
         UserReview savedUserReview = userReviewService.saveOrUpdateUserReview(userReview);
         return new ResponseEntity<>(savedUserReview, HttpStatus.CREATED);
     }

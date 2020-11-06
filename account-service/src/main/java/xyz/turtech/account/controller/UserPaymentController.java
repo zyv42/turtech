@@ -10,8 +10,6 @@ import xyz.turtech.account.persistence.domain.UserPaymentOption;
 import xyz.turtech.account.persistence.service.UserBillingAddressService;
 import xyz.turtech.account.persistence.service.UserPaymentOptionService;
 
-import java.util.Optional;
-
 @RestController
 public class UserPaymentController {
 
@@ -24,62 +22,102 @@ public class UserPaymentController {
         this.userBillingAddressService = userBillingAddressService;
     }
 
-    @GetMapping(path = "/payment-options/{userPaymentOptionId}")
-    public ResponseEntity<UserPaymentOption> getUserPaymentOptionById
-            (@PathVariable Long userPaymentOptionId) {
-
-        Optional<UserPaymentOption> userPaymentOption = userPaymentOptionService.findById(userPaymentOptionId);
-
-        return new ResponseEntity<>(userPaymentOption.get(), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/payment-options")
-    public ResponseEntity<?> getUserPaymentOptions() {
+    @GetMapping(path = "/users/{userId}/payment-options/{userPaymentOptionId}")
+    public ResponseEntity<UserPaymentOption> getUserPaymentOptionById(
+            @PathVariable String userId,
+            @PathVariable Long userPaymentOptionId) {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(token.getName());
 
-        return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
+        if (token.getName().equals(userId)) {
+            UserPaymentOption userPaymentOption = userPaymentOptionService.findById(userPaymentOptionId);
+
+            return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @GetMapping("/payment-options")
-    public ResponseEntity<?> getUserPaymentOptionsByUserId(@RequestParam String userId) {
-        Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(userId);
+    @GetMapping("/users/{userId}/payment-options")
+    public ResponseEntity<?> getUserPaymentOptionsByUserId(
+            @PathVariable String userId) {
 
-        return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            Iterable<UserPaymentOption> userPaymentOptions = userPaymentOptionService.findByUserId(userId);
+
+            return new ResponseEntity<>(userPaymentOptions, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
+    @PostMapping("/users/{userId}/payment-options/{paymentOptionId}/set-default")
+    public ResponseEntity<?> setDefaultUserPaymentOption(
+            @PathVariable String userId,
+            @PathVariable Long paymentOptionId) {
 
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-    @PostMapping("/payment-options/{paymentOptionId}/set-default")
-    public ResponseEntity<?> setDefaultUserPaymentOption(@PathVariable Long paymentOptionId) {
+        if (token.getName().equals(userId)) {
+            userPaymentOptionService.setDefaultUserPaymentOption(paymentOptionId, userId);
 
-        userPaymentOptionService.setDefaultUserPaymentOption(paymentOptionId);
-        return new ResponseEntity<>(paymentOptionId, HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @PostMapping("/payment-options")
-    public ResponseEntity<?> addNewUserPaymentOption(@RequestBody UserPaymentOption newPaymentOption,
-                                                     @RequestBody UserBillingAddress newUserBillingAddressAddress) {
-        //TODO consider implementing this on frontend-client level
-        //newPaymentOption.setUserBillingAddressId(newUserBillingAddressAddress.getId());
+    @PostMapping("/users/{userId}/payment-options")
+    public ResponseEntity<?> addNewUserPaymentOption(
+            @PathVariable String userId,
+            @RequestBody UserPaymentOption newPaymentOption,
+            @RequestBody UserBillingAddress newUserBillingAddress) {
 
-        // TODO add newUserBilling address with userBillingAddressService
-        UserPaymentOption userPaymentOption = userPaymentOptionService.addNewUserPaymentOption(newPaymentOption);
-        return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            UserBillingAddress userBillingAddress = userBillingAddressService.addNewUserBillingAddress(newUserBillingAddress);
+            newPaymentOption.setBillingAddressId(userBillingAddress.getId());
+            UserPaymentOption userPaymentOption = userPaymentOptionService.addNewUserPaymentOption(newPaymentOption);
+
+            return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @PutMapping("/payment-options")
-    public ResponseEntity<?> updateUserPaymentOption(@RequestBody UserPaymentOption updatedPaymentOption) {
+    @PutMapping("/users/{userId}/payment-options/{paymentOptionId}")
+    public ResponseEntity<?> updateUserPaymentOption(
+            @PathVariable String userId,
+            @PathVariable Long paymentOptionId,
+            @RequestBody UserPaymentOption updatedPaymentOption) {
 
-        userPaymentOptionService.updateUserPaymentOption(updatedPaymentOption);
-        return new ResponseEntity<>(updatedPaymentOption.getId(), HttpStatus.OK);
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            UserPaymentOption userPaymentOption = userPaymentOptionService.updateUserPaymentOption(updatedPaymentOption);
+
+            return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @DeleteMapping("/payment-options/{paymentOptionId}")
-    public ResponseEntity<?> removeUserPaymentOption(@PathVariable long paymentOptionId) {
+    @DeleteMapping("/users/{userId}/payment-options/{paymentOptionId}")
+    public ResponseEntity<?> removeUserPaymentOption(
+            @PathVariable String userId,
+            @PathVariable Long paymentOptionId) {
 
-        userPaymentOptionService.removeUserPaymentOption(paymentOptionId);
-        return new ResponseEntity<>(paymentOptionId, HttpStatus.OK);
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            userPaymentOptionService.removeUserPaymentOption(paymentOptionId);
+
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 }

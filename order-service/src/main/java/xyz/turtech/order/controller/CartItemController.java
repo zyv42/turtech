@@ -1,9 +1,9 @@
 package xyz.turtech.order.controller;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,12 +19,19 @@ public class CartItemController {
         this.cartItemService = cartItemService;
     }
 
-    @GetMapping("/cartItemsByOrderId/{orderId}")
-    @PreAuthorize("permitAll()")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> getCartItemsByOrderId(@PathVariable Long orderId) {
-        Iterable<CartItem> cartItems = cartItemService.findByOrderId(orderId);
+    @GetMapping("/users/{userId}/orders/{orderId}/cart-items")
+    public ResponseEntity<?> getCartItemsByOrderId(
+            @PathVariable String userId,
+            @PathVariable Long orderId) {
 
-        return new ResponseEntity<>(cartItems, HttpStatus.OK);
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            Iterable<CartItem> cartItems = cartItemService.findByOrderId(orderId);
+
+            return new ResponseEntity<>(cartItems, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 }

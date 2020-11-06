@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.turtech.order.persistence.domain.*;
 import xyz.turtech.order.persistence.service.*;
@@ -35,37 +34,45 @@ public class OrderController {
         this.cartItemService = cartItemService;
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<?> getOrders() {
+    @GetMapping("/users/{userId}/orders")
+    public ResponseEntity<?> getOrdersByUserId(
+            @PathVariable String userId) {
+
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Iterable<Order> orders = orderService.findByUserId(token.getName());
 
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        if (token.getName().equals(userId)) {
+            Iterable<Order> orders = orderService.findByUserId(userId);
+
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<?> getOrdersByUserId(@RequestParam String userId) {
-        Iterable<Order> orders = orderService.findByUserId(userId);
+    @GetMapping("/users/{userId}/orders/{orderId}")
+    public ResponseEntity<?> getOrderDetailsById(
+            @PathVariable String userId,
+            @PathVariable Long orderId) {
 
-        return new ResponseEntity<>(orders, HttpStatus.OK);
-    }
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-    @GetMapping("/orders/{orderId}")
-    public ResponseEntity<?> getOrderDetailsById(@PathVariable Long orderId) {
+        if (token.getName().equals(userId)) {
+            Order order = orderService.findById(orderId);
+            BillingAddress billingAddress = billingAddressService.findById(order.getBillingAddressId()).get();
+            ShippingAddress shippingAddress = shippingAddressService.findById(order.getShippingAddressId()).get();
+            PaymentOption paymentOption = paymentOptionService.findById(order.getPaymentOptionId()).get();
+            Iterable<CartItem> cartItems = cartItemService.findByOrderId(orderId);
 
-        Order currentOrder = orderService.findById(orderId).get();
-        BillingAddress billingAddress = billingAddressService.findById(currentOrder.getBillingAddressId()).get();
-        ShippingAddress shippingAddress = shippingAddressService.findById(currentOrder.getShippingAddressId()).get();
-        PaymentOption paymentOption = paymentOptionService.findById(currentOrder.getPaymentOptionId()).get();
-        Iterable<CartItem> cartItems = cartItemService.findByOrderId(orderId);
+            Map<String, Object> orderDetails = new HashMap<>();
+            orderDetails.put("order", order);
+            orderDetails.put("billingAddress", billingAddress);
+            orderDetails.put("shippingAddress", shippingAddress);
+            orderDetails.put("paymentOption", paymentOption);
+            orderDetails.put("cartItems", cartItems);
 
-        Map<String, Object> orderDetails = new HashMap<>();
-        orderDetails.put("order", currentOrder);
-        orderDetails.put("billingAddress", billingAddress);
-        orderDetails.put("shippingAddress", shippingAddress);
-        orderDetails.put("paymentOption", paymentOption);
-        orderDetails.put("cartItems", cartItems);
-
-        return new ResponseEntity<>(orderDetails, HttpStatus.OK);
+            return new ResponseEntity<>(orderDetails, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 }

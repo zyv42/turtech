@@ -6,10 +6,10 @@ import java.util.Optional;
 
 public interface UserShippingAddressService {
 
-    Optional<UserShippingAddress> findById(Long userShippingAddressId);
-    Iterable<UserShippingAddress> findByUserId(String UserId);
+    UserShippingAddress findById(Long userShippingAddressId);
+    Iterable<UserShippingAddress> findByUserId(String userId);
     UserShippingAddress addNewUserShippingAddress(UserShippingAddress newUserShippingAddressAddress);
     UserShippingAddress updateUserShippingAddress(UserShippingAddress userShippingAddress);
-    void setDefaultUserShippingAddress(Long userShippingAddressId);
-    Long removeUserShippingAddress(Long userShippingAddressId);
+    void setDefaultUserShippingAddress(Long userShippingAddressId, String userId);
+    void removeUserShippingAddress(Long userShippingAddressId);
 }

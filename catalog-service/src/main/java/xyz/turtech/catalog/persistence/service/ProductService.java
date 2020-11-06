@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    Optional<Product> findById(Long productId);
+    Product findById(Long productId);
     Page<Product> findAll(Predicate predicate, Pageable pageable);
 }

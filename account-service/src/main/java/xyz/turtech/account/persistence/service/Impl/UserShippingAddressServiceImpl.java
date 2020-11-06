@@ -5,8 +5,6 @@ import xyz.turtech.account.persistence.domain.UserShippingAddress;
 import xyz.turtech.account.persistence.repository.UserShippingAddressRepository;
 import xyz.turtech.account.persistence.service.UserShippingAddressService;
 
-import java.util.Optional;
-
 @Service
 public class UserShippingAddressServiceImpl implements UserShippingAddressService {
 
@@ -17,8 +15,9 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     }
 
     @Override
-    public Optional<UserShippingAddress> findById(Long userShippingAddress) {
-        return userShippingAddressRepository.findById(userShippingAddress);
+    public UserShippingAddress findById(Long userShippingAddressId) {
+        return userShippingAddressRepository.findById(userShippingAddressId)
+                .orElseThrow(() -> new RuntimeException("User Shipping Address not found - " + userShippingAddressId));
     }
 
     @Override
@@ -37,16 +36,19 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     }
 
     @Override
-    public void setDefaultUserShippingAddress(Long userShippingAddressId) {
-        UserShippingAddress userShippingAddress = userShippingAddressRepository.findById(userShippingAddressId).get();
-        userShippingAddress.setDefaultShippingAddress(true);
-        userShippingAddressRepository.save(userShippingAddress);
+    public void setDefaultUserShippingAddress(Long userShippingAddressId, String userId) {
+
+        Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressRepository.findByUserId(userId);
+        for (UserShippingAddress userShippingAddress : userShippingAddresses) {
+            userShippingAddress.setDefaultShippingAddress(userShippingAddress.getId().longValue() == userShippingAddressId);
+            userShippingAddressRepository.save(userShippingAddress);
+        }
     }
 
     @Override
-    public Long removeUserShippingAddress(Long userShippingAddressId) {
+    public void removeUserShippingAddress(Long userShippingAddressId) {
         UserShippingAddress userShippingAddress = userShippingAddressRepository.findById(userShippingAddressId).get();
+
         userShippingAddressRepository.delete(userShippingAddress);
-        return userShippingAddressId;
     }
 }

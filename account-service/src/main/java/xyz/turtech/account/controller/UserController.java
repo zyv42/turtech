@@ -102,10 +102,10 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/users/{userId}/reset-password")
+    @PostMapping(path = "/users/reset-password")
     public ResponseEntity<?> resetPassword(
-            @RequestParam String email,
-            @PathVariable String userId) {
+            @RequestParam String email) {
+
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

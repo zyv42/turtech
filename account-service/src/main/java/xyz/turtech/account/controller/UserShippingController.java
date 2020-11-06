@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import xyz.turtech.account.persistence.domain.UserShippingAddress;
 import xyz.turtech.account.persistence.service.UserShippingAddressService;
 
-import java.util.Optional;
-
 @RestController
 public class UserShippingController {
 
@@ -19,54 +17,100 @@ public class UserShippingController {
         this.userShippingAddressService = userShippingAddressService;
     }
 
-    @GetMapping(path = "/shipping-addresses")
-    public ResponseEntity<?> getUserShippingAddresses() {
+    @GetMapping(path = "/users/{userId}/shipping-addresses/{shippingAddressId}")
+    public ResponseEntity<?> getUserShippingAddressById(
+            @PathVariable String userId,
+            @PathVariable Long shippingAddressId) {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(token.getName());
 
-        return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
+        if (token.getName().equals(userId)) {
+            UserShippingAddress userShippingAddress = userShippingAddressService.findById(shippingAddressId);
+
+            return new ResponseEntity<>(userShippingAddress, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @GetMapping(path = "/shipping-addresses/{shippingAddressId}")
-    public ResponseEntity<?> getUserShippingAddressById(@PathVariable Long shippingAddressId) {
+    @GetMapping("/users/{userId}/shipping-addresses")
+    public ResponseEntity<?> getUserShippingAddressesByUserId(
+            @PathVariable String userId) {
 
-        Optional<UserShippingAddress> userShippingAddress = userShippingAddressService.findById(shippingAddressId);
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-        return new ResponseEntity<>(userShippingAddress.get(), HttpStatus.OK);
+        if (token.getName().equals(userId)) {
+            Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(userId);
+
+            return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @GetMapping("/shipping-addresses")
-    public ResponseEntity<?> getUserShippingAddressesByUserId(@RequestParam String userId) {
-        Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(userId);
 
-        return new ResponseEntity<>(userShippingAddresses, HttpStatus.OK);
+    @PostMapping("/users/{userId}/shipping-addresses")
+    public ResponseEntity<?> addNewUserShippingAddress(
+            @PathVariable String userId,
+            @RequestBody UserShippingAddress newUserShippingAddress) {
+
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            UserShippingAddress userShippingAddress = userShippingAddressService.addNewUserShippingAddress(newUserShippingAddress);
+
+            return new ResponseEntity<>(userShippingAddress, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-
-    @PostMapping("/shipping-addresses")
-    public ResponseEntity<?> addNewUserShippingAddress(@RequestBody UserShippingAddress newUserShippingAddressAddress) {
-        UserShippingAddress userShippingAddress = userShippingAddressService.addNewUserShippingAddress(newUserShippingAddressAddress);
-        return new ResponseEntity<>(userShippingAddress, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/shipping-addresses/{shippingAddressId}")
+    @PutMapping("/users/{userId}/shipping-addresses/{shippingAddressId}")
     public ResponseEntity<?> updateUserShippingAddress(
-            @RequestBody UserShippingAddress updatedUserShippingAddress,
+            @PathVariable String userId,
+            @PathVariable Long shippingAddressId,
+            @RequestBody UserShippingAddress updatedUserShippingAddress) {
+
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            UserShippingAddress userShippingAddress = userShippingAddressService.updateUserShippingAddress(updatedUserShippingAddress);
+
+            return new ResponseEntity<>(userShippingAddress, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PutMapping("/users/{userId}/shipping-addresses/{shippingAddressId}/set-default")
+    public ResponseEntity<?> setDefaultUserShippingAddress(
+            @PathVariable String userId,
             @PathVariable Long shippingAddressId) {
-        UserShippingAddress userShippingAddress = userShippingAddressService.updateUserShippingAddress(updatedUserShippingAddress);
-        return new ResponseEntity<>(userShippingAddress, HttpStatus.OK);
+
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            userShippingAddressService.setDefaultUserShippingAddress(shippingAddressId, userId);
+
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 
-    @PutMapping("/shipping-addresses/{shippingAddressId}/set-default")
-    public ResponseEntity<?> setDefaultUserShippingAddress(@PathVariable Long shippingAddressId) {
-        userShippingAddressService.setDefaultUserShippingAddress(shippingAddressId);
-        return new ResponseEntity<>(shippingAddressId, HttpStatus.OK);
-    }
+    @DeleteMapping("/users/{userId}/shipping-addresses/{shippingAddressId}")
+    public ResponseEntity<?> removeUserShippingAddress(
+            @PathVariable String userId,
+            @PathVariable Long shippingAddressId) {
 
-    @DeleteMapping("/shipping-addresses/{shippingAddressId}")
-    public ResponseEntity<?> removeUserShippingAddress(@PathVariable Long shippingAddressId) {
-        userShippingAddressService.removeUserShippingAddress(shippingAddressId);
-        return new ResponseEntity<>(shippingAddressId, HttpStatus.OK);
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        if (token.getName().equals(userId)) {
+            userShippingAddressService.removeUserShippingAddress(shippingAddressId);
+
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 }
