@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.turtech.catalog.exceptions.ProductNotFoundException;
 import xyz.turtech.catalog.persistence.domain.Product;
 import xyz.turtech.catalog.persistence.repository.ProductRepository;
 import xyz.turtech.catalog.persistence.service.ProductService;
@@ -23,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     public Product findById(Long productId) {
         return productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product was not found - " + productId));
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID: " + productId + " was not found."));
     }
 
     public Page<Product> findAll(Predicate predicate, Pageable pageable) {

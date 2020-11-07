@@ -1,6 +1,7 @@
 package xyz.turtech.order.persistence.service.Impl;
 
 import org.springframework.stereotype.Service;
+import xyz.turtech.order.exceptions.OrderNotFoundException;
 import xyz.turtech.order.persistence.domain.Order;
 import xyz.turtech.order.persistence.repository.OrderRepository;
 import xyz.turtech.order.persistence.service.OrderService;
@@ -17,7 +18,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findById(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found - " + orderId));
+                .orElseThrow(() -> new OrderNotFoundException("Order with ID: " + orderId + " not found."));
     }
 
     @Override

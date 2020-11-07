@@ -1,6 +1,7 @@
 package xyz.turtech.account.persistence.service.Impl;
 
 import org.springframework.stereotype.Service;
+import xyz.turtech.account.exceptions.UserShippingAddressNotFoundException;
 import xyz.turtech.account.persistence.domain.UserShippingAddress;
 import xyz.turtech.account.persistence.repository.UserShippingAddressRepository;
 import xyz.turtech.account.persistence.service.UserShippingAddressService;
@@ -17,7 +18,8 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Override
     public UserShippingAddress findById(Long userShippingAddressId) {
         return userShippingAddressRepository.findById(userShippingAddressId)
-                .orElseThrow(() -> new RuntimeException("User Shipping Address not found - " + userShippingAddressId));
+                .orElseThrow(() -> new UserShippingAddressNotFoundException
+                        ("User Shipping Address with ID: " + userShippingAddressId + " not found."));
     }
 
     @Override

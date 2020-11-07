@@ -1,6 +1,7 @@
 package xyz.turtech.account.persistence.service.Impl;
 
 import org.springframework.stereotype.Service;
+import xyz.turtech.account.exceptions.UserPaymentOptionNotFoundException;
 import xyz.turtech.account.persistence.domain.UserPaymentOption;
 import xyz.turtech.account.persistence.repository.UserPaymentOptionsRepository;
 import xyz.turtech.account.persistence.service.UserPaymentOptionService;
@@ -17,7 +18,8 @@ public class UserPaymentOptionServiceImpl implements UserPaymentOptionService {
     @Override
     public UserPaymentOption findById(Long userPaymentOptionId) {
         return userPaymentOptionRepository.findById(userPaymentOptionId)
-                .orElseThrow(() -> new RuntimeException("User Payment Option not found - " + userPaymentOptionId));
+                .orElseThrow(() -> new UserPaymentOptionNotFoundException
+                        ("User Payment Option with ID: " + userPaymentOptionId + " not found."));
     }
 
     @Override

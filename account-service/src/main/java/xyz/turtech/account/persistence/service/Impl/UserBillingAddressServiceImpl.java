@@ -1,6 +1,7 @@
 package xyz.turtech.account.persistence.service.Impl;
 
 import org.springframework.stereotype.Service;
+import xyz.turtech.account.exceptions.UserBillingAddressNotFoundException;
 import xyz.turtech.account.persistence.domain.UserBillingAddress;
 import xyz.turtech.account.persistence.repository.UserBillingAddressRepository;
 import xyz.turtech.account.persistence.service.UserBillingAddressService;
@@ -17,7 +18,8 @@ public class UserBillingAddressServiceImpl implements UserBillingAddressService 
     @Override
     public UserBillingAddress findById(Long userBillingAddressId) {
         return userBillingAddressRepository.findById(userBillingAddressId)
-                .orElseThrow(() -> new RuntimeException("User Billing Address not found - " + userBillingAddressId));
+                .orElseThrow(() -> new UserBillingAddressNotFoundException
+                        ("User Billing Address with ID: " + userBillingAddressId + " not found."));
     }
 
     @Override
