@@ -11,11 +11,11 @@ import xyz.turtech.account.persistence.domain.UserBillingAddress;
 import xyz.turtech.account.persistence.service.UserBillingAddressService;
 
 @RestController
-public class UserBillingController {
+public class UserBillingAddressController {
 
     private final UserBillingAddressService userBillingAddressService;
 
-    public UserBillingController(UserBillingAddressService userBillingAddressService) {
+    public UserBillingAddressController(UserBillingAddressService userBillingAddressService) {
         this.userBillingAddressService = userBillingAddressService;
     }
 

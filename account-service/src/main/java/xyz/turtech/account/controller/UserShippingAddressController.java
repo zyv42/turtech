@@ -9,11 +9,11 @@ import xyz.turtech.account.persistence.domain.UserShippingAddress;
 import xyz.turtech.account.persistence.service.UserShippingAddressService;
 
 @RestController
-public class UserShippingController {
+public class UserShippingAddressController {
 
     private final UserShippingAddressService userShippingAddressService;
 
-    public UserShippingController(UserShippingAddressService userShippingAddressService) {
+    public UserShippingAddressController(UserShippingAddressService userShippingAddressService) {
         this.userShippingAddressService = userShippingAddressService;
     }
 

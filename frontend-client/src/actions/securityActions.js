@@ -4,7 +4,7 @@ import setJWTToken from "../securityUtils/setJWTToken";
 
 export const createNewUser = (newUser, history) => async dispatch => {
     try {
-        await axios.post("http://localhost:8111/newUser", newUser);
+        await axios.post("http://localhost:8111/users", newUser);
         dispatch({
             type: GET_ERRORS,
             payload: {}

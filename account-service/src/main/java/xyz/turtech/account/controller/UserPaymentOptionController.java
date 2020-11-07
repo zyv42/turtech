@@ -11,13 +11,13 @@ import xyz.turtech.account.persistence.service.UserBillingAddressService;
 import xyz.turtech.account.persistence.service.UserPaymentOptionService;
 
 @RestController
-public class UserPaymentController {
+public class UserPaymentOptionController {
 
     private final UserPaymentOptionService userPaymentOptionService;
     private final UserBillingAddressService userBillingAddressService;
 
-    public UserPaymentController(UserPaymentOptionService userPaymentOptionService,
-                                 UserBillingAddressService userBillingAddressService) {
+    public UserPaymentOptionController(UserPaymentOptionService userPaymentOptionService,
+                                       UserBillingAddressService userBillingAddressService) {
         this.userPaymentOptionService = userPaymentOptionService;
         this.userBillingAddressService = userBillingAddressService;
     }

@@ -8,9 +8,9 @@ import {
     GET_CART_ITEM_LIST_BY_ORDER_ID
 } from "./types";
 
-export const updateUserProfile = userProfile => async dispatch => {
+export const updateUserProfile = (userId, userProfile) => async dispatch => {
     try {
-        const res = await axios.post("http://localhost:8111/updateProfile", userProfile);
+        const res = await axios.put(`http://localhost:8111/users/${userId}`, userProfile);
         if (res.status === 200) {
             this.status.infoUpdated = true;
         }
@@ -27,9 +27,9 @@ export const updateUserProfile = userProfile => async dispatch => {
     }
 };
 
-export const getUserPaymentOptions = () => async dispatch => {
+export const getUserPaymentOptions = userId => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8111/userPaymentOptions");
+        const res = await axios.get(`http://localhost:8111/users/${userId}/payment-options`);
         dispatch({
             type: GET_USER_PAYMENT_OPTIONS,
             payload: res.data
@@ -38,9 +38,9 @@ export const getUserPaymentOptions = () => async dispatch => {
     }
 };
 
-export const addUserPaymentOption = userPaymentOption => async dispatch => {
+export const addUserPaymentOption = (userId, userPaymentOption) => async dispatch => {
     try {
-        await axios.post("/api/addNewUserPayment", userPaymentOption);
+        await axios.post(`http://localhost:8111/users/${userId}/payment-options`, userPaymentOption);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -50,9 +50,9 @@ export const addUserPaymentOption = userPaymentOption => async dispatch => {
     }
 };
 
-export const updateUserPaymentOption = userPaymentOption => async dispatch => {
+export const updateUserPaymentOption = (userId, paymentOptionId, userPaymentOption) => async dispatch => {
     try {
-        await axios.put("/api/updateUserPayment", userPaymentOption);
+        await axios.put(`http://localhost:8111/users/${userId}/payment-options/${paymentOptionId}`, userPaymentOption);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -62,25 +62,25 @@ export const updateUserPaymentOption = userPaymentOption => async dispatch => {
     }
 };
 
-export const setDefaultUserPaymentOption = userPaymentOptionId => async dispatch => {
+export const setDefaultUserPaymentOption = (userId, paymentOptionId) => async dispatch => {
     try {
-        await axios.get(`/api/setDefaultUserPayment/${userPaymentOptionId}`);
+        await axios.put(`http://localhost:8111/users/${userId}/payment-options/${paymentOptionId}/set-default`);
     } catch (error) {
 
     }
 };
 
-export const removeUserPaymentOption = userPaymentOptionId => async dispatch => {
+export const removeUserPaymentOption = (userId, paymentOptionId) => async dispatch => {
     try {
-        await axios.delete(`/api/removeUserPayment/${userPaymentOptionId}`);
+        await axios.delete(`http://localhost:8111/users/${userId}/payment-options/${paymentOptionId}`);
     } catch (error) {
 
     }
 };
 
-export const getUserShippingAddresses = () => async dispatch => {
+export const getUserShippingAddresses = userId => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8111/userShippingAddresses");
+        const res = await axios.get(`http://localhost:8111/users/${userId}/shipping-addresses`);
         dispatch({
             type: GET_USER_SHIPPING_ADDRESSES,
             payload: res.data
@@ -89,9 +89,9 @@ export const getUserShippingAddresses = () => async dispatch => {
     }
 };
 
-export const addUserShippingAddress = userShippingAddress => async dispatch => {
+export const addUserShippingAddress = (userId, userShippingAddress) => async dispatch => {
     try {
-        await axios.post("/api/addNewUserShippingAddress", userShippingAddress);
+        await axios.post(`http://localhost:8111/users/${userId}/shipping-addresses`, userShippingAddress);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -101,9 +101,9 @@ export const addUserShippingAddress = userShippingAddress => async dispatch => {
     }
 };
 
-export const updateUserShippingAddress = userShippingAddress => async dispatch => {
+export const updateUserShippingAddress = (userId, shippingAddressId, userShippingAddress) => async dispatch => {
     try {
-        await axios.put("/api/updateUserShippingAddress", userShippingAddress);
+        await axios.put(`http://localhost:8111/users/${userId}/shipping-addresses/${shippingAddressId}`, userShippingAddress);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -113,25 +113,25 @@ export const updateUserShippingAddress = userShippingAddress => async dispatch =
     }
 };
 
-export const setDefaultUserShippingAddress = userShippingAddressId => async dispatch => {
+export const setDefaultUserShippingAddress = (userId, shippingAddressId) => async dispatch => {
     try {
-        await axios.get(`/api/setDefaultUserShippingAddress/${userShippingAddressId}`);
+        await axios.get(`http://localhost:8111/users/${userId}/shipping-addresses/${shippingAddressId}/set-default`);
     } catch (error) {
 
     }
 };
 
-export const removeUserShippingAddress = userShippingAddressId => async dispatch => {
+export const removeUserShippingAddress = (userId, shippingAddressId) => async dispatch => {
     try {
-        await axios.delete(`/api/removeUserShippingAddress/${userShippingAddressId}`);
+        await axios.delete(`http://localhost:8111/users/${userId}/shipping-addresses/${shippingAddressId}`);
     } catch (error) {
 
     }
 };
 
-export const getUserOrders = () => async dispatch => {
+export const getUserOrders = userId => async dispatch => {
     try {
-        const res = await axios.get('http://localhost:8114/orders');
+        const res = await axios.get(`http://localhost:8114/users/${userId}/orders`);
         dispatch({
             type: GET_USER_ORDERS,
             payload: res.data
@@ -140,9 +140,9 @@ export const getUserOrders = () => async dispatch => {
     }
 };
 
-export const getUserOrderDetails = userOrderId => async dispatch => {
+export const getUserOrderDetails = (userId, orderId) => async dispatch => {
     try {
-        const res = await axios.get(`http://localhost:8114/orders/${userOrderId}`);
+        const res = await axios.get(`http://localhost:8114/users/${userId}/orders/${orderId}`);
         dispatch({
             type: GET_USER_ORDER_DETAILS,
             payload: res.data
@@ -151,9 +151,9 @@ export const getUserOrderDetails = userOrderId => async dispatch => {
     }
 };
 
-export const getCartItemListByOrderId = orderId => async dispatch => {
+export const getCartItemListByOrderId = (userId, orderId) => async dispatch => {
     try {
-        const res = await axios.get(`/api/cartItemsByOrderId/${orderId}`);
+        const res = await axios.get(`http://localhost:8114/users/${userId}/orders/${orderId}/cart-items`);
         dispatch({
             type: GET_CART_ITEM_LIST_BY_ORDER_ID,
             payload: res.data

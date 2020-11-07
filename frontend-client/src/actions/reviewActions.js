@@ -1,9 +1,9 @@
 import axios from "axios";
 import { GET_REVIEWS, LEAVE_REVIEW, GET_ERRORS } from "./types";
 
-export const leaveReview = (review, history) => async dispatch => {
+export const leaveReview = (productId, review, history) => async dispatch => {
   try {
-      await axios.post(`http://localhost:8112/leaveUserReview`, review);
+      await axios.post(`http://localhost:8112/products/${productId}/user-reviews`, review);
       dispatch({
          type: GET_ERRORS,
          payload: {}
@@ -17,7 +17,7 @@ export const leaveReview = (review, history) => async dispatch => {
 };
 
 export const getReviewsByProduct = (productId, page) => async dispatch => {
-    const res = await axios.get(`http://localhost:8112/reviewsByProduct?productId=${productId}&page=${page}&size=10`);
+    const res = await axios.get(`http://localhost:8112/products/${productId}/user-reviews?page=${page}&size=10`);
     dispatch({
        type: GET_REVIEWS,
        payload: res.data
