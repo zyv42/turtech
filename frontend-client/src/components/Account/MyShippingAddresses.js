@@ -6,17 +6,17 @@ import { Link, Route, Switch } from "react-router-dom";
 import AddNewShippingAddress from "./AddNewShippingAddress";
 import {Button} from "react-bootstrap";
 
-class MyShipping extends Component {
+class MyShippingAddresses extends Component {
 
     componentDidMount() {
         // TODO Consider removing parameter of userId from the method on frontend side and move it to backend only
-        this.props.getUserShippingAddresses();
+        this.props.getUserShippingAddresses(this.props.security.userInfo.name);
     }
 
     //TODO reimplement setting default user shipping address
     onSubmit(e) {
         e.preventDefault();
-        this.props.setDefaultUserShippingAddress(this.state.userShippingAddresses.id);
+        this.props.setDefaultUserShippingAddress(this.props.security.userInfo.name, this.state.userShippingAddresses.id);
     }
 
     removeUserShipping(userShippingId) {
@@ -115,7 +115,7 @@ class MyShipping extends Component {
     }
 }
 
-MyShipping.propTypes = {
+MyShippingAddresses.propTypes = {
     userShippingAddresses: PropTypes.object.isRequired,
     getUserShippingAddresses: PropTypes.func.isRequired,
     addUserShippingAddress: PropTypes.func.isRequired,
@@ -125,10 +125,11 @@ MyShipping.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    security: state.security,
     userShippingAddresses: state.userProfile.userShippingAddresses
 });
 
 export default connect(
     mapStateToProps,
     { getUserShippingAddresses }
-)(MyShipping);
+)(MyShippingAddresses);

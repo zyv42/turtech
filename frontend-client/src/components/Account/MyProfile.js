@@ -81,7 +81,7 @@ class MyProfile extends Component {
             phone: this.state.phone,
             //newPassword: this.state.newPassword
         };
-        this.props.updateUserProfile(updatedUserProfile);
+        this.props.updateUserProfile(this.props.security.userInfo.name, updatedUserProfile);
     }
 
     render() {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import { getUserOrder, getCartItemListByOrderId } from "../../actions/userProfileActions";
+import { getUserOrderDetails, getCartItemListByOrderId } from "../../actions/userProfileActions";
 import PropTypes from "prop-types";
 
 class OrderDetails extends Component {
@@ -11,8 +11,8 @@ class OrderDetails extends Component {
 
     componentDidMount() {
         const { userOrderId } = this.props.match.params;
-        this.props.getUserOrder(userOrderId);
-        this.props.getCartItemListByOrderId(userOrderId);
+        this.props.getUserOrderDetails(this.props.security.userInfo.name, userOrderId);
+        this.props.getCartItemListByOrderId(this.props.security.userInfo.name, userOrderId);
     }
 
     render() {
@@ -137,11 +137,12 @@ class OrderDetails extends Component {
 OrderDetails.propTypes = {
     cartItems: PropTypes.object.isRequired,
     getCartItemListByOrderId: PropTypes.func.isRequired,
-    getUserOrder: PropTypes.func.isRequired,
+    getUserOrderDetails: PropTypes.func.isRequired,
     userOrder: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+    security: state.security,
     userOrder: state.userProfile.userOrder,
     cartItems: state.userProfile.cartItems
 });

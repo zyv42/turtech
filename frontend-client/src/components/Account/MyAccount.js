@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import MyProfile from "./MyProfile";
 import MyOrders from "./MyOrders";
-import MyBilling from "./MyBilling";
-import MyShipping from "./MyShipping";
+import MyPaymentOptions from "./MyPaymentOptions";
+import MyShippingAddresses from "./MyShippingAddresses";
 import {Nav, Tab} from "react-bootstrap";
 
 class MyAccount extends Component {
@@ -49,14 +49,14 @@ class MyAccount extends Component {
                                 // Billing information
                             }
                             <Tab.Pane eventKey="myBilling">
-                                <MyBilling />
+                                <MyPaymentOptions />
                             </Tab.Pane>
 
                             {
                                 // Shipping information
                             }
                             <Tab.Pane eventKey="myShipping">
-                                <MyShipping />
+                                <MyShippingAddresses />
                             </Tab.Pane>
                         </Tab.Content>
                     </div>

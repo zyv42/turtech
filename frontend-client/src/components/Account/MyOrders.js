@@ -9,7 +9,7 @@ import SecuredRoute from "../../securityUtils/SecuredRoute";
 class MyOrders extends Component {
 
     componentDidMount() {
-        this.props.getUserOrders();
+        this.props.getUserOrders(this.props.security.userInfo.name);
     }
 
     renderUserOrders() {
@@ -76,6 +76,7 @@ MyOrders.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    security: state.security,
     userOrders: state.userProfile.userOrders
 });
 

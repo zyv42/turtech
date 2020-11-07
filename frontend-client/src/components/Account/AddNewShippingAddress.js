@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-// TODO change updateUserShippingAddress to addNewUserShippingAddress
-import { updateUserShippingAddress } from "../../actions/userProfileActions";
+import { addUserShippingAddress } from "../../actions/userProfileActions";
 
 class AddNewShippingAddress extends Component {
 
@@ -45,7 +44,7 @@ class AddNewShippingAddress extends Component {
             shippingCountry: this.state.shippingCountry
         };
 
-        this.props.updateUserShippingAddress(newUserShipping);
+        this.props.addUserShippingAddress(this.props.security.userInfo.name, newUserShipping);
     }
 
     render() {
@@ -150,15 +149,16 @@ class AddNewShippingAddress extends Component {
 }
 
 AddNewShippingAddress.propTypes = {
-    updateUserShippingAddress: PropTypes.func.isRequired,
+    addUserShippingAddress: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state =>({
+    security: state.security,
     errors: state.errors
 });
 
 export default connect(
     mapStateToProps,
-    { updateUserShippingAddress }
+    { addUserShippingAddress }
 )(AddNewShippingAddress);
