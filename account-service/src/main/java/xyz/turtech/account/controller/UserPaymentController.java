@@ -22,15 +22,15 @@ public class UserPaymentController {
         this.userBillingAddressService = userBillingAddressService;
     }
 
-    @GetMapping(path = "/users/{userId}/payment-options/{userPaymentOptionId}")
+    @GetMapping(path = "/users/{userId}/payment-options/{paymentOptionId}")
     public ResponseEntity<UserPaymentOption> getUserPaymentOptionById(
             @PathVariable String userId,
-            @PathVariable Long userPaymentOptionId) {
+            @PathVariable Long paymentOptionId) {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         if (token.getName().equals(userId)) {
-            UserPaymentOption userPaymentOption = userPaymentOptionService.findById(userPaymentOptionId);
+            UserPaymentOption userPaymentOption = userPaymentOptionService.findById(paymentOptionId);
 
             return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
         } else {
@@ -53,7 +53,7 @@ public class UserPaymentController {
         }
     }
 
-    @PostMapping("/users/{userId}/payment-options/{paymentOptionId}/set-default")
+    @PutMapping("/users/{userId}/payment-options/{paymentOptionId}/set-default")
     public ResponseEntity<?> setDefaultUserPaymentOption(
             @PathVariable String userId,
             @PathVariable Long paymentOptionId) {

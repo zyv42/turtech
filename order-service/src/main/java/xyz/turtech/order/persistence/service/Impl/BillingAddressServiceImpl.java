@@ -5,8 +5,6 @@ import xyz.turtech.order.persistence.domain.BillingAddress;
 import xyz.turtech.order.persistence.repository.BillingAddressRepository;
 import xyz.turtech.order.persistence.service.BillingAddressService;
 
-import java.util.Optional;
-
 @Service
 public class BillingAddressServiceImpl implements BillingAddressService {
 
@@ -17,7 +15,8 @@ public class BillingAddressServiceImpl implements BillingAddressService {
     }
 
     @Override
-    public Optional<BillingAddress> findById(Long billingAddressId) {
-        return billingAddressRepository.findById(billingAddressId);
+    public BillingAddress findById(Long billingAddressId) {
+        return billingAddressRepository.findById(billingAddressId)
+                .orElseThrow(() -> new RuntimeException("Billing Address not found - " + billingAddressId));
     }
 }

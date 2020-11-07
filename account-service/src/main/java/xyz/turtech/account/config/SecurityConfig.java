@@ -10,7 +10,6 @@ import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticatio
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.admin.client.resource.RealmResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
@@ -55,29 +54,64 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
+    public static final String[] PUBLIC_POST_MATCHERS = {
+            "/users",
+            "/users/reset-password"
+    };
+
+    public static final String[] USER_GET_MATCHERS = {
+            "/users/{userId}/payment-options",
+            "/users/{userId}/payment-options/{userPaymentOptionId}",
+            "/users/{userId}/billing-addresses/{userBillingAddressId}",
+            "/users/{userId}/shipping-addresses",
+            "/users/{userId}/shipping-addresses/{shippingAddressId}",
+
+    };
+
+    public static final String[] USER_POST_MATCHERS = {
+            "/users/{userId}/payment-options",
+            "/users/{userId}/shipping-addresses",
+
+    };
+
+    public static final String[] USER_PUT_MATCHERS = {
+            "/users/{userId}",
+            "/users/{userId}/payment-options/{paymentOptionId}",
+            "/users/{userId}/payment-options/{paymentOptionId}/set-default",
+            "/users/{userId}/shipping-addresses/{shippingAddressId}",
+            "/users/{userId}/shipping-addresses/{shippingAddressId}/set-default"
+    };
+
+    public static final String[] USER_DELETE_MATCHERS = {
+            "/users/{userId}/payment-options/{paymentOptionId}",
+            "/users/{userId}/shipping-addresses/{shippingAddressId}"
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
-                // csrf should be disabled for POST requests;
-                // if we use Spring Security, we must take an extra step to make
-                // sure it plays well with CORS, because CORS must be processed first.
-                // For Spring Security not to reject the request before it reaches Spring MVC
-                // we need to add cors();
-                .cors().and()
-                .csrf().disable()
-                .authorizeRequests()
-                    .antMatchers("/newProfile").permitAll()
-                    .antMatchers("/updateProfile").hasRole("user")
-   //             .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("USER")
-                .anyRequest().permitAll();
+            // csrf should be disabled for POST requests;
+            // if we use Spring Security, we must take an extra step to make
+            // sure it plays well with CORS, because CORS must be processed first.
+            // For Spring Security not to reject the request before it reaches Spring MVC
+            // we need to add cors();
+            .cors().and()
+            .csrf().disable()
+            .authorizeRequests()
+                .antMatchers(PUBLIC_POST_MATCHERS).permitAll()
+                .antMatchers(HttpMethod.GET, USER_GET_MATCHERS).hasAuthority("user")
+                .antMatchers(HttpMethod.POST, USER_POST_MATCHERS).hasAuthority("user")
+                .antMatchers(HttpMethod.PUT, USER_PUT_MATCHERS).hasAuthority("user")
+                .antMatchers(HttpMethod.DELETE, USER_DELETE_MATCHERS).hasAuthority("user")
+                .anyRequest().authenticated();
     }
 
     @Bean
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList(HttpMethod.GET.toString(), HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.OPTIONS.toString()));
+        configuration.setAllowedMethods(Arrays.asList(HttpMethod.GET.toString(), HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.DELETE.toString()));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
 

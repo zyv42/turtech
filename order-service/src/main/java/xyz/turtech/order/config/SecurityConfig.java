@@ -47,14 +47,20 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
+    public static final String[] USER_GET_MATCHERS = {
+            "/users/{userId}/orders",
+            "/users/{userId}/orders/{orderId}",
+            "/users/{userId}/orders/{orderId}/cart-items"
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
-                .cors().and()
-                .authorizeRequests()
-                .anyRequest()
-                .permitAll();
+            .cors().and()
+            .authorizeRequests()
+                .antMatchers(HttpMethod.GET, USER_GET_MATCHERS).hasAuthority("user")
+                .anyRequest().authenticated();
     }
 
     @Bean

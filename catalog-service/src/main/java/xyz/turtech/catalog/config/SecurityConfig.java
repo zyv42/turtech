@@ -17,6 +17,7 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -49,16 +50,30 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
+    private static final String[] PUBLIC_GET_MATCHERS = {
+            "/products",
+            "/products/{productId}",
+            "/products/{productId}/user-reviews"
+    };
+
+    private static final String[] USER_POST_MATCHERS = {
+            "/products/{productId}/user-reviews"
+    };
+
+    private static final String[] MODERATOR_MATCHERS = {
+
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
-                .cors().and()
-                .csrf().disable()
-                .authorizeRequests()
-                    .antMatchers("/listProducts", "/{productId}", "/reviewsByProduct")
-                        .permitAll()
-                    .antMatchers("/leaveReview").hasRole("user")
+            .cors().and()
+            .csrf().disable()
+            .authorizeRequests()
+                .antMatchers(HttpMethod.GET, PUBLIC_GET_MATCHERS).permitAll()
+                .antMatchers(HttpMethod.POST, USER_POST_MATCHERS).hasAnyAuthority("user", "moderator")
+                .antMatchers(MODERATOR_MATCHERS).hasAuthority("moderator")
                 .anyRequest().authenticated();
     }
 

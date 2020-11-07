@@ -50,7 +50,7 @@ public class OrderController {
     }
 
     @GetMapping("/users/{userId}/orders/{orderId}")
-    public ResponseEntity<?> getOrderDetailsById(
+    public ResponseEntity<?> getOrderDetailsByOrderId(
             @PathVariable String userId,
             @PathVariable Long orderId) {
 
@@ -58,9 +58,9 @@ public class OrderController {
 
         if (token.getName().equals(userId)) {
             Order order = orderService.findById(orderId);
-            BillingAddress billingAddress = billingAddressService.findById(order.getBillingAddressId()).get();
-            ShippingAddress shippingAddress = shippingAddressService.findById(order.getShippingAddressId()).get();
-            PaymentOption paymentOption = paymentOptionService.findById(order.getPaymentOptionId()).get();
+            BillingAddress billingAddress = billingAddressService.findById(order.getBillingAddressId());
+            ShippingAddress shippingAddress = shippingAddressService.findById(order.getShippingAddressId());
+            PaymentOption paymentOption = paymentOptionService.findById(order.getPaymentOptionId());
             Iterable<CartItem> cartItems = cartItemService.findByOrderId(orderId);
 
             Map<String, Object> orderDetails = new HashMap<>();

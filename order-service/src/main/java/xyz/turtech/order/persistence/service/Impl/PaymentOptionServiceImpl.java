@@ -5,8 +5,6 @@ import xyz.turtech.order.persistence.domain.PaymentOption;
 import xyz.turtech.order.persistence.repository.PaymentOptionRepository;
 import xyz.turtech.order.persistence.service.PaymentOptionService;
 
-import java.util.Optional;
-
 @Service
 public class PaymentOptionServiceImpl implements PaymentOptionService {
 
@@ -17,7 +15,8 @@ public class PaymentOptionServiceImpl implements PaymentOptionService {
     }
 
     @Override
-    public Optional<PaymentOption> findById(Long paymentOptionId) {
-        return paymentOptionRepository.findById(paymentOptionId);
+    public PaymentOption findById(Long paymentOptionId) {
+        return paymentOptionRepository.findById(paymentOptionId)
+                .orElseThrow(() -> new RuntimeException("Payment Option not found - " + paymentOptionId));
     }
 }

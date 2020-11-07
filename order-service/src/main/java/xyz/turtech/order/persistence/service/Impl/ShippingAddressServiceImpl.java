@@ -5,8 +5,6 @@ import xyz.turtech.order.persistence.domain.ShippingAddress;
 import xyz.turtech.order.persistence.repository.ShippingAddressRepository;
 import xyz.turtech.order.persistence.service.ShippingAddressService;
 
-import java.util.Optional;
-
 @Service
 public class ShippingAddressServiceImpl implements ShippingAddressService {
 
@@ -17,7 +15,8 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     @Override
-    public Optional<ShippingAddress> findById(Long shippingAddressId) {
-        return shippingAddressRepository.findById(shippingAddressId);
+    public ShippingAddress findById(Long shippingAddressId) {
+        return shippingAddressRepository.findById(shippingAddressId)
+                .orElseThrow(() -> new RuntimeException("Shipping Address not found - " + shippingAddressId));
     }
 }
