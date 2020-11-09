@@ -5,7 +5,7 @@ import {
     GET_USER_ORDERS,
     GET_USER_ORDER_DETAILS,
     GET_ERRORS,
-    GET_CART_ITEM_LIST_BY_ORDER_ID
+    GET_CART_ITEM_LIST_BY_ORDER_ID, GET_USER_PAYMENT_OPTION, GET_USER_SHIPPING_ADDRESS, GET_USER_BILLING_ADDRESS
 } from "./types";
 
 export const updateUserProfile = (userId, userProfile) => async dispatch => {
@@ -35,6 +35,18 @@ export const getUserPaymentOptions = userId => async dispatch => {
             payload: res.data
         });
     } catch (error) {
+    }
+};
+
+export const getUserPaymentOption = (userId, userPaymentOptionId) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8111/users/${userId}/payment-options/${userPaymentOptionId}`);
+        dispatch({
+            type: GET_USER_PAYMENT_OPTION,
+            payload: res.data
+        });
+    } catch (error) {
+
     }
 };
 
@@ -78,6 +90,18 @@ export const removeUserPaymentOption = (userId, paymentOptionId) => async dispat
     }
 };
 
+export const getUserBillingAddress = (userId, userBillingAddressId) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8111/users/${userId}/payment-options/${userBillingAddressId}`);
+        dispatch({
+            type: GET_USER_BILLING_ADDRESS,
+            payload: res.data
+        });
+    } catch (error) {
+
+    }
+};
+
 export const getUserShippingAddresses = userId => async dispatch => {
     try {
         const res = await axios.get(`http://localhost:8111/users/${userId}/shipping-addresses`);
@@ -86,6 +110,18 @@ export const getUserShippingAddresses = userId => async dispatch => {
             payload: res.data
         });
     } catch (error) {
+    }
+};
+
+export const getUserShippingAddress = (userId, userShippingAddressId) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8111/users/${userId}/payment-options/${userShippingAddressId}`);
+        dispatch({
+            type: GET_USER_SHIPPING_ADDRESS,
+            payload: res.data
+        });
+    } catch (error) {
+
     }
 };
 

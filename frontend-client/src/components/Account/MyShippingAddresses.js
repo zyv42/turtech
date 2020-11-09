@@ -3,7 +3,7 @@ import { getUserShippingAddresses, addUserShippingAddress, updateUserShippingAdd
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
-import AddNewShippingAddress from "./AddNewShippingAddress";
+import AddNewShippingAddress from "./AddShippingAddress";
 import {Button} from "react-bootstrap";
 
 class MyShippingAddresses extends Component {

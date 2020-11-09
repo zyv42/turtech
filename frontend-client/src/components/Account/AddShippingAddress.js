@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { addUserShippingAddress } from "../../actions/userProfileActions";
 
-class AddNewShippingAddress extends Component {
+class AddShippingAddress extends Component {
 
     constructor(props) {
         super(props);
@@ -148,7 +148,7 @@ class AddNewShippingAddress extends Component {
     }
 }
 
-AddNewShippingAddress.propTypes = {
+AddShippingAddress.propTypes = {
     addUserShippingAddress: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 };
@@ -161,4 +161,4 @@ const mapStateToProps = state =>({
 export default connect(
     mapStateToProps,
     { addUserShippingAddress }
-)(AddNewShippingAddress);
+)(AddShippingAddress);

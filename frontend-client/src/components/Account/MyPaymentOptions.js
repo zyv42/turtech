@@ -3,7 +3,7 @@ import { getUserPaymentOptions } from "../../actions/userProfileActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
-import AddNewPaymentOption from "./AddNewPaymentOption";
+import AddNewPaymentOption from "./AddPaymentOption";
 import {Button} from "react-bootstrap";
 
 class MyPaymentOptions extends Component {
