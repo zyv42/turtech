@@ -14,13 +14,17 @@ class MyPaymentOptions extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.props.getUserPaymentOptions(this.props.security.userInfo.name);
+    }
+
     onSubmit(e) {
         e.preventDefault();
         this.props.setDefaultUserPaymentOption(this.props.security.userInfo.name, this.state.userPaymentOptions.id);
     }
 
-    componentDidMount() {
-        this.props.getUserPaymentOptions(this.props.security.userInfo.name);
+    removeUserPaymentOption(userPaymentOptionId) {
+        this.props.removeUserPaymentOption(this.props.security.userInfo.name, userPaymentOptionId);
     }
 
     ListOfPaymentOptions = () => {
@@ -54,13 +58,12 @@ class MyPaymentOptions extends Component {
                                         {
                                             // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
                                         }
-                                        <Button className="fa fa-pencil"
-                                            //onClick={}
-                                        >
-                                        </Button>&nbsp;&nbsp;
+                                        <Button className="fa fa-pencil">
+                                            <Link to={`/updatePaymentOption/${userPaymentOption.id}`} />
+                                        </Button>
+                                        &nbsp;&nbsp;
                                         <Button className="fa fa-times"
-                                            //onClick={}
-                                        >
+                                                onClick={this.removeUserPaymentOption(userPaymentOption.id)}>
                                         </Button>
                                     </td>
                                 </tr>
@@ -96,7 +99,7 @@ class MyPaymentOptions extends Component {
                                         List of Credit Cards</Link></li>
                                 <li className="breadcrumb-item">
                                     <Link to="/myAccount/addNewPaymentOption">
-                                        Add(Update) Credit Card</Link></li>
+                                        Add Credit Card</Link></li>
                             </ol>
                             <hr/>
                         </div>

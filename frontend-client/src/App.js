@@ -21,6 +21,8 @@ import setJWTToken from "./securityUtils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
 import {logout, refreshTokenAction} from "./actions/securityActions";
 import jwt_decode from "jwt-decode";
+import UpdatePaymentOption from "./components/Account/UpdatePaymentOption";
+import UpdateShippingAddress from "./components/Account/UpdateShippingAddress";
 
 const jwtToken = localStorage.jwtToken;
 const refreshToken = localStorage.refreshToken;
@@ -95,8 +97,15 @@ class App extends Component {
                         {
                             // Private Routes
                         }
-                        <SecuredRoute path={"/myAccount"}
-                                      component={MyAccount} />
+                        <SecuredRoute
+                            path={"/myAccount"}
+                            component={MyAccount} />
+                        <SecuredRoute
+                            path={"/updatePaymentOption/:userPaymentOptionId"}
+                            component={UpdatePaymentOption} />
+                        <SecuredRoute
+                            path={"/updateShippingAddress/:userShippingAddressId"}
+                            component={UpdateShippingAddress} />
                         </div>
                         <Footer />
                     </div>

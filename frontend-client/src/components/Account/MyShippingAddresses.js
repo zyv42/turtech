@@ -20,7 +20,7 @@ class MyShippingAddresses extends Component {
     }
 
     removeUserShipping(userShippingId) {
-        //this.props.removeUserShippingAddress(userShippingId);
+        this.props.removeUserShippingAddress(this.props.security.userInfo.name, userShippingId);
     }
 
     ListShippingAddresses = () => {
@@ -54,7 +54,7 @@ class MyShippingAddresses extends Component {
                                             // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
                                         }
                                         <Button className="fa fa-pencil">
-                                            <Link to="/updateUserShipping"/>
+                                            <Link to={`/updateShippingAddress/${userShippingAddress.id}`} />
                                         </Button>
                                         &nbsp;&nbsp;
                                         <Button className="fa fa-times"
@@ -95,7 +95,7 @@ class MyShippingAddresses extends Component {
                                         List of Shipping Addresses</Link></li>
                                 <li className="breadcrumb-item">
                                     <Link to="/myAccount/addNewShippingAddress">
-                                        Add(Update) Shipping Address</Link></li>
+                                        Add Shipping Address</Link></li>
                             </ol>
                             <hr/>
                         </div>
