@@ -37,7 +37,6 @@ export const login = LoginRequest => async dispatch => {
         localStorage.setItem("refreshToken", res_token.data.refresh_token);
         // set out token in the header
         setJWTToken(res_token.data.access_token);
-        console.log(res_token.data);
 
         const res_user_info = await axios.get(
             "http://localhost:8103/auth/realms/turtech/protocol/openid-connect/userinfo"

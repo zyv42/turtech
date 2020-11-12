@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
+import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import { getUserShippingAddress, updateUserShippingAddress } from "../../actions/userProfileActions";
 
@@ -10,12 +11,12 @@ class UpdateShippingAddress extends Component {
 
         this.state = {
             id: "",
-            shippingName: "",
-            shippingStreet1: "",
-            shippingStreet2: "",
-            shippingCity: "",
-            shippingZipCode: "",
-            shippingCountry: ""
+            shippingAddressName: "",
+            shippingAddressStreet1: "",
+            shippingAddressStreet2: "",
+            shippingAddressCity: "",
+            shippingAddressZipcode: "",
+            shippingAddressCountry: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -23,14 +24,34 @@ class UpdateShippingAddress extends Component {
     }
 
     componentDidMount() {
-        const paymentOptionId = this.props.match.params;
-        this.props.getUserPaymentOption(this.security.userInfo.name, paymentOptionId);
+        const userShippingAddressId = this.props.match.params.userShippingAddressId;
+        this.props.getUserShippingAddress(this.props.security.userInfo.sub, userShippingAddressId);
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.errors) {
             this.setState({errors: nextProps.errors})
         }
+
+        const {
+            id,
+            shippingAddressName,
+            shippingAddressStreet1,
+            shippingAddressStreet2,
+            shippingAddressCity,
+            shippingAddressZipcode,
+            shippingAddressCountry
+        } = nextProps.userShippingAddress;
+
+        this.setState({
+            id,
+            shippingAddressName,
+            shippingAddressStreet1,
+            shippingAddressStreet2,
+            shippingAddressCity,
+            shippingAddressZipcode,
+            shippingAddressCountry
+        });
     }
 
     onChange(e) {
@@ -41,15 +62,15 @@ class UpdateShippingAddress extends Component {
         e.preventDefault();
         const newUserShipping = {
             id: this.state.id,
-            shippingName: this.state.shippingName,
-            shippingStreet1: this.state.shippingStreet1,
-            shippingStreet2: this.state.shippingStreet2,
-            shippingCity: this.state.shippingCity,
-            shippingZipCode: this.state.shippingZipCode,
-            shippingCountry: this.state.shippingCountry
+            shippingAddressName: this.state.shippingAddressName,
+            shippingAddressStreet1: this.state.shippingAddressStreet1,
+            shippingAddressStreet2: this.state.shippingAddressStreet2,
+            shippingAddressCity: this.state.shippingAddressCity,
+            shippingZipCode: this.state.shippingAddressZipcode,
+            shippingCountry: this.state.shippingAddressCountry
         };
 
-        this.props.updateUserShippingAddress(this.props.security.userInfo.name, newUserShipping);
+        this.props.updateUserShippingAddress(this.props.security.userInfo.sub, newUserShipping);
     }
 
     render() {
@@ -79,73 +100,79 @@ class UpdateShippingAddress extends Component {
                         <h4>Shipping Address</h4>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="shippingName">* Name</label>
+                        <label htmlFor="shippingAddressName">*Name</label>
                         <input type="text"
                                className="form-control"
-                               id="shippingName"
-                               placeholder="Receiver Name"
-                               name="userShippingName"
+                               id="shippingAddressName"
+                               name="shippingAddressName"
+                               placeholder="Receiver's name"
                                required="required"
-                               value={this.state.shippingName}/>
+                               onChange={this.onChange}
+                               value={this.state.shippingAddressName} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="shippingAddress">* Street Address</label>
+                        <label htmlFor="shippingAddressStreet">*Street Address</label>
                         <input type="text"
                                className="form-control"
-                               id="shippingAddress"
+                               id="shippingAddressStreet"
                                placeholder="Street Address 1"
-                               name="userShippingStreet1"
+                               name="shippingAddressStreet1"
                                required="required"
-                               value={this.state.shippingStreet1}/>
+                               onChange={this.onChange}
+                               value={this.state.shippingAddressStreet1}/>
                         <input type="text"
                                className="form-control mt-2"
                                placeholder="Street Address 2"
-                               name="userShippingStreet2"
-                               value={this.state.shippingStreet2}/>
+                               name="shippingAddressStreet2"
+                               onChange={this.onChange}
+                               value={this.state.shippingAddressStreet2}/>
                     </div>
 
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="form-group">
-                                <label htmlFor="shippingCity">* City</label>
+                                <label htmlFor="shippingAddressCity">*City</label>
                                 <input type="text"
                                        className="form-control"
-                                       id="shippingCity"
-                                       placeholder="Shipping City"
-                                       name="userShippingCity"
+                                       id="shippingAddressCity"
+                                       placeholder="Shipping Address City"
+                                       name="shippingAddressCity"
                                        required="required"
-                                       value={this.state.shippingCity}/>
+                                       onChange={this.onChange}
+                                       value={this.state.shippingAddressCity}/>
                             </div>
                         </div>
                         <div className="col-sm-6">
                             <div className="form-group">
-                                <label htmlFor="shippingZipcode">* Zipcode</label>
+                                <label htmlFor="shippingAddressZipcode">*Zipcode</label>
                                 <input type="text"
                                        className="form-control"
-                                       id="shippingZipcode"
-                                       placeholder="Shipping Zipcode"
-                                       name="userShippingZipcode"
+                                       id="shippingAddressZipcode"
+                                       placeholder="Shipping Address Zipcode"
+                                       name="shippingAddressZipcode"
                                        required="required"
-                                       value={this.state.shippingZipcode}/>
+                                       onChange={this.onChange}
+                                       value={this.state.shippingAddressZipcode}/>
                             </div>
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="country">* Country</label>
+                        <label htmlFor="shippingAddressCountry">*Country</label>
                         <input
                             type="text"
                             className="form-control"
-                            id="country"
-                            placeholder="Country"
-                            name="userShippingCountry"
+                            id="shippingAddressCountry"
+                            placeholder="Shipping Address Country"
+                            name="shippingAddressCountry"
                             required="required"
-                            value={this.state.shippingCountry}/>
+                            onChange={this.onChange}
+                            value={this.state.shippingAddressCountry}/>
                     </div>
                     <hr/>
                     <button type="submit"
                             className="btn btn-primary btn-lg">
-                        Save All
+                        Update Shipping Address
                     </button>
                 </form>
             </div>
@@ -156,15 +183,17 @@ class UpdateShippingAddress extends Component {
 UpdateShippingAddress.propTypes = {
     getUserShippingAddress: PropTypes.func.isRequired,
     updateUserShippingAddress: PropTypes.func.isRequired,
+    userShippingAddress: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state =>({
     security: state.security,
-    errors: state.errors
+    errors: state.errors,
+    userShippingAddress: state.userProfile.userShippingAddress
 });
 
 export default connect(
     mapStateToProps,
     { getUserShippingAddress, updateUserShippingAddress }
-)(UpdateShippingAddress);
+)(withRouter(UpdateShippingAddress));

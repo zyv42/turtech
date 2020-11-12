@@ -38,7 +38,6 @@ public class UserShippingAddressController {
             @PathVariable String userId) {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-
         if (token.getName().equals(userId)) {
             Iterable<UserShippingAddress> userShippingAddresses = userShippingAddressService.findByUserId(userId);
 
@@ -57,6 +56,7 @@ public class UserShippingAddressController {
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         if (token.getName().equals(userId)) {
+            newUserShippingAddress.setUserId(userId);
             UserShippingAddress userShippingAddress = userShippingAddressService.addNewUserShippingAddress(newUserShippingAddress);
 
             return new ResponseEntity<>(userShippingAddress, HttpStatus.OK);

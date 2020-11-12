@@ -100,10 +100,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
                 .antMatchers(PUBLIC_POST_MATCHERS).permitAll()
-                .antMatchers(HttpMethod.GET, USER_GET_MATCHERS).hasAuthority("user")
-                .antMatchers(HttpMethod.POST, USER_POST_MATCHERS).hasAuthority("user")
-                .antMatchers(HttpMethod.PUT, USER_PUT_MATCHERS).hasAuthority("user")
-                .antMatchers(HttpMethod.DELETE, USER_DELETE_MATCHERS).hasAuthority("user")
+                .antMatchers(HttpMethod.GET, USER_GET_MATCHERS).hasRole("user")
+                .antMatchers(HttpMethod.POST, USER_POST_MATCHERS).hasRole("user")
+                .antMatchers(HttpMethod.PUT, USER_PUT_MATCHERS).hasRole("user")
+                .antMatchers(HttpMethod.DELETE, USER_DELETE_MATCHERS).hasRole("user")
                 .anyRequest().authenticated();
     }
 

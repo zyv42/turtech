@@ -100,12 +100,6 @@ class App extends Component {
                         <SecuredRoute
                             path={"/myAccount"}
                             component={MyAccount} />
-                        <SecuredRoute
-                            path={"/updatePaymentOption/:userPaymentOptionId"}
-                            component={UpdatePaymentOption} />
-                        <SecuredRoute
-                            path={"/updateShippingAddress/:userShippingAddressId"}
-                            component={UpdateShippingAddress} />
                         </div>
                         <Footer />
                     </div>

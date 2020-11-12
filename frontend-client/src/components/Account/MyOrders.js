@@ -9,7 +9,7 @@ import SecuredRoute from "../../securityUtils/SecuredRoute";
 class MyOrders extends Component {
 
     componentDidMount() {
-        this.props.getUserOrders(this.props.security.userInfo.name);
+        this.props.getUserOrders(this.props.security.userInfo.sub);
     }
 
     renderUserOrders() {

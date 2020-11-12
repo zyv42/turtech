@@ -13,7 +13,7 @@ public class UserPaymentOption implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    private Long id;
+    private Long paymentOptionId;
 
     @Column(name = "type")
     private String type;
@@ -46,11 +46,11 @@ public class UserPaymentOption implements Serializable {
     private Long billingAddressId;
 
     public Long getId() {
-        return id;
+        return paymentOptionId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long paymentOptionId) {
+        this.paymentOptionId = paymentOptionId;
     }
 
     public String getType() {
@@ -138,18 +138,18 @@ public class UserPaymentOption implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserPaymentOption that = (UserPaymentOption) o;
-        return id.equals(that.id);
+        return paymentOptionId.equals(that.paymentOptionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(paymentOptionId);
     }
 
     @Override
     public String toString() {
         return "UserPayment{" +
-                "id='" + id + '\'' +
+                "id='" + paymentOptionId + '\'' +
                 ", type='" + type + '\'' +
                 ", cardName='" + cardName + '\'' +
                 ", cardNumber='" + cardNumber + '\'' +

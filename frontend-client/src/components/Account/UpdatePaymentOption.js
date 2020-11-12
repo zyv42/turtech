@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
+import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import { getUserPaymentOption, updateUserPaymentOption } from "../../actions/userProfileActions";
 
@@ -9,20 +10,21 @@ class UpdatePaymentOption extends Component {
         super(props);
 
         this.state = {
-            id: "",
+            paymentOptionId: "",
             cardName: "",
-            billingName: "",
-            billingStreet1: "",
-            billingStreet2: "",
-            billingCity: "",
-            billingZipCode: "",
-            billingCountry: "",
             cardType: "",
             holderName: "",
             cardNumber: "",
             expiryMonth: "",
             expiryYear: "",
-            cvc: ""
+            cvc: "",
+            billingAddressId: "",
+            billingAddressName: "",
+            billingAddressStreet1: "",
+            billingAddressStreet2: "",
+            billingAddressCity: "",
+            billingAddressZipcode: "",
+            billingAddressCountry: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -30,14 +32,53 @@ class UpdatePaymentOption extends Component {
     }
 
     componentDidMount() {
-        const paymentOptionId = this.props.match.params;
-        this.props.getUserPaymentOption(this.security.userInfo.name, paymentOptionId);
+        const paymentOptionId = this.props.match.params.paymentOptionId;
+        this.props.getUserPaymentOption(this.security.userInfo.sub, paymentOptionId);
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.errors) {
             this.setState({errors: nextProps.errors})
         }
+
+        const {
+            userPaymentId,
+            cardName,
+            cartType,
+            holderName,
+            cardNumber,
+            expiryMonth,
+            expiryYear,
+            cvc
+        } = nextProps.userPaymentOption;
+
+        const {
+            billingAddressId,
+            billingAddressName,
+            billingAddressStreet1,
+            billingAddressStreet2,
+            billingAddressCity,
+            billingAddressZipcode,
+            billingAddressCountry
+        } = nextProps.userBillingAddress;
+
+        this.setState({
+            userPaymentId,
+            cardName,
+            cartType,
+            holderName,
+            cardNumber,
+            expiryMonth,
+            expiryYear,
+            cvc,
+            billingAddressId,
+            billingAddressName,
+            billingAddressStreet1,
+            billingAddressStreet2,
+            billingAddressCity,
+            billingAddressZipcode,
+            billingAddressCountry
+        });
     }
 
     onChange(e) {
@@ -46,15 +87,9 @@ class UpdatePaymentOption extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const newUserShippingAddress = {
-            id: this.state.id,
+        const updatedPaymentOption = {
+            id: this.state.paymentOptionId,
             cardName: this.state.cardName,
-            billingName: this.state.billingName,
-            billingStreet1: this.state.billingStreet1,
-            billingStreet2: this.state.billingStreet2,
-            billingCity: this.state.billingCity,
-            billingZipCode: this.state.billingZipCode,
-            billingCountry: this.state.billingCountry,
             cardType: this.state.cardType,
             holderName: this.state.holderName,
             cardNumber: this.state.cardNumber,
@@ -63,7 +98,17 @@ class UpdatePaymentOption extends Component {
             cvc: this.state.cvc
         };
 
-        this.props.updateUserShippingAddress(this.props.security.userInfo.name, newUserShippingAddress);
+        const updatedBillingAddress = {
+            id: this.state.billingAddressId,
+            billingAddressName: this.state.billingAddressName,
+            billingAddressStreet1: this.state.billingAddressStreet1,
+            billingAddressStreet2: this.state.billingAddressStreet2,
+            billingAddressCity: this.state.billingAddressCity,
+            billingAddressZipcode: this.state.billingAddressZipcode,
+            billingAddressCountry: this.state.billingAddressCountry,
+        };
+
+        this.props.updateUserShippingAddress(this.props.security.userInfo.sub, updatedPaymentOption, updatedBillingAddress);
     }
 
     render() {
@@ -81,10 +126,6 @@ class UpdatePaymentOption extends Component {
                         */
                     }
 
-                    <input hidden="hidden"
-                           name="id"
-                           value={this.state.id} />
-
                     <div className="form-group">
                         <h5>* Give a name for your card:</h5>
                         <input type="text"
@@ -93,6 +134,7 @@ class UpdatePaymentOption extends Component {
                                placeholder="Card Name"
                                name="cardName"
                                required="required"
+                               onChange={this.onChange}
                                value={this.state.cardName} />
                     </div>
 
@@ -104,68 +146,74 @@ class UpdatePaymentOption extends Component {
                         <h4>Billing Address</h4>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="billingName">* Name</label>
+                        <label htmlFor="billingAddressName">* Receiver's Name</label>
                         <input type="text"
                                className="form-control"
-                               id="billingName"
-                               placeholder="Receiver Name"
-                               name="billingName"
+                               id="billingAddressName"
+                               placeholder="Receiver's Name"
+                               name="billingAddressName"
                                required="required"
-                               value={this.state.billingName}/>
+                               onChange={this.onChange}
+                               value={this.state.billingAddressName}/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="billingAddress1">* Street Address</label>
+                        <label htmlFor="billingAddressStreet1">* Street Address</label>
                         <input type="text"
                                className="form-control"
-                               id="billingAddress1"
+                               id="billingAddressStreet1"
                                placeholder="Street Address 1"
-                               name="billingStreet1"
+                               name="billingAddressStreet1"
                                required="required"
-                               value={this.state.billingStreet1} />
+                               onChange={this.onChange}
+                               value={this.state.billingAddressStreet1} />
                         <input type="text"
                                className="form-control mt-2"
-                               id="billingAddress2"
+                               id="billingAddressStreet2"
                                placeholder="Street Address 2"
-                               name="billingStreet2"
-                               value={this.state.billingStreet2}/>
+                               name="billingAddressStreet2"
+                               onChange={this.onChange}
+                               value={this.state.billingAddressStreet2}/>
                     </div>
 
                     <div className="row">
                         <div className="col-4">
                             <div className="form-group">
-                                <label htmlFor="billingCity">* City</label>
+                                <label htmlFor="billingAddressCity">* City</label>
                                 <input type="text"
                                        className="form-control"
-                                       id="billingCity"
-                                       placeholder="Billing city"
-                                       name="billingCity"
+                                       id="billingAddressCity"
+                                       placeholder="Billing City"
+                                       name="billingAddressCity"
                                        required="required"
-                                       value={this.state.billingCity} />
+                                       onChange={this.onChange}
+                                       value={this.state.billingAddressCity} />
                             </div>
                         </div>
                         <div className="col-4">
                             <div className="form-group">
-                                <label htmlFor="billingZipcode">* Zipcode</label>
+                                <label htmlFor="billingAddressZipcode">* Zipcode</label>
                                 <input type="text"
                                        className="form-control"
-                                       id="billingZipcode"
+                                       id="billingAddressZipcode"
                                        placeholder="Billing Zipcode"
-                                       name="billingZipcode"
+                                       name="billingAddressZipcode"
                                        required="required"
-                                       value={this.state.billingZipcode} />
+                                       onChange={this.onChange}
+                                       value={this.state.billingAddressZipcode} />
                             </div>
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="country">* Country</label>
+                        <label htmlFor="billingAddressCountry">* Country</label>
                         <input type="text"
                                className="form-control"
-                               id="country"
+                               id="billingAddressCountry"
                                placeholder="Country"
-                               name="billingCountry"
+                               name="billingAddressCountry"
                                required="required"
-                               value={this.state.billingCountry} />
+                               onChange={this.onChange}
+                               value={this.state.billingAddressCountry} />
                     </div>
 
                     {
@@ -182,6 +230,7 @@ class UpdatePaymentOption extends Component {
                                 <select className="form-control"
                                         id="cardType"
                                         name="cardType"
+                                        onChange={this.onChange}
                                         value={this.state.cardType}>
                                     <option value="visa">Visa</option>
                                     <option value="mastercard">Mastercard</option>
@@ -191,8 +240,8 @@ class UpdatePaymentOption extends Component {
                                 <label htmlFor="cardHolder">* Card Holder Name:</label>
                                 <div className="input-group">
                                     <div className="input-group-prepend">
-																<span className="input-group-text"><i
-                                                                    className="fa fa-user fa-fw"/></span>
+                                        <span className="input-group-text">
+                                            <i className="fa fa-user fa-fw"/></span>
                                     </div>
                                     <input type="text"
                                            className="form-control"
@@ -200,6 +249,7 @@ class UpdatePaymentOption extends Component {
                                            required="required"
                                            placeholder="Card Holder Name"
                                            name="holderName"
+                                           onChange={this.onChange}
                                            value={this.state.holderName} />
                                 </div>
                             </div>
@@ -207,8 +257,8 @@ class UpdatePaymentOption extends Component {
                                 <label htmlFor="cardNumber">* Card Number:</label>
                                 <div className="input-group">
                                     <div className="input-group-prepend">
-																<span className="input-group-text"><i
-                                                                    className="fa fa-credit-card fa-fw"/></span>
+                                        <span className="input-group-text">
+                                            <i className="fa fa-credit-card fa-fw"/></span>
                                     </div>
                                     <input type="tel"
                                            className="form-control"
@@ -216,6 +266,7 @@ class UpdatePaymentOption extends Component {
                                            required="required"
                                            placeholder="Valid Card Number"
                                            name="cardNumber"
+                                           onChange={this.onChange}
                                            value={this.state.cardNumber} />
                                 </div>
                             </div>
@@ -232,6 +283,7 @@ class UpdatePaymentOption extends Component {
                                     <select className="form-control"
                                             name="expiryMonth"
                                             required="required"
+                                            onChange={this.onChange}
                                             value={this.state.expiryMonth}
                                             style={{width: "45%"}}>
                                         <option disabled="disabled">-- Month --</option>
@@ -251,20 +303,20 @@ class UpdatePaymentOption extends Component {
                                     style={{width: "10%", textAlign: "center"}}> / </span>
                                     <select className="form-control"
                                             name="expiryYear"
+                                            onChange={this.onChange}
                                             value={this.state.expiryYear}
                                             style={{width: "45%"}}>
                                         <option disabled="disabled">-- Year --</option>
-                                        <option value="19">2019</option>
                                         <option value="20">2020</option>
                                         <option value="21">2021</option>
                                         <option value="22">2022</option>
                                         <option value="23">2023</option>
-                                        <option value="23">2024</option>
-                                        <option value="23">2025</option>
-                                        <option value="23">2026</option>
-                                        <option value="23">2027</option>
-                                        <option value="23">2028</option>
-                                        <option value="23">2029</option>
+                                        <option value="24">2024</option>
+                                        <option value="25">2025</option>
+                                        <option value="26">2026</option>
+                                        <option value="27">2027</option>
+                                        <option value="28">2028</option>
+                                        <option value="29">2029</option>
                                     </select>
                                 </div>
                             </div>
@@ -278,13 +330,14 @@ class UpdatePaymentOption extends Component {
                                        name="cvc"
                                        placeholder="CVC"
                                        required="required"
+                                       onChange={this.onChange}
                                        value={this.state.cvc} />
                             </div>
                         </div>
                     </div>
                     <hr/>
                     <button type="submit" className="btn btn-primary btn-lg">
-                        Save All
+                        Update Payment Option
                     </button>
                 </form>
             </div>
@@ -294,16 +347,18 @@ class UpdatePaymentOption extends Component {
 
 UpdatePaymentOption.propTypes = {
     getUserPaymentOption: PropTypes.func.isRequired,
-    addUserPaymentOption: PropTypes.func.isRequired,
+    updateUserPaymentOption: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
     security: state.security,
-    errors: state.errors
+    errors: state.errors,
+    userPaymentOption: state.userProfile.userPaymentOption,
+    userBillingAddress: state.userProfile.userBillingAddress
 });
 
 export default connect(
     mapStateToProps,
     { getUserPaymentOption, updateUserPaymentOption }
-)(UpdatePaymentOption);
+)(withRouter(UpdatePaymentOption));

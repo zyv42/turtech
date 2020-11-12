@@ -11,8 +11,8 @@ class OrderDetails extends Component {
 
     componentDidMount() {
         const { userOrderId } = this.props.match.params;
-        this.props.getUserOrderDetails(this.props.security.userInfo.name, userOrderId);
-        this.props.getCartItemListByOrderId(this.props.security.userInfo.name, userOrderId);
+        this.props.getUserOrderDetails(this.props.security.userInfo.sub, userOrderId);
+        this.props.getCartItemListByOrderId(this.props.security.userInfo.sub, userOrderId);
     }
 
     render() {

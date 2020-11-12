@@ -9,13 +9,12 @@ class AddShippingAddress extends Component {
         super(props);
 
         this.state = {
-            id: "",
-            shippingName: "",
-            shippingStreet1: "",
-            shippingStreet2: "",
-            shippingCity: "",
-            shippingZipCode: "",
-            shippingCountry: ""
+            shippingAddressName: "",
+            shippingAddressStreet1: "",
+            shippingAddressStreet2: "",
+            shippingAddressCity: "",
+            shippingAddressZipcode: "",
+            shippingAddressCountry: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -35,16 +34,15 @@ class AddShippingAddress extends Component {
     onSubmit(e) {
         e.preventDefault();
         const newUserShipping = {
-            id: this.state.id,
-            shippingName: this.state.shippingName,
-            shippingStreet1: this.state.shippingStreet1,
-            shippingStreet2: this.state.shippingStreet2,
-            shippingCity: this.state.shippingCity,
-            shippingZipCode: this.state.shippingZipCode,
-            shippingCountry: this.state.shippingCountry
+            shippingAddressName: this.state.shippingAddressName,
+            shippingAddressStreet1: this.state.shippingAddressStreet1,
+            shippingAddressStreet2: this.state.shippingAddressStreet2,
+            shippingAddressCity: this.state.shippingAddressCity,
+            shippingAddressZipcode: this.state.shippingAddressZipcode,
+            shippingAddressCountry: this.state.shippingAddressCountry
         };
 
-        this.props.addUserShippingAddress(this.props.security.userInfo.name, newUserShipping);
+        this.props.addUserShippingAddress(this.props.security.userInfo.sub, newUserShipping);
     }
 
     render() {
@@ -62,10 +60,6 @@ class AddShippingAddress extends Component {
                         */
                     }
 
-                    <input hidden="hidden"
-                           name="id"
-                           value={this.state.id}/>
-
                     {
                         // Shipping address
                     }
@@ -74,73 +68,79 @@ class AddShippingAddress extends Component {
                         <h4>Shipping Address</h4>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="shippingName">* Name</label>
+                        <label htmlFor="shippingAddressName">* Name</label>
                         <input type="text"
                                className="form-control"
-                               id="shippingName"
+                               id="shippingAddressName"
                                placeholder="Receiver Name"
-                               name="userShippingName"
+                               name="shippingAddressName"
                                required="required"
-                               value={this.state.shippingName}/>
+                               onChange={this.onChange}
+                               value={this.state.shippingName} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="shippingAddress">* Street Address</label>
+                        <label htmlFor="shippingAddressStreet">* Street Address</label>
                         <input type="text"
                                className="form-control"
-                                id="shippingAddress"
+                                id="shippingAddressStreet"
                                 placeholder="Street Address 1"
-                                name="userShippingStreet1"
+                                name="shippingAddressStreet1"
                                 required="required"
+                               onChange={this.onChange}
                                 value={this.state.shippingStreet1}/>
                         <input type="text"
                                className="form-control mt-2"
                                 placeholder="Street Address 2"
-                                name="userShippingStreet2"
+                                name="shippingAddressStreet2"
+                               onChange={this.onChange}
                                 value={this.state.shippingStreet2}/>
                     </div>
 
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="form-group">
-                                <label htmlFor="shippingCity">* City</label>
+                                <label htmlFor="shippingAddressCity">* City</label>
                                 <input type="text"
                                        className="form-control"
-                                       id="shippingCity"
+                                       id="shippingAddressCity"
                                        placeholder="Shipping City"
-                                       name="userShippingCity"
+                                       name="shippingAddressCity"
                                        required="required"
+                                       onChange={this.onChange}
                                        value={this.state.shippingCity}/>
                             </div>
                         </div>
                         <div className="col-sm-6">
                             <div className="form-group">
-                                <label htmlFor="shippingZipcode">* Zipcode</label>
+                                <label htmlFor="shippingAddressZipcode">* Zipcode</label>
                                 <input type="text"
                                        className="form-control"
-                                       id="shippingZipcode"
+                                       id="shippingAddressZipcode"
                                        placeholder="Shipping Zipcode"
-                                       name="userShippingZipcode"
+                                       name="shippingAddressZipcode"
                                        required="required"
+                                       onChange={this.onChange}
                                        value={this.state.shippingZipcode}/>
                             </div>
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="country">* Country</label>
+                        <label htmlFor="shippingAddressCountry">* Country</label>
                         <input
                             type="text"
                             className="form-control"
-                            id="country"
+                            id="shippingAddressCountry"
                             placeholder="Country"
-                            name="userShippingCountry"
+                            name="shippingAddressCountry"
                             required="required"
+                            onChange={this.onChange}
                             value={this.state.shippingCountry}/>
                     </div>
                     <hr/>
                     <button type="submit"
                             className="btn btn-primary btn-lg">
-                        Save All
+                        Save Shipping Address
                     </button>
                 </form>
             </div>

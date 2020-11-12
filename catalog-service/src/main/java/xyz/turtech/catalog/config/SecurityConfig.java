@@ -72,8 +72,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET, PUBLIC_GET_MATCHERS).permitAll()
-                .antMatchers(HttpMethod.POST, USER_POST_MATCHERS).hasAnyAuthority("user", "moderator")
-                .antMatchers(MODERATOR_MATCHERS).hasAuthority("moderator")
+                .antMatchers(HttpMethod.POST, USER_POST_MATCHERS).hasAnyRole("user", "moderator")
+                .antMatchers(MODERATOR_MATCHERS).hasRole("moderator")
                 .anyRequest().authenticated();
     }
 

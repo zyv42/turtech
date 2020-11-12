@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { getUserPaymentOptions } from "../../actions/userProfileActions";
+import { getUserPaymentOptions, removeUserPaymentOption, setDefaultUserPaymentOption } from "../../actions/userProfileActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
@@ -15,16 +15,16 @@ class MyPaymentOptions extends Component {
     }
 
     componentDidMount() {
-        this.props.getUserPaymentOptions(this.props.security.userInfo.name);
+        this.props.getUserPaymentOptions(this.props.security.userInfo.sub);
     }
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.setDefaultUserPaymentOption(this.props.security.userInfo.name, this.state.userPaymentOptions.id);
+        this.props.setDefaultUserPaymentOption(this.props.security.userInfo.sub, this.state.userPaymentOptions.id);
     }
 
     removeUserPaymentOption(userPaymentOptionId) {
-        this.props.removeUserPaymentOption(this.props.security.userInfo.name, userPaymentOptionId);
+        this.props.removeUserPaymentOption(this.props.security.userInfo.sub, userPaymentOptionId);
     }
 
     ListOfPaymentOptions = () => {
@@ -124,7 +124,8 @@ class MyPaymentOptions extends Component {
 MyPaymentOptions.propTypes = {
     userPaymentOptions: PropTypes.object.isRequired,
     getUserPaymentOptions: PropTypes.func.isRequired,
-    setDefaultUserPaymentOption: PropTypes.func.isRequired
+    setDefaultUserPaymentOption: PropTypes.func.isRequired,
+    removeUserPaymentOption: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -134,5 +135,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getUserPaymentOptions }
+    { getUserPaymentOptions, removeUserPaymentOption, setDefaultUserPaymentOption }
 )(MyPaymentOptions);

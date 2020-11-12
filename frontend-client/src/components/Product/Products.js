@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Pagination from "react-js-pagination";
 import {getProducts} from "../../actions/productActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Product from "./Product";
 import classnames from "classnames";
-import {withRouter} from "react-router-dom";
 
 class Products extends Component {
 

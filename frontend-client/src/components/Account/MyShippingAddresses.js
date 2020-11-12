@@ -1,32 +1,33 @@
 import React, {Component} from 'react';
-import { getUserShippingAddresses, addUserShippingAddress, updateUserShippingAddress, removeUserShippingAddress, setDefaultUserShippingAddress} from "../../actions/userProfileActions";
+import { getUserShippingAddresses, removeUserShippingAddress, setDefaultUserShippingAddress} from "../../actions/userProfileActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
 import AddNewShippingAddress from "./AddShippingAddress";
 import {Button} from "react-bootstrap";
+import UpdateShippingAddress from "./UpdateShippingAddress";
 
 class MyShippingAddresses extends Component {
 
     componentDidMount() {
         // TODO Consider removing parameter of userId from the method on frontend side and move it to backend only
-        this.props.getUserShippingAddresses(this.props.security.userInfo.name);
+        this.props.getUserShippingAddresses(this.props.security.userInfo.sub);
     }
 
     //TODO reimplement setting default user shipping address
     onSubmit(e) {
         e.preventDefault();
-        this.props.setDefaultUserShippingAddress(this.props.security.userInfo.name, this.state.userShippingAddresses.id);
+        this.props.setDefaultUserShippingAddress(this.props.security.userInfo.sub, this.state.userShippingAddresses.id);
     }
 
-    removeUserShipping(userShippingId) {
-        this.props.removeUserShippingAddress(this.props.security.userInfo.name, userShippingId);
+    onDeleteClick(userShippingId) {
+        this.props.removeUserShippingAddress(this.props.security.userInfo.sub, userShippingId);
     }
 
     ListShippingAddresses = () => {
         const { userShippingAddresses } = this.props;
 
-        if (userShippingAddresses && userShippingAddresses.length > 0) {
+        if (userShippingAddresses.length > 0) {
             return (
                 <div>
                     <form onSubmit={this.onSubmit}>
@@ -53,12 +54,13 @@ class MyShippingAddresses extends Component {
                                         {
                                             // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
                                         }
-                                        <Button className="fa fa-pencil">
-                                            <Link to={`/updateShippingAddress/${userShippingAddress.id}`} />
-                                        </Button>
+                                        <Link className="btn btn-primary"
+                                              to={`/myAccount/updateShippingAddress/${userShippingAddress.id}`}>
+                                            <i className="fa fa-pencil" />
+                                        </Link>
                                         &nbsp;&nbsp;
                                         <Button className="fa fa-times"
-                                                onClick={this.removeUserShipping(userShippingAddress.id)}/>
+                                                onClick={this.onDeleteClick.bind(this, userShippingAddress.id)}/>
                                     </td>
                                 </tr>
                             ))}
@@ -108,6 +110,8 @@ class MyShippingAddresses extends Component {
                                       component={this.ListShippingAddresses} />
                         <Route exact path="/myAccount/addNewShippingAddress"
                                       component={AddNewShippingAddress} />
+                        <Route exact path="/myAccount/updateShippingAddress/:userShippingAddressId"
+                               component={UpdateShippingAddress} />
                     </Switch>
                 </div>
             </div>
@@ -118,8 +122,6 @@ class MyShippingAddresses extends Component {
 MyShippingAddresses.propTypes = {
     userShippingAddresses: PropTypes.object.isRequired,
     getUserShippingAddresses: PropTypes.func.isRequired,
-    addUserShippingAddress: PropTypes.func.isRequired,
-    updateUserShippingAddress: PropTypes.func.isRequired,
     removeUserShippingAddress: PropTypes.func.isRequired,
     setDefaultUserShippingAddress: PropTypes.func.isRequired
 };
@@ -131,5 +133,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getUserShippingAddresses }
+    { getUserShippingAddresses, removeUserShippingAddress, setDefaultUserShippingAddress }
 )(MyShippingAddresses);

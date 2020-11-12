@@ -50,9 +50,9 @@ export const getUserPaymentOption = (userId, userPaymentOptionId) => async dispa
     }
 };
 
-export const addUserPaymentOption = (userId, userPaymentOption) => async dispatch => {
+export const addUserPaymentOption = (userId, userPaymentOption, userBillingAddress) => async dispatch => {
     try {
-        await axios.post(`http://localhost:8111/users/${userId}/payment-options`, userPaymentOption);
+        await axios.post(`http://localhost:8111/users/${userId}/payment-options`, userPaymentOption, userBillingAddress);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -62,9 +62,9 @@ export const addUserPaymentOption = (userId, userPaymentOption) => async dispatc
     }
 };
 
-export const updateUserPaymentOption = (userId, paymentOptionId, userPaymentOption) => async dispatch => {
+export const updateUserPaymentOption = (userId, paymentOptionId, userPaymentOption, userBillingAddress) => async dispatch => {
     try {
-        await axios.put(`http://localhost:8111/users/${userId}/payment-options/${paymentOptionId}`, userPaymentOption);
+        await axios.put(`http://localhost:8111/users/${userId}/payment-options/${paymentOptionId}`, userPaymentOption, userBillingAddress);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -92,7 +92,7 @@ export const removeUserPaymentOption = (userId, paymentOptionId) => async dispat
 
 export const getUserBillingAddress = (userId, userBillingAddressId) => async dispatch => {
     try {
-        const res = await axios.get(`http://localhost:8111/users/${userId}/payment-options/${userBillingAddressId}`);
+        const res = await axios.get(`http://localhost:8111/users/${userId}/billing-addresses/${userBillingAddressId}`);
         dispatch({
             type: GET_USER_BILLING_ADDRESS,
             payload: res.data
@@ -115,7 +115,7 @@ export const getUserShippingAddresses = userId => async dispatch => {
 
 export const getUserShippingAddress = (userId, userShippingAddressId) => async dispatch => {
     try {
-        const res = await axios.get(`http://localhost:8111/users/${userId}/payment-options/${userShippingAddressId}`);
+        const res = await axios.get(`http://localhost:8111/users/${userId}/shipping-addresses/${userShippingAddressId}`);
         dispatch({
             type: GET_USER_SHIPPING_ADDRESS,
             payload: res.data

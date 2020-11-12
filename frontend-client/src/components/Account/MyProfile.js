@@ -61,7 +61,7 @@ class MyProfile extends Component {
                 lastName: this.props.userProfile.family_name,
                 email: this.props.userProfile.email,
                 phone: this.props.userProfile.phone
-            })
+            });
         }
     }
 
@@ -81,7 +81,7 @@ class MyProfile extends Component {
             phone: this.state.phone,
             //newPassword: this.state.newPassword
         };
-        this.props.updateUserProfile(this.props.security.userInfo.name, updatedUserProfile);
+        this.props.updateUserProfile(this.props.security.userInfo.sub, updatedUserProfile);
     }
 
     render() {
