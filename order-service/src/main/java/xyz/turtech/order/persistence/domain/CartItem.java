@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cart_items", schema = "turtech")
+@Table(name = "order_cart_items", schema = "turtech")
 public class CartItem implements Serializable {
 
     private static final long serialVersionUID = 1L;

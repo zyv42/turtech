@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import { getUserShippingAddress, updateUserShippingAddress } from "../../actions/userProfileActions";
 
@@ -16,7 +16,9 @@ class UpdateShippingAddress extends Component {
             shippingAddressStreet2: "",
             shippingAddressCity: "",
             shippingAddressZipcode: "",
-            shippingAddressCountry: ""
+            shippingAddressCountry: "",
+            userId: "",
+            defaultShippingAddress: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -40,7 +42,9 @@ class UpdateShippingAddress extends Component {
             shippingAddressStreet2,
             shippingAddressCity,
             shippingAddressZipcode,
-            shippingAddressCountry
+            shippingAddressCountry,
+            userId,
+            defaultShippingAddress
         } = nextProps.userShippingAddress;
 
         this.setState({
@@ -50,7 +54,9 @@ class UpdateShippingAddress extends Component {
             shippingAddressStreet2,
             shippingAddressCity,
             shippingAddressZipcode,
-            shippingAddressCountry
+            shippingAddressCountry,
+            userId,
+            defaultShippingAddress
         });
     }
 
@@ -60,17 +66,19 @@ class UpdateShippingAddress extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const newUserShipping = {
+        const updatedUserShipping = {
             id: this.state.id,
             shippingAddressName: this.state.shippingAddressName,
             shippingAddressStreet1: this.state.shippingAddressStreet1,
             shippingAddressStreet2: this.state.shippingAddressStreet2,
             shippingAddressCity: this.state.shippingAddressCity,
             shippingZipCode: this.state.shippingAddressZipcode,
-            shippingCountry: this.state.shippingAddressCountry
+            shippingCountry: this.state.shippingAddressCountry,
+            userId: this.state.userId,
+            defaultShippingAddress: this.state.defaultShippingAddress
         };
 
-        this.props.updateUserShippingAddress(this.props.security.userInfo.sub, newUserShipping);
+        this.props.updateUserShippingAddress(this.props.security.userInfo.sub, this.props.userShippingAddress.id, updatedUserShipping);
     }
 
     render() {
@@ -88,10 +96,6 @@ class UpdateShippingAddress extends Component {
                         */
                     }
 
-                    <input hidden="hidden"
-                           name="id"
-                           value={this.state.id}/>
-
                     {
                         // Shipping address
                     }
@@ -100,7 +104,7 @@ class UpdateShippingAddress extends Component {
                         <h4>Shipping Address</h4>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="shippingAddressName">*Name</label>
+                        <label htmlFor="shippingAddressName">* Receiver's Name</label>
                         <input type="text"
                                className="form-control"
                                id="shippingAddressName"
@@ -111,7 +115,7 @@ class UpdateShippingAddress extends Component {
                                value={this.state.shippingAddressName} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="shippingAddressStreet">*Street Address</label>
+                        <label htmlFor="shippingAddressStreet">* Street Address</label>
                         <input type="text"
                                className="form-control"
                                id="shippingAddressStreet"
@@ -131,7 +135,7 @@ class UpdateShippingAddress extends Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="form-group">
-                                <label htmlFor="shippingAddressCity">*City</label>
+                                <label htmlFor="shippingAddressCity">* City</label>
                                 <input type="text"
                                        className="form-control"
                                        id="shippingAddressCity"
@@ -144,7 +148,7 @@ class UpdateShippingAddress extends Component {
                         </div>
                         <div className="col-sm-6">
                             <div className="form-group">
-                                <label htmlFor="shippingAddressZipcode">*Zipcode</label>
+                                <label htmlFor="shippingAddressZipcode">* Zipcode</label>
                                 <input type="text"
                                        className="form-control"
                                        id="shippingAddressZipcode"
@@ -158,7 +162,7 @@ class UpdateShippingAddress extends Component {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="shippingAddressCountry">*Country</label>
+                        <label htmlFor="shippingAddressCountry">* Country</label>
                         <input
                             type="text"
                             className="form-control"
@@ -170,6 +174,10 @@ class UpdateShippingAddress extends Component {
                             value={this.state.shippingAddressCountry}/>
                     </div>
                     <hr/>
+                    <Link to={"/MyAccount"}
+                          className="btn btn-secondary btn-lg mr-2">
+                        Go Back
+                    </Link>
                     <button type="submit"
                             className="btn btn-primary btn-lg">
                         Update Shipping Address

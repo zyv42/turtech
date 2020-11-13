@@ -5,35 +5,28 @@ import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
 import AddNewPaymentOption from "./AddPaymentOption";
 import {Button} from "react-bootstrap";
+import UpdatePaymentOption from "./UpdatePaymentOption";
 
 class MyPaymentOptions extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.onSubmit = this.onSubmit.bind(this);
-    }
 
     componentDidMount() {
         this.props.getUserPaymentOptions(this.props.security.userInfo.sub);
     }
 
-    onSubmit(e) {
-        e.preventDefault();
-        this.props.setDefaultUserPaymentOption(this.props.security.userInfo.sub, this.state.userPaymentOptions.id);
+    onRadioClick(paymentOptionId) {
+        this.props.setDefaultUserPaymentOption(this.props.security.userInfo.sub, paymentOptionId);
     }
 
-    removeUserPaymentOption(userPaymentOptionId) {
+    onDeleteClick(userPaymentOptionId) {
         this.props.removeUserPaymentOption(this.props.security.userInfo.sub, userPaymentOptionId);
     }
 
-    ListOfPaymentOptions = () => {
+    renderPaymentOptions = () => {
         const { userPaymentOptions } = this.props;
 
         if (userPaymentOptions && userPaymentOptions.length > 0) {
             return (
                 <div>
-                    <form onSubmit={this.onSubmit}>
                         <table className="table">
                             <thead>
                             <tr>
@@ -48,32 +41,29 @@ class MyPaymentOptions extends Component {
                                     <td>
                                         <input type="radio"
                                                name="defaultUserPaymentId"
+                                               onClick={this.onRadioClick.bind(this, userPaymentOption.id)}
                                                value={userPaymentOption.id}
                                                checked={userPaymentOption.defaultPaymentOption}/>
                                     </td>
                                     <td>
-                                        {userPaymentOption.cardName}
+                                        {userPaymentOption.cardName},&nbsp;
+                                        {userPaymentOption.cardNumber}
                                     </td>
                                     <td>
-                                        {
-                                            // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
-                                        }
-                                        <Button className="fa fa-pencil">
-                                            <Link to={`/updatePaymentOption/${userPaymentOption.id}`} />
-                                        </Button>
+                                        <Link className="btn btn-primary"
+                                              to={`/myAccount/updatePaymentOption/${userPaymentOption.id}`}>
+                                            <i className="fa fa-pencil" />
+                                        </Link>
                                         &nbsp;&nbsp;
-                                        <Button className="fa fa-times"
-                                                onClick={this.removeUserPaymentOption(userPaymentOption.id)}>
+                                        <Button className="btn btn-danger"
+                                                onClick={this.onDeleteClick.bind(this, userPaymentOption.id)}>
+                                            <i className="fa fa-times" />
                                         </Button>
                                     </td>
                                 </tr>
                             ))}
                             </tbody>
                         </table>
-                        <button className="btn btn-primary"
-                                type="submit">Save
-                        </button>
-                    </form>
                 </div>
             )
         } else {
@@ -108,10 +98,11 @@ class MyPaymentOptions extends Component {
                         <div className="col-md-12">
                             <Switch>
                                 <Route exact path="/myAccount"
-                                       component={this.ListOfPaymentOptions} />
-
+                                       component={this.renderPaymentOptions} />
                                 <Route exact path="/myAccount/addNewPaymentOption"
                                        component={AddNewPaymentOption} />
+                                <Route exact path="/myAccount/updatePaymentOption/:userPaymentOptionId"
+                                       component={UpdatePaymentOption} />
                             </Switch>
                         </div>
                     </div>

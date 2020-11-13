@@ -17,7 +17,7 @@ class OrderDetails extends Component {
 
     render() {
 
-        const { userOrder, cartItems } = this.props;
+        const { userOrder, paymentOption, billingAddress, shippingAddress, cartItems } = this.props;
 
         return (
             <div>
@@ -37,11 +37,11 @@ class OrderDetails extends Component {
                                         <strong>Billing Details</strong>
                                     </div>
                                     <div className="panel-body">
-                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressName} <br />
-                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressStreet1}
-                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressStreet2} <br />
-                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressCity} <br />
-                                        {userOrder && userOrder.billingAddress && userOrder.billingAddress.billingAddressZipcode} <br />
+                                        {billingAddress && billingAddress.billingAddressName} <br />
+                                        {billingAddress && billingAddress.billingAddressStreet1}
+                                        {billingAddress && billingAddress.billingAddressStreet2} <br />
+                                        {billingAddress && billingAddress.billingAddressCity} <br />
+                                        {billingAddress && billingAddress.billingAddressZipcode} <br />
                                     </div>
                                 </div>
                             </div>
@@ -51,23 +51,23 @@ class OrderDetails extends Component {
                                         <strong>Payment Information</strong>
                                     </div>
                                     <div className="panel-body">
-                                        {userOrder && userOrder.payment && userOrder.payment.holderName} <br />
-                                        {userOrder && userOrder.payment && userOrder.payment.cardNumber} <br />
-                                        Exp Date: {userOrder && userOrder.payment && userOrder.payment.expiryMonth} / {userOrder && userOrder.payment && userOrder.payment.expiryYear} <br />
+                                        {paymentOption && paymentOption.holderName} <br />
+                                        {paymentOption && paymentOption.cardNumber} <br />
+                                        Exp Date: {paymentOption && paymentOption.expiryMonth} / {paymentOption && paymentOption.expiryYear} <br />
                                     </div>
                                 </div>
                             </div>
                             <div className="col-4">
                                 <div className="panel panel-default height">
                                     <div className="panel-heading">
-                                        <strong>Billing Details</strong>
+                                        <strong>Shipping Details</strong>
                                     </div>
                                     <div className="panel-body">
-                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressName} <br />
-                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressStreet1}
-                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressStreet2} <br />
-                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressCity} <br />
-                                        {userOrder && userOrder.shippingAddress && userOrder.shippingAddress.shippingAddressZipcode} <br />
+                                        {shippingAddress && shippingAddress.shippingAddressName} <br />
+                                        {shippingAddress && shippingAddress.shippingAddressStreet1}
+                                        {shippingAddress && shippingAddress.shippingAddressStreet2} <br />
+                                        {shippingAddress && shippingAddress.shippingAddressCity} <br />
+                                        {shippingAddress && shippingAddress.shippingAddressZipcode} <br />
                                     </div>
                                 </div>
                             </div>
@@ -107,21 +107,21 @@ class OrderDetails extends Component {
                                         <td className="highrow" />
                                         <td className="highrow text-right"><strong>Subtotal</strong></td>
                                         <td className="highrow text-right">
-                                            ${(userOrder.orderTotal + 0).toFixed(2)}</td>
+                                            ${(0 && userOrder.orderTotal).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td className="emptyrow" />
                                         <td className="emptyrow" />
                                         <td className="emptyrow text-right"><strong>Tax</strong></td>
                                         <td className="emptyrow text-right">
-                                            ${(userOrder.orderTotal * 0.06).toFixed(2)}</td>
+                                            ${(0 && userOrder.orderTotal * 0.06).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td className="emptyrow"><i className="fa fa-barcode fa-2x" /></td>
                                         <td className="emptyrow" />
                                         <td className="emptyrow text-right"><strong>Total</strong></td>
                                         <td className="emptyrow text-right">
-                                            ${(userOrder.orderTotal + userOrder.orderTotal * 0.06).toFixed(2)}</td>
+                                            ${(0 && userOrder.orderTotal + userOrder.orderTotal * 0.06).toFixed(2)}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -143,11 +143,14 @@ OrderDetails.propTypes = {
 
 const mapStateToProps = state => ({
     security: state.security,
-    userOrder: state.userProfile.userOrder,
+    userOrder: state.userProfile.userOrderDetails.order,
+    paymentOption: state.userProfile.userOrderDetails.paymentOption,
+    billingAddress: state.userProfile.userOrderDetails.billingAddress,
+    shippingAddress: state.userProfile.userOrderDetails.shippingAddress,
     cartItems: state.userProfile.cartItems
 });
 
 export default connect(
     mapStateToProps,
-    { getCartItemListByOrderId }
+    { getUserOrderDetails, getCartItemListByOrderId }
 )(OrderDetails);

@@ -10,65 +10,58 @@ import UpdateShippingAddress from "./UpdateShippingAddress";
 class MyShippingAddresses extends Component {
 
     componentDidMount() {
-        // TODO Consider removing parameter of userId from the method on frontend side and move it to backend only
         this.props.getUserShippingAddresses(this.props.security.userInfo.sub);
     }
 
-    //TODO reimplement setting default user shipping address
-    onSubmit(e) {
-        e.preventDefault();
-        this.props.setDefaultUserShippingAddress(this.props.security.userInfo.sub, this.state.userShippingAddresses.id);
+    onRadioClick(userShippingAddressId) {
+        this.props.setDefaultUserShippingAddress(this.props.security.userInfo.sub, userShippingAddressId);
     }
 
-    onDeleteClick(userShippingId) {
-        this.props.removeUserShippingAddress(this.props.security.userInfo.sub, userShippingId);
+    onDeleteClick(userShippingAddressId) {
+        this.props.removeUserShippingAddress(this.props.security.userInfo.sub, userShippingAddressId);
     }
 
-    ListShippingAddresses = () => {
+    renderShippingAddresses = () => {
         const { userShippingAddresses } = this.props;
 
         if (userShippingAddresses.length > 0) {
             return (
                 <div>
-                    <form onSubmit={this.onSubmit}>
-                        <table className="table">
-                            <thead>
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th>Default</th>
+                            <th>Shipping Address</th>
+                            <th>Operations</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {userShippingAddresses.map(userShippingAddress => (
                             <tr>
-                                <th>Default</th>
-                                <th>Shipping Address</th>
-                                <th>Operations</th>
+                                <td>
+                                    <input type="radio"
+                                           name="defaultShippingAddressId"
+                                           onClick={this.onRadioClick.bind(this, userShippingAddress.id)}
+                                           value={userShippingAddress.id}
+                                           checked={userShippingAddress.defaultShippingAddress}/>
+                                </td>
+                                <td>{userShippingAddress.shippingAddressStreet1},&nbsp;
+                                    {userShippingAddress.shippingAddressCity}</td>
+                                <td>
+                                    <Link className="btn btn-primary"
+                                          to={`/myAccount/updateShippingAddress/${userShippingAddress.id}`}>
+                                        <i className="fa fa-pencil" />
+                                    </Link>
+                                    &nbsp;&nbsp;
+                                    <Button className="btn btn-danger"
+                                            onClick={this.onDeleteClick.bind(this, userShippingAddress.id)}>
+                                        <i className="fa fa-times" />
+                                    </Button>
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {userShippingAddresses.map(userShippingAddress => (
-                                <tr>
-                                    <td>
-                                        <input type="radio"
-                                               name="defaultShippingAddressId"
-                                               value={userShippingAddress.id}
-                                               checked={userShippingAddress.defaultShippingAddress}/>
-                                    </td>
-                                    <td>{userShippingAddress.shippingAddressStreet1},&nbsp;
-                                        {userShippingAddress.shippingAddressCity}</td>
-                                    <td>
-                                        {
-                                            // Buttons to implement "updateUserShipping" and "removeUserShipping" methods
-                                        }
-                                        <Link className="btn btn-primary"
-                                              to={`/myAccount/updateShippingAddress/${userShippingAddress.id}`}>
-                                            <i className="fa fa-pencil" />
-                                        </Link>
-                                        &nbsp;&nbsp;
-                                        <Button className="fa fa-times"
-                                                onClick={this.onDeleteClick.bind(this, userShippingAddress.id)}/>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                        <button className="btn btn-primary"
-                                type="submit">Save</button>
-                    </form>
+                        ))}
+                        </tbody>
+                    </table>
                 </div>
             )
         } else {
@@ -107,9 +100,9 @@ class MyShippingAddresses extends Component {
                     }
                     <Switch>
                         <Route exact path="/myAccount"
-                                      component={this.ListShippingAddresses} />
+                               component={this.renderShippingAddresses} />
                         <Route exact path="/myAccount/addNewShippingAddress"
-                                      component={AddNewShippingAddress} />
+                               component={AddNewShippingAddress} />
                         <Route exact path="/myAccount/updateShippingAddress/:userShippingAddressId"
                                component={UpdateShippingAddress} />
                     </Switch>

@@ -50,7 +50,7 @@ class AddPaymentOption extends Component {
             cvc: this.state.cvc
         };
 
-        const newUserBillingAddress = {
+        const newBillingAddress = {
             billingAddressName: this.state.billingAddressName,
             billingAddressStreet1: this.state.billingAddressStreet1,
             billingAddressStreet2: this.state.billingAddressStreet2,
@@ -59,7 +59,7 @@ class AddPaymentOption extends Component {
             billingAddressCountry: this.state.billingAddressCountry,
         };
 
-        this.props.addUserPaymentOption(this.props.security.userInfo.sub, newPaymentOption, newUserBillingAddress);
+        this.props.addUserPaymentOption(this.props.security.userInfo.sub, newPaymentOption, newBillingAddress);
     }
 
     render() {

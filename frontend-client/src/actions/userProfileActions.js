@@ -5,7 +5,10 @@ import {
     GET_USER_ORDERS,
     GET_USER_ORDER_DETAILS,
     GET_ERRORS,
-    GET_CART_ITEM_LIST_BY_ORDER_ID, GET_USER_PAYMENT_OPTION, GET_USER_SHIPPING_ADDRESS, GET_USER_BILLING_ADDRESS
+    GET_CART_ITEM_LIST_BY_ORDER_ID,
+    GET_USER_PAYMENT_OPTION,
+    GET_USER_SHIPPING_ADDRESS,
+    GET_USER_BILLING_ADDRESS
 } from "./types";
 
 export const updateUserProfile = (userId, userProfile) => async dispatch => {
@@ -52,7 +55,11 @@ export const getUserPaymentOption = (userId, userPaymentOptionId) => async dispa
 
 export const addUserPaymentOption = (userId, userPaymentOption, userBillingAddress) => async dispatch => {
     try {
-        await axios.post(`http://localhost:8111/users/${userId}/payment-options`, userPaymentOption, userBillingAddress);
+        const newPaymentOption = {
+            userPaymentOption: userPaymentOption,
+            userBillingAddress: userBillingAddress
+        }
+        await axios.post(`http://localhost:8111/users/${userId}/payment-options`, newPaymentOption);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -64,7 +71,11 @@ export const addUserPaymentOption = (userId, userPaymentOption, userBillingAddre
 
 export const updateUserPaymentOption = (userId, paymentOptionId, userPaymentOption, userBillingAddress) => async dispatch => {
     try {
-        await axios.put(`http://localhost:8111/users/${userId}/payment-options/${paymentOptionId}`, userPaymentOption, userBillingAddress);
+        const updatedPaymentOption = {
+            userPaymentOption: userPaymentOption,
+            userBillingAddress: userBillingAddress
+        }
+        await axios.put(`http://localhost:8111/users/${userId}/payment-options/${paymentOptionId}`, updatedPaymentOption);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -151,7 +162,7 @@ export const updateUserShippingAddress = (userId, shippingAddressId, userShippin
 
 export const setDefaultUserShippingAddress = (userId, shippingAddressId) => async dispatch => {
     try {
-        await axios.get(`http://localhost:8111/users/${userId}/shipping-addresses/${shippingAddressId}/set-default`);
+        await axios.put(`http://localhost:8111/users/${userId}/shipping-addresses/${shippingAddressId}/set-default`);
     } catch (error) {
 
     }

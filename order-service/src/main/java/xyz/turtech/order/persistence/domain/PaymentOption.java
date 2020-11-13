@@ -16,7 +16,7 @@ public class PaymentOption implements Serializable {
     private Long id;
 
     @Column(name = "type")
-    private String type;
+    private String cardType;
 
     @Column(name = "card_name")
     private String cardName;
@@ -44,12 +44,12 @@ public class PaymentOption implements Serializable {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getCardType() {
+        return cardType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
     }
 
     public String getCardName() {
@@ -117,7 +117,7 @@ public class PaymentOption implements Serializable {
     public String toString() {
         return "PaymentOption{" +
                 "id='" + id + '\'' +
-                ", type='" + type + '\'' +
+                ", cardType='" + cardType + '\'' +
                 ", cardName='" + cardName + '\'' +
                 ", cardNumber='" + cardNumber + '\'' +
                 ", expiryMonth=" + expiryMonth +

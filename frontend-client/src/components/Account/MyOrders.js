@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getUserOrders } from "../../actions/userProfileActions";
 import PropTypes from "prop-types";
 import OrderDetails from "./OrderDetails";
-import {Link} from "react-router-dom";
+import {Link, Route, Switch} from "react-router-dom";
 import SecuredRoute from "../../securityUtils/SecuredRoute";
 
 class MyOrders extends Component {
@@ -12,7 +12,7 @@ class MyOrders extends Component {
         this.props.getUserOrders(this.props.security.userInfo.sub);
     }
 
-    renderUserOrders() {
+    renderUserOrders = () => {
         const {userOrders} = this.props;
 
         if (userOrders && userOrders.length === 0) {
@@ -34,7 +34,7 @@ class MyOrders extends Component {
                         <tbody>
                         {userOrders.map(userOrder => (
                             <tr>
-                                <td><Link to={`/userOrders/${userOrder.id}`}>
+                                <td><Link to={`/myAccount/userOrders/${userOrder.id}`}>
                                     {new Date(userOrder.orderDate).toLocaleDateString()}</Link></td>
                                 <td>{userOrder.id}</td>
                                 <td>{userOrder.orderTotal}</td>
@@ -43,10 +43,6 @@ class MyOrders extends Component {
                         ))}
                         </tbody>
                     </table>
-
-                    <SecuredRoute exact
-                                  path={"/userOrders/:userOrderId"}
-                                  component={OrderDetails} />
                 </div>
             );
         }
@@ -62,8 +58,12 @@ class MyOrders extends Component {
                             <hr />
                         </div>
                     </div>
-
-                    {this.renderUserOrders()}
+                    <Switch>
+                        <Route exact path="/myAccount"
+                               component={this.renderUserOrders} />
+                        <Route exact path="/myAccount/userOrders/:userOrderId"
+                               component={OrderDetails} />
+                    </Switch>
                 </div>
             </div>
         );

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from "react-redux";
 import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
-import { getUserPaymentOption, updateUserPaymentOption } from "../../actions/userProfileActions";
+import { getUserPaymentOption, updateUserPaymentOption, getUserBillingAddress } from "../../actions/userProfileActions";
 
 class UpdatePaymentOption extends Component {
 
@@ -10,7 +10,7 @@ class UpdatePaymentOption extends Component {
         super(props);
 
         this.state = {
-            paymentOptionId: "",
+            id: "",
             cardName: "",
             cardType: "",
             holderName: "",
@@ -18,6 +18,8 @@ class UpdatePaymentOption extends Component {
             expiryMonth: "",
             expiryYear: "",
             cvc: "",
+            userId: "",
+            defaultPaymentOption: false,
             billingAddressId: "",
             billingAddressName: "",
             billingAddressStreet1: "",
@@ -32,8 +34,11 @@ class UpdatePaymentOption extends Component {
     }
 
     componentDidMount() {
-        const paymentOptionId = this.props.match.params.paymentOptionId;
-        this.props.getUserPaymentOption(this.security.userInfo.sub, paymentOptionId);
+        const userPaymentOptionId = this.props.match.params.userPaymentOptionId;
+        this.props.getUserPaymentOption(this.props.security.userInfo.sub, userPaymentOptionId);
+        // Effectively billingAddressId is the same as paymentOptionId, so for current implementation they can
+        // be used interchangeably
+        this.props.getUserBillingAddress(this.props.security.userInfo.sub, userPaymentOptionId);
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -42,14 +47,16 @@ class UpdatePaymentOption extends Component {
         }
 
         const {
-            userPaymentId,
+            id,
             cardName,
-            cartType,
+            cardType,
             holderName,
             cardNumber,
             expiryMonth,
             expiryYear,
-            cvc
+            cvc,
+            userId,
+            defaultPaymentOption
         } = nextProps.userPaymentOption;
 
         const {
@@ -63,14 +70,16 @@ class UpdatePaymentOption extends Component {
         } = nextProps.userBillingAddress;
 
         this.setState({
-            userPaymentId,
+            id,
             cardName,
-            cartType,
+            cardType,
             holderName,
             cardNumber,
             expiryMonth,
             expiryYear,
             cvc,
+            userId,
+            defaultPaymentOption,
             billingAddressId,
             billingAddressName,
             billingAddressStreet1,
@@ -88,14 +97,17 @@ class UpdatePaymentOption extends Component {
     onSubmit(e) {
         e.preventDefault();
         const updatedPaymentOption = {
-            id: this.state.paymentOptionId,
+            id: this.state.id,
             cardName: this.state.cardName,
             cardType: this.state.cardType,
             holderName: this.state.holderName,
             cardNumber: this.state.cardNumber,
             expiryMonth: this.state.expiryMonth,
             expiryYear: this.state.expiryYear,
-            cvc: this.state.cvc
+            cvc: this.state.cvc,
+            userId: this.state.userId,
+            defaultPaymentOption: this.state.defaultPaymentOption,
+            billingAddressId: this.state.billingAddressId
         };
 
         const updatedBillingAddress = {
@@ -108,7 +120,7 @@ class UpdatePaymentOption extends Component {
             billingAddressCountry: this.state.billingAddressCountry,
         };
 
-        this.props.updateUserShippingAddress(this.props.security.userInfo.sub, updatedPaymentOption, updatedBillingAddress);
+        this.props.updateUserPaymentOption(this.props.security.userInfo.sub, this.props.userPaymentOption.id, updatedPaymentOption, updatedBillingAddress);
     }
 
     render() {
@@ -230,6 +242,7 @@ class UpdatePaymentOption extends Component {
                                 <select className="form-control"
                                         id="cardType"
                                         name="cardType"
+                                        required="required"
                                         onChange={this.onChange}
                                         value={this.state.cardType}>
                                     <option value="visa">Visa</option>
@@ -287,15 +300,15 @@ class UpdatePaymentOption extends Component {
                                             value={this.state.expiryMonth}
                                             style={{width: "45%"}}>
                                         <option disabled="disabled">-- Month --</option>
-                                        <option value="01">Jan (01)</option>
-                                        <option value="02">Feb (02)</option>
-                                        <option value="03">Mar (03)</option>
-                                        <option value="04">Apr (04)</option>
-                                        <option value="05">May (05)</option>
-                                        <option value="06">June (06)</option>
-                                        <option value="07">July (07)</option>
-                                        <option value="08">Aug (08)</option>
-                                        <option value="09">Sep (09)</option>
+                                        <option value="1">Jan (01)</option>
+                                        <option value="2">Feb (02)</option>
+                                        <option value="3">Mar (03)</option>
+                                        <option value="4">Apr (04)</option>
+                                        <option value="5">May (05)</option>
+                                        <option value="6">June (06)</option>
+                                        <option value="7">July (07)</option>
+                                        <option value="8">Aug (08)</option>
+                                        <option value="9">Sep (09)</option>
                                         <option value="10">Oct (10)</option>
                                         <option value="11">Nov (11)</option>
                                         <option value="12">Dec (12)</option>
@@ -348,6 +361,7 @@ class UpdatePaymentOption extends Component {
 UpdatePaymentOption.propTypes = {
     getUserPaymentOption: PropTypes.func.isRequired,
     updateUserPaymentOption: PropTypes.func.isRequired,
+    getUserBillingAddress: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 };
 
@@ -360,5 +374,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getUserPaymentOption, updateUserPaymentOption }
+    { getUserPaymentOption, updateUserPaymentOption, getUserBillingAddress }
 )(withRouter(UpdatePaymentOption));

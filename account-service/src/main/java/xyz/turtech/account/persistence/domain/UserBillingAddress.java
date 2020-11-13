@@ -13,7 +13,7 @@ public class UserBillingAddress implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    private Long billingAddressId;
+    private Long id;
 
     @Column(name = "billing_address_name")
     private String billingAddressName;
@@ -34,11 +34,11 @@ public class UserBillingAddress implements Serializable {
     private String billingAddressZipcode;
 
     public Long getId() {
-        return billingAddressId;
+        return id;
     }
 
-    public void setId(Long billingAddressId) {
-        this.billingAddressId = billingAddressId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getBillingAddressName() {
@@ -94,18 +94,18 @@ public class UserBillingAddress implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserBillingAddress that = (UserBillingAddress) o;
-        return billingAddressId.equals(that.billingAddressId);
+        return id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(billingAddressId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "UserBillingAddress{" +
-                "id='" + billingAddressId + '\'' +
+                "id='" + id + '\'' +
                 ", billingAddressName='" + billingAddressName + '\'' +
                 ", billingAddressStreet1='" + billingAddressStreet1 + '\'' +
                 ", billingAddressStreet2='" + billingAddressStreet2 + '\'' +

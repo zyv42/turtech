@@ -1,5 +1,7 @@
 package xyz.turtech.account.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,8 @@ import xyz.turtech.account.persistence.domain.UserBillingAddress;
 import xyz.turtech.account.persistence.domain.UserPaymentOption;
 import xyz.turtech.account.persistence.service.UserBillingAddressService;
 import xyz.turtech.account.persistence.service.UserPaymentOptionService;
+
+import java.util.HashMap;
 
 @RestController
 public class UserPaymentOptionController {
@@ -72,17 +76,25 @@ public class UserPaymentOptionController {
     @PostMapping("/users/{userId}/payment-options")
     public ResponseEntity<?> addNewUserPaymentOption(
             @PathVariable String userId,
-            @RequestBody UserPaymentOption newPaymentOption,
-            @RequestBody UserBillingAddress newUserBillingAddress) {
+            @RequestBody JsonNode newPaymentOption) {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         if (token.getName().equals(userId)) {
-            UserBillingAddress userBillingAddress = userBillingAddressService.addNewUserBillingAddress(newUserBillingAddress);
-            newPaymentOption.setBillingAddressId(userBillingAddress.getId());
-            UserPaymentOption userPaymentOption = userPaymentOptionService.addNewUserPaymentOption(newPaymentOption);
+            ObjectMapper objectMapper = new ObjectMapper();
+            UserPaymentOption newUserPaymentOption = objectMapper.convertValue(newPaymentOption.get("userPaymentOption"), UserPaymentOption.class);
+            UserBillingAddress newUserBillingAddress = objectMapper.convertValue(newPaymentOption.get("userBillingAddress"), UserBillingAddress.class);
 
-            return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
+            UserBillingAddress userBillingAddress = userBillingAddressService.addNewUserBillingAddress(newUserBillingAddress);
+            newUserPaymentOption.setBillingAddressId(userBillingAddress.getId());
+            newUserPaymentOption.setUserId(userId);
+            UserPaymentOption userPaymentOption = userPaymentOptionService.addNewUserPaymentOption(newUserPaymentOption);
+
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("userPaymentOption", userPaymentOption);
+            response.put("userBillingAddress", userBillingAddress);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
@@ -92,14 +104,23 @@ public class UserPaymentOptionController {
     public ResponseEntity<?> updateUserPaymentOption(
             @PathVariable String userId,
             @PathVariable Long paymentOptionId,
-            @RequestBody UserPaymentOption updatedPaymentOption) {
+            @RequestBody JsonNode updatedPaymentOption) {
 
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         if (token.getName().equals(userId)) {
-            UserPaymentOption userPaymentOption = userPaymentOptionService.updateUserPaymentOption(updatedPaymentOption);
+            ObjectMapper objectMapper = new ObjectMapper();
+            UserPaymentOption updatedUserPaymentOption = objectMapper.convertValue(updatedPaymentOption.get("userPaymentOption"), UserPaymentOption.class);
+            UserBillingAddress updatedUserBillingAddress = objectMapper.convertValue(updatedPaymentOption.get("userBillingAddress"), UserBillingAddress.class);
 
-            return new ResponseEntity<>(userPaymentOption, HttpStatus.OK);
+            UserPaymentOption userPaymentOption = userPaymentOptionService.updateUserPaymentOption(updatedUserPaymentOption);
+            UserBillingAddress userBillingAddress = userBillingAddressService.updateUserBillingAddress(updatedUserBillingAddress);
+
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("userPaymentOption", userPaymentOption);
+            response.put("userBillingAddress", userBillingAddress);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
@@ -113,6 +134,9 @@ public class UserPaymentOptionController {
         KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         if (token.getName().equals(userId)) {
+            UserPaymentOption userPaymentOption = userPaymentOptionService.findById(paymentOptionId);
+
+            userBillingAddressService.removeUserBillingAddress(userPaymentOption.getBillingAddressId());
             userPaymentOptionService.removeUserPaymentOption(paymentOptionId);
 
             return new ResponseEntity<>(null, HttpStatus.OK);
