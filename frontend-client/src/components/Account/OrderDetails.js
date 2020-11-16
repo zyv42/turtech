@@ -5,10 +5,6 @@ import PropTypes from "prop-types";
 
 class OrderDetails extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         const { userOrderId } = this.props.match.params;
         this.props.getUserOrderDetails(this.props.security.userInfo.sub, userOrderId);
@@ -96,10 +92,10 @@ class OrderDetails extends Component {
                                     <tbody>
                                     {cartItems.map(cartItem => (
                                         <tr>
-                                            <td>{cartItem.product.name}</td>
-                                            <td className="text-center">{cartItem.product.ourPrice}</td>
+                                            <td>{cartItem.productName}</td>
+                                            <td className="text-center">${(cartItem.subtotal / cartItem.qty).toFixed(2)}</td>
                                             <td className="text-center">{cartItem.qty}</td>
-                                            <td className="text-center">{cartItem.subtotal}</td>
+                                            <td className="text-center">${(cartItem.subtotal).toFixed(2)}</td>
                                         </tr>
                                     ))}
                                     <tr>
@@ -107,21 +103,21 @@ class OrderDetails extends Component {
                                         <td className="highrow" />
                                         <td className="highrow text-right"><strong>Subtotal</strong></td>
                                         <td className="highrow text-right">
-                                            ${(0 && userOrder.orderTotal).toFixed(2)}</td>
+                                            ${userOrder && (userOrder.orderTotal).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td className="emptyrow" />
                                         <td className="emptyrow" />
                                         <td className="emptyrow text-right"><strong>Tax</strong></td>
                                         <td className="emptyrow text-right">
-                                            ${(0 && userOrder.orderTotal * 0.06).toFixed(2)}</td>
+                                            ${userOrder && (userOrder.orderTotal * 0.06).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td className="emptyrow"><i className="fa fa-barcode fa-2x" /></td>
                                         <td className="emptyrow" />
                                         <td className="emptyrow text-right"><strong>Total</strong></td>
                                         <td className="emptyrow text-right">
-                                            ${(0 && userOrder.orderTotal + userOrder.orderTotal * 0.06).toFixed(2)}</td>
+                                            ${userOrder && (userOrder.orderTotal + userOrder.orderTotal * 0.06).toFixed(2)}</td>
                                     </tr>
                                     </tbody>
                                 </table>

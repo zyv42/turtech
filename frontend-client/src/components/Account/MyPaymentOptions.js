@@ -51,7 +51,9 @@ class MyPaymentOptions extends Component {
                                     </td>
                                     <td>
                                         <Link className="btn btn-primary"
-                                              to={`/myAccount/updatePaymentOption/${userPaymentOption.id}`}>
+                                              to={{pathname: "/myAccount/updatePaymentOption",
+                                              state: {params: {paymentOptionId: userPaymentOption.id,
+                                                      billingAddressId: userPaymentOption.billingAddressId}}}}>
                                             <i className="fa fa-pencil" />
                                         </Link>
                                         &nbsp;&nbsp;
@@ -101,7 +103,7 @@ class MyPaymentOptions extends Component {
                                        component={this.renderPaymentOptions} />
                                 <Route exact path="/myAccount/addNewPaymentOption"
                                        component={AddNewPaymentOption} />
-                                <Route exact path="/myAccount/updatePaymentOption/:userPaymentOptionId"
+                                <Route exact path="/myAccount/updatePaymentOption"
                                        component={UpdatePaymentOption} />
                             </Switch>
                         </div>

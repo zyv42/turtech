@@ -24,31 +24,6 @@ class MyProfile extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.errors) {
-            this.setState({errors: nextProps.errors});
-        }
-        const {
-            id,
-            username,
-            firstName,
-            lastName,
-            email,
-            phone,
-            newPassword
-        } = nextProps.userProfile;
-
-        this.setState({
-            id,
-            username,
-            firstName,
-            lastName,
-            email,
-            phone,
-            newPassword
-        });
-    }
-
     componentDidMount() {
         //const { id } = this.props.match.params;
         //this.props.getUserProfile(id, this.props.history);
@@ -65,15 +40,32 @@ class MyProfile extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.userProfile !== this.props.userProfile ||
+            prevProps.errors !== this.props.errors) {
+
+            this.setState({
+                id: this.props.userProfile.id,
+                username: this.props.userProfile.username,
+                firstName: this.props.userProfile.firstName,
+                lastName: this.props.userProfile.lastName,
+                email: this.props.userProfile.email,
+                phone: this.props.userProfile.phone,
+                errors: this.props.errors
+            })
+        }
+    }
+
     onChange(e) {
         this.setState({[e.target.name]: e.target.value})
     }
 
     onSubmit(e) {
         e.preventDefault();
+        // TODO change implementation to accommodate change of password
 
         const updatedUserProfile = {
-            //id: this.state.id,
+            id: this.state.id,
             username: this.state.username,
             firstName: this.state.firstName,
             lastName: this.state.lastName,

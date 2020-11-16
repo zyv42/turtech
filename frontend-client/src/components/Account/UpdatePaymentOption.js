@@ -10,7 +10,7 @@ class UpdatePaymentOption extends Component {
         super(props);
 
         this.state = {
-            id: "",
+            paymentOptionId: "",
             cardName: "",
             cardType: "",
             holderName: "",
@@ -34,60 +34,38 @@ class UpdatePaymentOption extends Component {
     }
 
     componentDidMount() {
-        const userPaymentOptionId = this.props.match.params.userPaymentOptionId;
-        this.props.getUserPaymentOption(this.props.security.userInfo.sub, userPaymentOptionId);
-        // Effectively billingAddressId is the same as paymentOptionId, so for current implementation they can
-        // be used interchangeably
-        this.props.getUserBillingAddress(this.props.security.userInfo.sub, userPaymentOptionId);
+        const paymentOptionId = this.props.location.state.params.paymentOptionId;
+        const billingAddressId = this.props.location.state.params.billingAddressId;
+        this.props.getUserPaymentOption(this.props.security.userInfo.sub, paymentOptionId);
+        this.props.getUserBillingAddress(this.props.security.userInfo.sub, billingAddressId);
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.errors) {
-            this.setState({errors: nextProps.errors})
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.userPaymentOption !== this.props.userPaymentOption ||
+            prevProps.userBillingAddress !== this.props.userBillingAddress ||
+            prevProps.errors !== this.props.errors) {
+
+            this.setState({
+                paymentOptionId: this.props.userPaymentOption.id,
+                cardName: this.props.userPaymentOption.cardName,
+                cardType: this.props.userPaymentOption.cardType,
+                holderName: this.props.userPaymentOption.holderName,
+                cardNumber: this.props.userPaymentOption.cardNumber,
+                expiryMonth: this.props.userPaymentOption.expiryMonth,
+                expiryYear: this.props.userPaymentOption.expiryYear,
+                cvc: this.props.userPaymentOption.cvc,
+                userId: this.props.userPaymentOption.userId,
+                defaultPaymentOption: this.props.userPaymentOption.defaultPaymentOption,
+                billingAddressId: this.props.userBillingAddress.id,
+                billingAddressName: this.props.userBillingAddress.billingAddressName,
+                billingAddressStreet1: this.props.userBillingAddress.billingAddressStreet1,
+                billingAddressStreet2: this.props.userBillingAddress.billingAddressStreet2,
+                billingAddressCity: this.props.userBillingAddress.billingAddressCity,
+                billingAddressZipcode: this.props.userBillingAddress.billingAddressZipcode,
+                billingAddressCountry: this.props.userBillingAddress.billingAddressCountry,
+                errors: this.props.errors
+            })
         }
-
-        const {
-            id,
-            cardName,
-            cardType,
-            holderName,
-            cardNumber,
-            expiryMonth,
-            expiryYear,
-            cvc,
-            userId,
-            defaultPaymentOption
-        } = nextProps.userPaymentOption;
-
-        const {
-            billingAddressId,
-            billingAddressName,
-            billingAddressStreet1,
-            billingAddressStreet2,
-            billingAddressCity,
-            billingAddressZipcode,
-            billingAddressCountry
-        } = nextProps.userBillingAddress;
-
-        this.setState({
-            id,
-            cardName,
-            cardType,
-            holderName,
-            cardNumber,
-            expiryMonth,
-            expiryYear,
-            cvc,
-            userId,
-            defaultPaymentOption,
-            billingAddressId,
-            billingAddressName,
-            billingAddressStreet1,
-            billingAddressStreet2,
-            billingAddressCity,
-            billingAddressZipcode,
-            billingAddressCountry
-        });
     }
 
     onChange(e) {
@@ -97,7 +75,7 @@ class UpdatePaymentOption extends Component {
     onSubmit(e) {
         e.preventDefault();
         const updatedPaymentOption = {
-            id: this.state.id,
+            id: this.state.paymentOptionId,
             cardName: this.state.cardName,
             cardType: this.state.cardType,
             holderName: this.state.holderName,
@@ -362,7 +340,9 @@ UpdatePaymentOption.propTypes = {
     getUserPaymentOption: PropTypes.func.isRequired,
     updateUserPaymentOption: PropTypes.func.isRequired,
     getUserBillingAddress: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    userPaymentOption: PropTypes.object.isRequired,
+    userBillingAddress: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

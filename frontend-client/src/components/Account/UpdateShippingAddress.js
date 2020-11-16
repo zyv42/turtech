@@ -30,34 +30,23 @@ class UpdateShippingAddress extends Component {
         this.props.getUserShippingAddress(this.props.security.userInfo.sub, userShippingAddressId);
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.errors) {
-            this.setState({errors: nextProps.errors})
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.userShippingAddress !== this.props.userShippingAddress ||
+            prevProps.errors !== this.props.errors) {
+
+            this.setState({
+                id: this.props.userShippingAddress.id,
+                shippingAddressName: this.props.userShippingAddress.shippingAddressName,
+                shippingAddressStreet1: this.props.userShippingAddress.shippingAddressStreet1,
+                shippingAddressStreet2: this.props.userShippingAddress.shippingAddressStreet2,
+                shippingAddressCity: this.props.userShippingAddress.shippingAddressCity,
+                shippingAddressZipcode: this.props.userShippingAddress.shippingAddressZipcode,
+                shippingAddressCountry: this.props.userShippingAddress.shippingAddressCountry,
+                userId: this.props.userShippingAddress.shippingAddress,
+                defaultShippingAddress: this.props.userShippingAddress.defaultShippingAddress,
+                errors: this.props.errors
+            })
         }
-
-        const {
-            id,
-            shippingAddressName,
-            shippingAddressStreet1,
-            shippingAddressStreet2,
-            shippingAddressCity,
-            shippingAddressZipcode,
-            shippingAddressCountry,
-            userId,
-            defaultShippingAddress
-        } = nextProps.userShippingAddress;
-
-        this.setState({
-            id,
-            shippingAddressName,
-            shippingAddressStreet1,
-            shippingAddressStreet2,
-            shippingAddressCity,
-            shippingAddressZipcode,
-            shippingAddressCountry,
-            userId,
-            defaultShippingAddress
-        });
     }
 
     onChange(e) {
