@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import { Link } from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import logo_bigger from "../../assets/images/logo_bigger.png";
@@ -15,49 +15,12 @@ class Header extends Component {
         super(props);
 
         this.state = {
-            links: [
-                {
-                    id: 1,
-                    name: "HOME",
-                    to: "/welcome",
-                    className: "nav-link"
-                },
-                {
-                    id: 2,
-                    name: "PRODUCTS",
-                    to: "/products",
-                    className: "nav-link"
-                },
-                {
-                    id: 3,
-                    name: "CONTACT",
-                    to: "/contact",
-                    className: "nav-link"
-                },
-                {
-                    id: 4,
-                    name: "FAQ",
-                    to: "/faq",
-                    className: "nav-link"
-                },
-                {
-                    id: 5,
-                    name: "ABOUT",
-                    to: "/about",
-                    className: "nav-link"
-                }
-            ],
-            activeLink: 1,
             searchQuery: ""
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
-
-    changeActiveLink = id => {
-        this.setState({ activeLink: id });
-    };
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
@@ -74,13 +37,12 @@ class Header extends Component {
     }
 
     render() {
-        const { links, activeLink } = this.state;
         const { validToken, userInfo } = this.props.security;
 
         const userIsAuthenticated = (
             <Dropdown as={ButtonGroup}
                       className="ml-2">
-                <Link to="/MyAccount">
+                <Link to="/user-cabinet">
                     <Button variant="primary"
                             size="sm">
                         <i className="fa fa-user-circle fa-fw" /> Welcome, {userInfo && userInfo.preferred_username}!
@@ -92,7 +54,7 @@ class Header extends Component {
                                  size="sm" />
                 <Dropdown.Menu>
                     <Dropdown.Item>
-                        <Link to="/myAccount"><i className="fa fa-address-card-o fa-fw"/> My Account</Link>
+                        <Link to="/user-cabinet"><i className="fa fa-address-card-o fa-fw"/> My Account</Link>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Logout onConfirm={logout()}/>
@@ -103,7 +65,7 @@ class Header extends Component {
         const userIsNotAuthenticated = (
             <Dropdown as={ButtonGroup}
                       className="ml-2">
-                <Link to="/MyAccount">
+                <Link to="/user-cabinet">
                     <Button variant="primary"
                             size="sm">
                         <i className="fa fa-user-circle fa-fw" /> Welcome, guest!
@@ -136,8 +98,7 @@ class Header extends Component {
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container">
                     <Link className="navbar-brand"
-                          to="/welcome"
-                          onClick={() => this.changeActiveLink(1)}>
+                          to="/welcome">
                         <img className="img-responsive"
                              src={logo_bigger}
                              height="50"
@@ -154,19 +115,33 @@ class Header extends Component {
                     </button>
 
                     <div className="collapse navbar-collapse justify-content-end" id="navbar">
-                        {links.map(link => {
-                            return (
-                                <ul className="navbar-nav">
-                                    <li className="nav-item">
-                                        <Link key={link.id}
-                                              onClick={() => this.changeActiveLink(link.id)}
-                                              className={
-                                                  link.className +
-                                                  (link.id === activeLink ? " active" : "")}
-                                              to={link.to}>{link.name}</Link></li>
-                                </ul>
-                            );
-                        })}
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <NavLink
+                                    to="/welcome"
+                                    className="nav-link">HOME</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    to="/products"
+                                    className="nav-link">PRODUCTS</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    to="/contact"
+                                    className="nav-link">CONTACT</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    to="/faq"
+                                    className="nav-link">FAQ</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    to="/about"
+                                    className="nav-link">ABOUT</NavLink>
+                            </li>
+                        </ul>
 
                         {
                             // Navbar Search
@@ -185,7 +160,7 @@ class Header extends Component {
                                 <div className="input-group-append">
                                     <button type="submit"
                                            className="btn btn-secondary btn-number">
-                                        <i className="fa fa-search"/>
+                                        <i className="fa fa-search fa-fw"/>
                                     </button>
                                 </div>
                             </div>

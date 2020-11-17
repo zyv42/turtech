@@ -18,7 +18,7 @@ class Footer extends Component {
                             <h5>INFORMATION</h5>
                             <hr className="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
                             <ul className="list-unstyled">
-                                <li><Link to="/myAccount">Your Account</Link></li>
+                                <li><Link to="/user-cabinet">Your Account</Link></li>
                                 <li><Link to="/about#terms">Terms &#38; Conditions</Link></li>
                                 <li><Link to="/about#privacy">Privacy Policy</Link></li>
                                 <li><Link to="/faq">Frequently Ask Questions</Link></li>

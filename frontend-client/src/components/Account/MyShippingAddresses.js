@@ -13,6 +13,13 @@ class MyShippingAddresses extends Component {
         this.props.getUserShippingAddresses(this.props.security.userInfo.sub);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.userShippingAddresses !== this.props.userShippingAddresses) {
+            this.setState({});
+        }
+    }
+
+
     onRadioClick(userShippingAddressId) {
         this.props.setDefaultUserShippingAddress(this.props.security.userInfo.sub, userShippingAddressId);
     }
@@ -49,7 +56,8 @@ class MyShippingAddresses extends Component {
                                     {userShippingAddress.shippingAddressCity}</td>
                                 <td>
                                     <Link className="btn btn-primary"
-                                          to={`/myAccount/updateShippingAddress/${userShippingAddress.id}`}>
+                                          to={{pathname: "/user-cabinet/shipping/update-shipping-address",
+                                          state: {params: {shippingAddressId: userShippingAddress.id}}}}>
                                         <i className="fa fa-pencil" />
                                     </Link>
                                     &nbsp;&nbsp;
@@ -86,10 +94,10 @@ class MyShippingAddresses extends Component {
                             <h4>Shipping</h4>
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item active">
-                                    <Link to="/myAccount">
+                                    <Link to="/user-cabinet/shipping">
                                         List of Shipping Addresses</Link></li>
                                 <li className="breadcrumb-item">
-                                    <Link to="/myAccount/addNewShippingAddress">
+                                    <Link to="/user-cabinet/shipping/new-shipping-address">
                                         Add Shipping Address</Link></li>
                             </ol>
                             <hr/>
@@ -99,11 +107,11 @@ class MyShippingAddresses extends Component {
                         //TODO change this.renderUserShippingAddressesDisplay() to a component
                     }
                     <Switch>
-                        <Route exact path="/myAccount"
+                        <Route exact path="/user-cabinet/shipping"
                                component={this.renderShippingAddresses} />
-                        <Route exact path="/myAccount/addNewShippingAddress"
+                        <Route exact path="/user-cabinet/shipping/new-shipping-address"
                                component={AddNewShippingAddress} />
-                        <Route exact path="/myAccount/updateShippingAddress/:userShippingAddressId"
+                        <Route exact path="/user-cabinet/shipping/update-shipping-address"
                                component={UpdateShippingAddress} />
                     </Switch>
                 </div>

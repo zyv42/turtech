@@ -72,7 +72,7 @@ class Products extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div>
                 <section className="jumbotron text-center">
                     <div className="container">
                         <h1 className="jumbotron-heading">PRODUCTS</h1>

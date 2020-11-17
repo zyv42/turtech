@@ -27,13 +27,24 @@ class UserReviews extends Component {
 
     componentDidMount() {
         this.props.getReviewsByProduct(this.props.productId, this.state.activePage);
-        this.setState({totalPages: this.props.totalPages});
-        this.setState({totalElements: this.props.totalElements});
-        this.setState({itemsCountPerPage: this.props.itemsCountPerPage});
+        this.setState({
+            totalPages: this.props.totalPages,
+            totalElements: this.props.totalElements,
+            itemsCountPerPage: this.props.itemsCountPerPage
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.reviews !== this.props.reviews) {
+            this.setState({
+               totalPages: this.props.totalPages,
+               totalElements: this.props.totalElements,
+               itemsCountPerPage: this.props.itemsCountPerPage
+            });
+        }
     }
 
     handlePageChange(pageNumber) {
-        console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
         this.props.getReviewsByProduct(this.props.productId, pageNumber);
     }
@@ -41,14 +52,13 @@ class UserReviews extends Component {
     onChange(e) {
         this.setState({[e.target.name]: e.target.value});
     }
-    //TODO add user name and id to new review
     onSubmit(e) {
         e.preventDefault();
         const newReview = {
             text: this.state.newReviewText,
             timestamp: new Date().toISOString(),
-            authorName: "demo_user",
-            userId: "1234567890",
+            authorName: this.props.security.userInfo.preferred_username,
+            userId: this.props.security.userInfo.sub,
             productId: this.props.productId
         };
 
@@ -152,7 +162,8 @@ const mapStateToProps = state => ({
     reviews: state.reviews,
     totalElements: state.totalElements,
     totalPages: state.totalPages,
-    itemsCountPerPage: state.itemsCountPerPage
+    itemsCountPerPage: state.itemsCountPerPage,
+    security: state.security
 });
 
 export default connect(

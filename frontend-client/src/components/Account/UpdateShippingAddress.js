@@ -26,8 +26,8 @@ class UpdateShippingAddress extends Component {
     }
 
     componentDidMount() {
-        const userShippingAddressId = this.props.match.params.userShippingAddressId;
-        this.props.getUserShippingAddress(this.props.security.userInfo.sub, userShippingAddressId);
+        const shippingAddressId = this.props.location.state.params.shippingAddressId;
+        this.props.getUserShippingAddress(this.props.security.userInfo.sub, shippingAddressId);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -163,7 +163,7 @@ class UpdateShippingAddress extends Component {
                             value={this.state.shippingAddressCountry}/>
                     </div>
                     <hr/>
-                    <Link to={"/MyAccount"}
+                    <Link to={"/user-cabinet/shipping"}
                           className="btn btn-secondary btn-lg mr-2">
                         Go Back
                     </Link>

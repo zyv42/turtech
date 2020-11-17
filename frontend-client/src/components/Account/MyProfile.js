@@ -339,10 +339,10 @@ class MyProfile extends Component {
                                 </div>
                                     */}
                                 <div className="form-group row offset-4 col-4">
-                                        <input name="submit"
-                                               type="submit"
-                                               className="btn btn-primary btn-block"
-                                               value="Update Profile"/>
+                                    <button type="submit"
+                                            className="btn btn-primary btn-lg">
+                                        Update Profile
+                                    </button>
                                 </div>
                             </form>
                         </div>

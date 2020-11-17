@@ -34,7 +34,7 @@ class MyOrders extends Component {
                         <tbody>
                         {userOrders.map(userOrder => (
                             <tr>
-                                <td><Link to={`/myAccount/userOrders/${userOrder.id}`}>
+                                <td><Link to={`/user-cabinet/orders/${userOrder.id}`}>
                                     {new Date(userOrder.orderDate).toLocaleDateString()}</Link></td>
                                 <td>{userOrder.id}</td>
                                 <td>{userOrder.orderTotal}</td>
@@ -59,9 +59,9 @@ class MyOrders extends Component {
                         </div>
                     </div>
                     <Switch>
-                        <Route exact path="/myAccount"
+                        <Route exact path="/user-cabinet/orders"
                                component={this.renderUserOrders} />
-                        <Route exact path="/myAccount/userOrders/:userOrderId"
+                        <Route exact path="/user-cabinet/orders/:userOrderId"
                                component={OrderDetails} />
                     </Switch>
                 </div>

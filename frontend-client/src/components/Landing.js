@@ -6,7 +6,7 @@ import logo_bigger from "../assets/images/logo_bigger.png";
 class Landing extends Component {
     render() {
         return (
-            <div className="container">
+            <div>
                 {
                     // Carousel
                 }

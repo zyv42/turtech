@@ -13,6 +13,12 @@ class MyPaymentOptions extends Component {
         this.props.getUserPaymentOptions(this.props.security.userInfo.sub);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.userPaymentOptions !== this.props.userPaymentOptions) {
+            this.setState({});
+        }
+    }
+
     onRadioClick(paymentOptionId) {
         this.props.setDefaultUserPaymentOption(this.props.security.userInfo.sub, paymentOptionId);
     }
@@ -51,7 +57,7 @@ class MyPaymentOptions extends Component {
                                     </td>
                                     <td>
                                         <Link className="btn btn-primary"
-                                              to={{pathname: "/myAccount/updatePaymentOption",
+                                              to={{pathname: "/user-cabinet/billing/update-payment-option",
                                               state: {params: {paymentOptionId: userPaymentOption.id,
                                                       billingAddressId: userPaymentOption.billingAddressId}}}}>
                                             <i className="fa fa-pencil" />
@@ -87,10 +93,10 @@ class MyPaymentOptions extends Component {
                             <h4>Billing</h4>
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <Link to="/myAccount">
+                                    <Link to="/user-cabinet/billing">
                                         List of Credit Cards</Link></li>
                                 <li className="breadcrumb-item">
-                                    <Link to="/myAccount/addNewPaymentOption">
+                                    <Link to="/user-cabinet/billing/new-payment-option">
                                         Add Credit Card</Link></li>
                             </ol>
                             <hr/>
@@ -99,11 +105,11 @@ class MyPaymentOptions extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <Switch>
-                                <Route exact path="/myAccount"
+                                <Route exact path="/user-cabinet/billing"
                                        component={this.renderPaymentOptions} />
-                                <Route exact path="/myAccount/addNewPaymentOption"
+                                <Route exact path="/user-cabinet/billing/new-payment-option"
                                        component={AddNewPaymentOption} />
-                                <Route exact path="/myAccount/updatePaymentOption"
+                                <Route exact path="/user-cabinet/billing/update-payment-option"
                                        component={UpdatePaymentOption} />
                             </Switch>
                         </div>

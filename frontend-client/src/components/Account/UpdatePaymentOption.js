@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import { getUserPaymentOption, updateUserPaymentOption, getUserBillingAddress } from "../../actions/userProfileActions";
 
@@ -327,6 +327,10 @@ class UpdatePaymentOption extends Component {
                         </div>
                     </div>
                     <hr/>
+                    <Link to={"/user-cabinet/billing"}
+                          className="btn btn-secondary btn-lg mr-2">
+                        Go Back
+                    </Link>
                     <button type="submit" className="btn btn-primary btn-lg">
                         Update Payment Option
                     </button>
