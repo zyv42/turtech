@@ -15,7 +15,6 @@ class MyShippingAddresses extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.userShippingAddresses !== this.props.userShippingAddresses) {
-            this.setState({});
         }
     }
 

@@ -61,7 +61,7 @@ export const login = LoginRequest => async dispatch => {
   //      });
     }
 };
-
+/*
 export const refreshTokenAction = (refresh_token) => async dispatch => {
     try{
         const params = new URLSearchParams();
@@ -81,16 +81,15 @@ export const refreshTokenAction = (refresh_token) => async dispatch => {
 
     }
 }
-
+*/
 export const logout = () => async dispatch => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("userInfo");
     setJWTToken(false);
-    //dispatch({
-     //   type: SET_CURRENT_USER,
-     //   payload: {}
-    //});
-    window.location.replace(`http://localhost:8103/auth/realms/turtech/protocol/openid-connect/logout?redirect_uri=
-        ${encodeURI("http://localhost:3000/welcome")}`);
+    dispatch({
+        type: SET_CURRENT_USER,
+        payload: {}
+    });
+    window.location.replace("http://localhost:8103/auth/realms/turtech/protocol/openid-connect/logout?redirect_uri=http://localhost:3000/");
 };

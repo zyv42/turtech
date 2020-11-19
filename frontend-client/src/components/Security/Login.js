@@ -20,17 +20,20 @@ class Login extends Component {
 
     componentDidMount() {
         if (this.props.security.validToken) {
-            this.props.history.push("/myAccount");
+            //this.props.history.push("/user-cabinet");
         }
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.security.validToken) {
-            this.props.history.push("/myAccount");
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.security !== this.props.security ||
+            prevProps.errors !== this.props.errors) {
+            this.setState({
+                errors: this.props.errors
+            })
         }
 
-        if (nextProps.errors) {
-            this.setState({errors: nextProps.errors});
+        if (this.props.security.validToken) {
+            this.props.history.push("/user-cabinet");
         }
     }
 

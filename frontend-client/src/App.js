@@ -21,8 +21,6 @@ import setJWTToken from "./securityUtils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
 import {logout, refreshTokenAction} from "./actions/securityActions";
 import jwt_decode from "jwt-decode";
-import UpdatePaymentOption from "./components/Account/UpdatePaymentOption";
-import UpdateShippingAddress from "./components/Account/UpdateShippingAddress";
 
 const jwtToken = localStorage.jwtToken;
 const refreshToken = localStorage.refreshToken;
@@ -44,12 +42,7 @@ if (jwtToken) {
 
     const currentTime = Date.now() / 1000;
     if (decodedToken.exp < currentTime) {
-        if (refreshToken) {
-            refreshTokenAction(refreshToken);
-        } else {
             store.dispatch(logout());
-            window.location.replace("/");
-        }
     }
 }
 
